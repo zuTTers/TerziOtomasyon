@@ -61,9 +61,6 @@ $('#openthird').click(function () {
 
 
 
-
-
-
 $("#BtnUrunSec").on("click", function () {
     $("#txtOId2").val($("#txtOId").val());
     $("#txtPPrice2").val($("#txtPPrice").val());

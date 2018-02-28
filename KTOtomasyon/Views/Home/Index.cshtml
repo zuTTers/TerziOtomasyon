@@ -12,10 +12,9 @@
                 <h3><a href="#">Müşteri</a></h3>
                 <div id="uyeeklepanel">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="">
                             <div class="header">
                                 <h4 class="title" style="color:blue;"><span class="fa fa-user"></span> &nbsp; Müşteri Ekle</h4>
-                                <p class="category"><span class="fa fa-dot-circle-o"></span> Yeni Müşteri</p>
                             </div>
                             <div class="content">
                                 <form action="@Url.Action("CustomerAdder", "Home")" method="post">
@@ -37,10 +36,9 @@
                 </div>
                 <h3 id="aktifyap"><a href="#">Tarih</a></h3>
                 <div id="tariheklepanel">
-                    <div class="card">
+                    <div class="">
                         <div class="header">
                             <h4 class="title" style="color:blue;"><span class="fa fa-calendar"></span> &nbsp; Tarih Seçimi</h4>
-                            <p class="category"><span class="fa fa-dot-circle-o"></span> Tarih Seç</p>
                         </div>
                         <div class="content">
                             <form action="@Url.Action("OrderAdder", "Home")" method="post">
@@ -54,7 +52,7 @@
                                     <p class="category"> Teslim Saati </p>
                                     @Html.TextBox("Time", "hh:mm", new { @class = "form-control", @placeholder = "Saat", @id = "txtTeslimSaati" })
                                     <hr />
-                                    <input id="BtnOrderEkle" type="submit" class="form-control" value="Tarih Ekle" style="background-color:darkslategrey; color:white;" />
+                                    <input id="BtnOrderEkle" type="submit" class="form-control" value="Tarih Ekle" style="background-color:darkslategrey; color:white; @Url.Action("Index", "Home", new { AccordionIndex = 2 })" />
                                 </div>
                             </form>
                         </div>
@@ -63,15 +61,14 @@
                 <h3><a href="#">Ürün Ekle</a></h3>
                 <div id="uruneklepanel" class="scrollproduct">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="">
                             <div class="header">
                                 <h4 class="title" style="color:blue;"><span class="fa fa-archive"></span> &nbsp; Ürün Seç</h4>
-                                <p class="category"><span class="fa fa-dot-circle-o"></span> Ürün Ekle</p>
                             </div>
-                            <div class="content">
-                                <form action="@Url.Action("Index", "Home")" method="post">
-                                    <input type=hidden id="AccordionIndex" name="AccordionIndex" value=@ViewBag.AccordionIndex />
-                                    <div class="col-lg-9">
+                            <form action="@Url.Action("Index", "Home")" method="post">
+                                <input type=hidden id="AccordionIndex" name="AccordionIndex" value=@ViewBag.AccordionIndex />
+                                <div class="row">
+                                    <div class="col-lg-10">
                                         <select class="form-control" name="pfilter">
                                             <option value="1">KAP</option>
                                             <option value="2">Elbise</option>
@@ -90,48 +87,70 @@
                                             <option value="15">Eşofman</option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-3"><input type="submit" role="img" value="Bul" class="btn btn-primary" /></div>
-                                </form>
-                                <div class="table table-condensed">
+                                    <div class="col-lg-2"><input type="submit" role="img" value="Bul" class="btn btn-primary" /></div>
+                                </div>
+                            </form>
+                            <br />
+                            <div class="content">
+                                <div class="row">
+                                    <table class="table table-responsive">
+                                        <tr>
+
+                                            <td><p class="title">Ürün Cinsi</p></td>
+                                            <td></td>
+                                            <td><p class="title">İşlem Cinsi</p></td>
+                                            <td><p class="title">Birim Fiyat</p></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><p class="title">İşlem</p></td>
+                                        </tr>
+                                    </table>
+
                                     @foreach (var operation in Model.Operations.OrderBy(z => z.Id).Where(x => x.IsActive == true))
-                                    {
-                                        <form action="@Url.Action("OrderDetailAdder", "Home")" method="post">
-                                            <table class="table table-hover">
-                                                <tr>
-                                                    <td>
-                                                        <i><img src="../img/producticons/@operation.PId'.png" width="30" height="40" /></i>
-                                                    </td>
-                                                    <td>
-                                                        <u>@operation.Name</u>
-                                                    </td>
-                                                    <td>
-                                                        <b>@operation.Price₺</b>
-                                                    </td>
-                                                    <td class="hide">
-                                                        @Html.Hidden("OrderId", Model.Orders.OrderByDescending(x => x.Id).First().Id)
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBox("Description", "", new { @class = "form-control", @placeholder = "Tanım" })
-                                                    </td>
-                                                    <td class="hide">
-                                                        @Html.Hidden("OperationId", @operation.PId)
-                                                    </td>
-                                                    <td class="hide">
-                                                        @Html.Hidden("NetPrice", @operation.Price)
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBox("Quantity", "", new { @class = "form-control" })
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBox("Discount", "", new { @class = "form-control" })
-                                                    </td>
-                                                    <td>
-                                                        <input id="BtnUrunSec" type="submit" role="img" value="Seç" class="btn btn-warning" />
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </form>
-                                    }
+            {
+                        <form action="@Url.Action("OrderDetailAdder", "Home")" method="post">
+                            <table class="table">
+                                <tr>
+                                    <td>
+
+                                        <i><img src="../img/producticons/@operation.PId'.png" width="30" height="40" /></i>
+                                    </td>
+                                    <td>
+
+                                        <u>@operation.Name</u>
+                                    </td>
+                                    <td>
+
+                                        <b>@operation.Price₺</b>
+                                    </td>
+                                    <td class="hide">
+                                        @Html.Hidden("OrderId", Model.Orders.OrderByDescending(x => x.Id).First().Id)
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.TextBox("Description", "", new { @class = "form-control", @placeholder = "Açıklama" })
+                                    </td>
+                                    <td class="hide">
+                                        @Html.Hidden("OperationId", @operation.PId)
+                                    </td>
+                                    <td class="hide">
+                                        @Html.Hidden("NetPrice", @operation.Price)
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("Quantity", "", new { @class = "form-control", @placeholder = "Adet" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("Discount", "", new { @class = "form-control", @placeholder = "Top. Fiyat" })
+                                    </td>
+                                    <td>
+                                        <input id="BtnUrunSec" type="submit" role="img" value="Seç" class="btn btn-warning" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+}
                                 </div>
                             </div>
                         </div>
@@ -186,9 +205,9 @@
                                     </td>
                                 </tr>
                             </table>
-
+                            <p class="category text-center"> <b>Seçilen Ürün Listesi</b></p>
                             <div class="" style="max-height:185px;overflow-y:scroll;">
-                                <p class="category text-center"> <b>Seçilen Ürün Listesi</b></p>
+
 
                                 <table id="lstProducts" class="table">
                                     <!--Loading list into here-->
@@ -202,23 +221,23 @@
                                     </tr>
                                     @foreach (var product in Model.OrderDetail.Where(x => x.OrderId == Model.Orders.OrderByDescending(y => y.Id).First().Id && Model.OrderDetail.OrderByDescending(v => v.OrderId).First().IsDeleted == false))
                                     {
-                                    <tr>
-                                        <td></td>
-                                        <td>@product.OperationId</td>
-                                        <td>@product.Quantity</td>
-                                        <td>@product.NetPrice ₺</td>
-                                        <td>
-                                            @{
-            var x = (product.Quantity) * (product.NetPrice);
+                                        <tr>
+                                            <td></td>
+                                            <td>@product.OperationId</td>
+                                            <td>@product.Quantity</td>
+                                            <td>@product.NetPrice ₺</td>
+                                            <td>
+                                                @{
+                                                    var x = (product.Quantity) * (product.NetPrice);
 
-                                        }
-                                        @x.ToString() ₺
+                                                }
+                                                @x.ToString() ₺
 
-                                    </td>
-                                    <td><input type="button" role="img" value="X" class="btn btn-danger" /></td>
-                                    </tr>
+                                            </td>
+                                            <td><input type="button" role="img" value="X" class="btn btn-danger" /></td>
+                                        </tr>
 
-                                            }
+                                    }
                                     <tr>
                                         <td>Toplam</td>
                                         <td></td>
