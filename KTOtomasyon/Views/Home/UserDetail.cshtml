@@ -1,0 +1,62 @@
+﻿@model Users
+@{
+    ViewBag.Title = "Personel Detayları";
+}
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <h2 class="header">Personel Detayları</h2>
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="list-group">
+                            <li class="list-group-item">Personel No : @Model.Id</li>
+                            <li class="list-group-item">Ad : @Model.Name</li>
+                            <li class="list-group-item">Soyad : @Model.Surname</li>
+                            <li class="list-group-item">Yaş : @Model.Age</li>
+                            <li class="list-group-item">
+                                Cinsiyet :
+                                @{
+                                    if (Model.Gender.Equals(true))
+                                    {
+
+                                        <bdo>Erkek</bdo>
+
+                                    }
+                                    else
+                                    {
+                                        <bdo>Kadın</bdo>
+                                    }
+                                }
+
+                            </li>
+                            <li class="list-group-item">Mail : @Model.Mail</li>
+                            <li class="list-group-item">Şifre : @Model.Password</li>
+                            <li class="list-group-item">
+                                Rol :
+                                @{
+                                    if (Model.Role.Equals(1))
+                                    {
+
+                                        <bdo>Admin</bdo>
+
+                                    }
+                                    else
+                                    {
+                                        <bdo>Personel</bdo>
+                                    }
+                                }
+                            </li>
+                        </ul>
+                        @Html.ActionLink(" Geri", "Index", "Home", new { @class = "btn btn-primary" })
+                        @Html.ActionLink(" ", "UserEdit", "Home", new { id = Model.Id }, new { @class = "btn btn-warning pull-right fa fa-pencil" })
+                        @Html.ActionLink(" ", "UserDelete", "Home", new { id = Model.Id }, new { @class = "btn btn-danger pull-right fa fa-trash" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+

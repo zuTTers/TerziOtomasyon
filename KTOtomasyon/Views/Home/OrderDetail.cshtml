@@ -1,0 +1,46 @@
+﻿@model Orders
+@{
+    ViewBag.Title = "Personel Detayları";
+}
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <h2 class="header">Sipariş Detayları</h2>
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="list-group">
+                            <li class="list-group-item">Sipariş No : @Model.Id</li>
+                            <li class="list-group-item">Müşteri No : @Model.CId</li>
+
+                            <li class="list-group-item">Tarih-Saat : @Model.Date.Value.ToShortDateString() / @Model.Time.Value.ToString()</li>
+                            <li class="list-group-item">
+                                Durum :
+                                @{
+                                    if (Model.IsDelivery.Equals(true))
+                                    {
+
+                                        <bdo>Teslim Edildi</bdo>
+
+                                    }
+                                    else
+                                    {
+                                        <bdo>Teslim Edilmedi</bdo>
+                                    }
+                                }
+
+                            </li>
+
+                        </ul>
+                        @Html.ActionLink(" Geri", "Index", "Home", new { @class = "btn btn-primary" })
+                        @Html.ActionLink(" ", "UserEdit", "Home", new { id = Model.Id }, new { @class = "btn btn-warning pull-right fa fa-pencil" })
+                        @Html.ActionLink(" ", "UserDelete", "Home", new { id = Model.Id }, new { @class = "btn btn-danger pull-right fa fa-trash" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+

@@ -1,31 +1,251 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model KTOtomasyon.Models.AllList
+@{
+    ViewBag.Title = "Anasayfa";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<br />
+<div class="content">
+    <div class="container-fluid">
+        <div class="header"><b class="title">Makbuz İşlemleri</b></div><hr />
+        <div id="genelpanel" class="col-md-6">
+            <div id="accordion" class="accordion">
+                <h3><a href="#">Müşteri</a></h3>
+                <div id="uyeeklepanel">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title" style="color:blue;"><span class="fa fa-user"></span> &nbsp; Müşteri Ekle</h4>
+                                <p class="category"><span class="fa fa-dot-circle-o"></span> Yeni Müşteri</p>
+                            </div>
+                            <div class="content">
+                                <form action="@Url.Action("CustomerAdder", "Home")" method="post">
+
+                                    <p class="category">Müşteri İsmi</p>
+                                    @Html.TextBox("Name", "", new { @class = "form-control", @placeholder = "Ad", @id = "txtMAdi" })
+                                    <p class="category">Müşteri Soyadı</p>
+                                    @Html.TextBox("Surname", "", new { @class = "form-control", @placeholder = "Soyad", @id = "txtMSoyadi" })
+                                    <p class="category">Telefon No</p>
+                                    @Html.TextBox("PhoneNumber", "", new { @class = "form-control", @placeholder = "Telefon", @id = "txtMTelefon" })
+                                    <p class="category">Adres Bilgileri</p>
+                                    @Html.TextBox("Address", "", new { @class = "form-control", @placeholder = "Adres", @id = "txtMAdres" })
+                                    <hr />
+                                    <input id="BtnCustomerEkle" class="form-control" type="submit" value="Müşteri Ekle" style="background-color:darkslategrey; color:white;" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3 id="aktifyap"><a href="#">Tarih</a></h3>
+                <div id="tariheklepanel">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title" style="color:blue;"><span class="fa fa-calendar"></span> &nbsp; Tarih Seçimi</h4>
+                            <p class="category"><span class="fa fa-dot-circle-o"></span> Tarih Seç</p>
+                        </div>
+                        <div class="content">
+                            <form action="@Url.Action("OrderAdder", "Home")" method="post">
+                                <div class="col-lg-offset-0">
+                                    @Html.TextBox("UId", (int)ViewBag.VBOrderUserId, new { @id = "txtSPersonelId", @type = "hidden" })
+                                    @Html.TextBox("CId", (int)ViewBag.VBOrderCustomerId, new { @id = "txtSMüsteriId", @type = "hidden" })
+                                    <p class="category"> Alınan Tarih</p>
+                                    @Html.TextBox("CreatedDate", DateTime.Now.ToShortDateString(), new { @class = "form-control", @readonly = "readonly", @id = "txtSAlinanTarih" })
+                                    <p class="category"> Teslim Tarihi </p>
+                                    @Html.TextBox("Date", "dd:MM:yyyy", new { @class = "form-control", @placeholder = "Tarih", @id = "txtTeslimTarihi", @type = "date" })
+                                    <p class="category"> Teslim Saati </p>
+                                    @Html.TextBox("Time", "hh:mm", new { @class = "form-control", @placeholder = "Saat", @id = "txtTeslimSaati" })
+                                    <hr />
+                                    <input id="BtnOrderEkle" type="submit" class="form-control" value="Tarih Ekle" style="background-color:darkslategrey; color:white;" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <h3><a href="#">Ürün Ekle</a></h3>
+                <div id="uruneklepanel" class="scrollproduct">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title" style="color:blue;"><span class="fa fa-archive"></span> &nbsp; Ürün Seç</h4>
+                                <p class="category"><span class="fa fa-dot-circle-o"></span> Ürün Ekle</p>
+                            </div>
+                            <div class="content">
+                                <form action="@Url.Action("Index", "Home")" method="post">
+                                    <input type=hidden id="AccordionIndex" name="AccordionIndex" value=@ViewBag.AccordionIndex />
+                                    <div class="col-lg-9">
+                                        <select class="form-control" name="pfilter">
+                                            <option value="1">KAP</option>
+                                            <option value="2">Elbise</option>
+                                            <option value="3">Abiye</option>
+                                            <option value="4">Etek</option>
+                                            <option value="5">Pardösü</option>
+                                            <option value="6">Ferace</option>
+                                            <option value="7">Tunik</option>
+                                            <option value="8">Gömlek</option>
+                                            <option value="9">Ceket</option>
+                                            <option value="10">Palto</option>
+                                            <option value="11">Kaban</option>
+                                            <option value="12">T-Shirt</option>
+                                            <option value="13">Mont</option>
+                                            <option value="14">Pantolon</option>
+                                            <option value="15">Eşofman</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3"><input type="submit" role="img" value="Bul" class="btn btn-primary" /></div>
+                                </form>
+                                <div class="table table-condensed">
+                                    @foreach (var operation in Model.Operations.OrderBy(z => z.Id).Where(x => x.IsActive == true))
+                                    {
+                                        <form action="@Url.Action("OrderDetailAdder", "Home")" method="post">
+                                            <table class="table table-hover">
+                                                <tr>
+                                                    <td>
+                                                        <i><img src="../img/producticons/@operation.PId'.png" width="30" height="40" /></i>
+                                                    </td>
+                                                    <td>
+                                                        <u>@operation.Name</u>
+                                                    </td>
+                                                    <td>
+                                                        <b>@operation.Price₺</b>
+                                                    </td>
+                                                    <td class="hide">
+                                                        @Html.Hidden("OrderId", Model.Orders.OrderByDescending(x => x.Id).First().Id)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBox("Description", "", new { @class = "form-control", @placeholder = "Tanım" })
+                                                    </td>
+                                                    <td class="hide">
+                                                        @Html.Hidden("OperationId", @operation.PId)
+                                                    </td>
+                                                    <td class="hide">
+                                                        @Html.Hidden("NetPrice", @operation.Price)
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBox("Quantity", "", new { @class = "form-control" })
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBox("Discount", "", new { @class = "form-control" })
+                                                    </td>
+                                                    <td>
+                                                        <input id="BtnUrunSec" type="submit" role="img" value="Seç" class="btn btn-warning" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <form action="@Url.Action("OrderAdder", "Home")" method="post">
+            @Html.TextBox("UId", Session["UserId"], new { @type = "hidden" })
+            <div id="sipariseklepanel">
+                <div class="col-md-6">
+                    <div class="card demo-item">
+                        <div class="header">
+                            <h6 class="title text-center" style="color:blue;"><span class="fa fa-barcode"></span> &nbsp; Makbuz</h6>
+
+                        </div>
+                        <div class="content">
+                            <table class="list-group-item list-group-item-text">
+                                <tr>
+                                    <td>
+                                        <p class="category"> <b>Personel Adı</b></p>
+                                        @Html.Label("UId", Session["Name"].ToString(), new { @id = "txtSPAdi" })
+                                    </td>
+
+                                    <td>
+                                        <p class="category"> <b>Oluşturulma Tarihi</b></p>
+                                        @Html.Label("CreatedDate", (string)ViewBag.VBOrderCreated, new { @id = "txtSCreadtedDate" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="category"> <b>Teslim Tarihi</b></p>
+                                        @Html.Label("Date", (string)ViewBag.VBOrderDate, new { @readonly = "readonly", @id = "txtSTeslimTarih" })
+                                    </td>
+
+                                    <td>
+                                        <p class="category"> <b>Teslim Saati</b></p>
+                                        @Html.Label("Time", (string)ViewBag.VBOrderTime, new { @readonly = "readonly", @id = "txtSTeslimSaat" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="category"> <b>Adı </b> </p>
+                                        @Html.Label("CId", (string)ViewBag.VBOrderName, new { @id = "txtSMüsteriAdi" })
+                                    </td>
+
+                                    <td>
+                                        <p class="category"> <b> Soyadı</b></p>
+                                        @Html.Label("CId", (string)ViewBag.VBOrderSurname, new { @id = "txtSMüsteriSoyadi" })
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class="" style="max-height:185px;overflow-y:scroll;">
+                                <p class="category text-center"> <b>Seçilen Ürün Listesi</b></p>
+
+                                <table id="lstProducts" class="table">
+                                    <!--Loading list into here-->
+                                    <tr>
+                                        <td>İşlem</td>
+                                        <td>Ürün</td>
+                                        <td>Adet</td>
+                                        <td>B.Fiyat</td>
+                                        <td>T.Fiyat</td>
+                                        <td></td>
+                                    </tr>
+                                    @foreach (var product in Model.OrderDetail.Where(x => x.OrderId == Model.Orders.OrderByDescending(y => y.Id).First().Id && Model.OrderDetail.OrderByDescending(v => v.OrderId).First().IsDeleted == false))
+                                    {
+                                    <tr>
+                                        <td></td>
+                                        <td>@product.OperationId</td>
+                                        <td>@product.Quantity</td>
+                                        <td>@product.NetPrice ₺</td>
+                                        <td>
+                                            @{
+            var x = (product.Quantity) * (product.NetPrice);
+
+                                        }
+                                        @x.ToString() ₺
+
+                                    </td>
+                                    <td><input type="button" role="img" value="X" class="btn btn-danger" /></td>
+                                    </tr>
+
+                                            }
+                                    <tr>
+                                        <td>Toplam</td>
+                                        <td></td>
+                                        <td>@Model.OrderDetail.Where(x => x.OrderId == Model.Orders.OrderByDescending(y => y.Id).First().Id).Sum(i => i.Quantity) adet</td>
+                                        <td></td>
+                                        <td>@Model.OrderDetail.Where(x => x.OrderId == Model.Orders.OrderByDescending(y => y.Id).First().Id).Sum(i => i.Discount) ₺ </td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+
+
+                            </div>
+                            <hr />
+                            <p class="category"> <b>Açıklama</b></p>
+                            @Html.Label("Description", Model.OrderDetail.OrderByDescending(x => x.Id).First().Description, new { @readonly = "readonly", @id = "txtSAciklama" })
+                            <hr />
+                            <input id="BtnYazdir" class="form-control text-center" type="submit" value="YAZDIR" style="background-color:darkslategrey; color:white;" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+@{
+    if (Model != null)
+    { ViewBag.LastId = @Model.Users.First().Id; }
+}

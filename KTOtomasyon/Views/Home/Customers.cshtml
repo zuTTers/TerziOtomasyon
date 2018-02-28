@@ -1,0 +1,101 @@
+﻿@model  KTOtomasyon.Models.AllList
+@{
+    ViewBag.Title = "Müşteriler";
+}
+<br />
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="header">
+                <div class="col-lg-6">
+                    <h4 class="title" style="color:blue;"><span class="fa fa-users"></span> &nbsp; Müşteriler</h4>
+                    <p class="category">Müşteri Listesi</p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="category">
+                        <form action="@Url.Action("Customers","Home")" method="post">
+                            <div class="col-lg-10"><input name="filter" type="search" class="form-control text-primary" placeholder="Ad/Soyad Ara" /></div>
+                            <div class="col-lg-2"><input type="submit" role="img" value="Ara" class="btn btn-primary" /></div>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td class="text-uppercase"><b>Ad</b></td>
+                                <td class="text-uppercase"><b>Soyad</b></td>
+                                <td class="text-uppercase"><b>Cinsiyet</b></td>
+                                <td class="text-uppercase"><b>E-Mail</b></td>
+                                <td class="text-uppercase"><b>Telefon</b></td>
+                                <td class="text-uppercase"><b>Adres</b></td>
+                                <td class="text-uppercase"><b>Müşteri Tipi</b></td>
+                                <td></td>
+                            </tr>
+                            @foreach (var customer in Model.Customers.OrderByDescending(z => z.Id).Where(x => x.IsActive == true))
+                            {
+                                <tr>
+                                    <td>@customer.Name</td>
+                                    <td>@customer.Surname</td>
+                                    <td>
+                                        @{
+                                            if (customer.Gender.Equals(true))
+                                            {
+
+                                                <bdo>Erkek</bdo>
+
+                                            }
+                                            else
+                                            {
+                                                <bdo>Kadın</bdo>
+                                            }
+
+                                        }
+                                    </td>
+                                    <td>@customer.Mail</td>
+                                    <td>+90 @customer.PhoneNumber</td>
+                                    <td>@customer.Address</td>
+                                    <td>
+                                        @{
+                                            if (customer.CustomerType.Equals(true))
+                                            {
+
+                                                <bdo>Yerel Müşteri</bdo>
+
+                                            }
+                                            else
+                                            {
+                                                <bdo>Yabancı Müşteri</bdo>
+                                            }
+
+                                        }
+                                    </td>
+                                    <td>@Html.ActionLink(" İncele", "CustomerDetail", "Home", new { id = customer.Id }, new { @class = "btn btn-success" }) </td>
+                                </tr>
+                            }
+                        </table>
+                        <ul class="pagination pagination-sm">
+                            <li>
+                                @{
+                                    for (int i = 1; i <= Model.TotalPage; i++)
+                                    {
+                                        if (i == Model.CurrentPage)
+                                        {
+                                            @Html.ActionLink(i.ToString(), "Customers", new { p = i }, new { @class = "text-danger" });
+
+                                        }
+                                        else
+                                        {
+                                            @Html.ActionLink(i.ToString(), "Customers", new { p = i });
+                                        }
+                                    }
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

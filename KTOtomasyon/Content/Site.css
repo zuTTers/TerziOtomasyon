@@ -1,24 +1,204 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿/*Siparis*/
+.demo-item {
+    position: fixed;
+    top: 0px;
+    left: 820px;
+    width: 420px;
+    height: 620px;
+    padding: 5px;
+    color: #236AB9;
+    
+    border-left: 0px solid #444;
+    border-left: 1px solid #444;
+    border-right: 1px solid #111;
+    border-bottom: 1px solid #111;
+    box-sizing: border-box;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.scrollproduct {
+    overflow: auto;
+    position: relative;
+    max-height: 400px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+.tablemy td {
+    padding: 5px 0px !important;
+    vertical-align: middle !important;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+/*Placeholder*/
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: aqua;
 }
+
+/*Product*/
+.UrunImg{
+    width:50px;
+    height:50px;
+}
+/*Takvim*/
+.ui-datepicker-calendar tr, .ui-datepicker-calendar td, .ui-datepicker-calendar td a, .ui-datepicker-calendar th {
+    font-size: inherit;
+}
+
+div.ui-datepicker {
+    font-size: 62%;
+    width: inherit;
+    height: inherit;
+}
+
+.ui-datepicker-title span {
+    font-size: 100%;
+}
+
+#scrollToTop, #scrollToBottom {
+    cursor: pointer;
+    background-color: #0090CB;
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    color: #fff;
+    font-size: 16pt;
+    text-align: center;
+    text-decoration: none;
+    line-height: 40px;
+}
+
+/*Zaman Çizelgesi*/
+table.agenda {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+    table.agenda td,
+    table.agenda th {
+        border: 1px solid #fff;
+        padding: 8px;
+        text-align: center;
+    }
+    table.agenda td {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background-color: #D4E4F7;
+        color: black;
+    }
+th:nth-child(1) {
+    background: #CC9;
+    color: white;
+}
+th:nth-child(2) {
+    background: #236AB9;
+    color: white;
+}
+th:nth-child(3) {
+    background: #236AB9;
+    color: white;
+}
+th:nth-child(4) {
+    background: #236AB9;
+    color: white;
+}
+th:nth-child(5) {
+    background: #236AB9;
+    color: white;
+}
+th:nth-child(6) {
+    background: #236AB9;
+    color: white;
+}
+th:nth-child(7) {
+    background: #236AB9;
+    color: white;
+}
+th:nth-child(8) {
+    background: #236AB9;
+    color: white;
+}
+table.agenda tr:nth-child(1) td:first-child {
+    background: #236AB9;
+    color: white;
+}
+table.agenda tr:nth-child(2) td:first-child {
+    background: #236AB9;
+    color: white;
+}
+table.agenda tr:nth-child(3) td:first-child {
+    background: #236AB9;
+    color: white;
+}
+table.agenda tr:nth-child(4) td:first-child {
+    background: #236AB9;
+    color: white;
+}
+table.agenda tr:nth-child(5) td:first-child {
+    background: #236AB9;
+    color: white;
+}
+table.agenda tr:nth-child(6) td:first-child {
+    background: #236AB9;
+    color: white;
+}
+table.agenda tr:nth-child(7) td:first-child {
+    background: #236AB9;
+    color: white;
+}
+
+/*On-Off Butonu*/
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 20px;
+    vertical-align: middle;
+    margin-top: 8px;
+}
+
+    .switch input {
+        display: none;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #A1A6AB;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 10px;
+        width: 8px;
+        left: 1px;
+        bottom: 1px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+input:checked + .slider {
+    background-color: #800080;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(25px);
+    -ms-transform: translateX(25px);
+    transform: translateX(25px);
+}
+
+.slider.round {
+    border-radius: 10px;
+}
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
