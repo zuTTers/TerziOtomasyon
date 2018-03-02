@@ -12,12 +12,16 @@ namespace KTOtomasyon
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagrams
+    public partial class OrderDetails
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int OrderDetail_Id { get; set; }
+        public Nullable<int> Order_Id { get; set; }
+        public Nullable<int> Operation_Id { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public Nullable<decimal> Price { get; set; }
+        public Nullable<decimal> TotalPrice { get; set; }
+    
+        public virtual Operations Operations { get; set; }
+        public virtual Orders Orders { get; set; }
     }
 }

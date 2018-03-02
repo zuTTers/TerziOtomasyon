@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model KTOtomasyon.Models.DisplayOrderDetail
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -18,14 +20,16 @@
     <!--  Light Bootstrap Table core CSS    -->
     <link href="~/assets/css/light-bootstrap-dashboard.css" rel="stylesheet" />
     <!--  CSS for Demo Purpose, don't include it in your project     -->
-
+    <link href="~/Content/chosen.css" rel="stylesheet" />
+    <link href="~/Content/ImageSelect.css" rel="stylesheet" />
     <link href="~/assets/css/demo.css" rel="stylesheet" />
+    <link href="~/Content/Flat.css" rel="stylesheet" />
     <!--     Fonts and icons     -->
     <link href="~/Content/CSS/font-awesome.min.css" rel="stylesheet" />
     <link href="~/assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
 </head>
-<body ng-app="myApp">
+<body>
     <div class="wrapper">
         <div class="sidebar" data-color="red">
             <div class="sidebar-wrapper">
@@ -169,14 +173,107 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content" style="width:800px!important;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Yeni Sipariş</h4>
+                </div>
+                
+                <div class="modal-body ">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h6 class="text-muted">Müşteri Ad/Soyad</h6>
+                            @Html.TextBox("CustomerName", "", new { @class = "form-control", @placeholder = "Ad", @id = "txtMAdi", @style = "height:30px !important;" })
+                            <h6 class="text-muted"> Teslim Tarihi </h6>
+                            @Html.TextBox("OrderDate", "dd:MM:yyyy", new { @class = "form-control", @placeholder = "Tarih", @id = "txtMSTarihi", @type = "date", @style = "height:30px !important;" })
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="text-muted">Telefon No</h6>
+                            @Html.TextBox("PhoneNumber", "", new { @class = "form-control", @placeholder = "Telefon", @id = "txtMTelefon", @style = "height:30px !important;" })
+                            <h6 class="text-muted"> Açıklama </h6>
+                            @Html.TextBox("Description", "", new { @class = "form-control", @placeholder = "Açıklama", @id = "txtMAciklama", @style = "height:30px !important;" })
+                        </div>
+                    </div>
+                  
+                    <div class="row" style="margin-top:10px;" >
+                        <div class="col-lg-12" style="margin-top:10px;">
+                            <div class="col-lg-3">
+                                <select class="my-select" name="pfilter" title="Ürün Listesi" id="drpMUrunListe" onchange="drpUrunIslem()" >
+                                    <option>Ürün Seç..</option>
+                                    <option data-img-src="../img/producticons/1'.png" value="1">KAP</option>
+                                    <option data-img-src="../img/producticons/2'.png" value="2">Elbise</option>
+                                    <option data-img-src="../img/producticons/3'.png" value="3">Abiye</option>
+                                    <option data-img-src="../img/producticons/4'.png" value="4">Etek</option>
+                                    <option data-img-src="../img/producticons/5'.png" value="5">Pardösü</option>
+                                    <option data-img-src="../img/producticons/6'.png" value="6">Ferace</option>
+                                    <option data-img-src="../img/producticons/7'.png" value="7">Tunik</option>
+                                    <option data-img-src="../img/producticons/8'.png" value="8">Gömlek</option>
+                                    <option data-img-src="../img/producticons/9'.png" value="9">Ceket</option>
+                                    <option data-img-src="../img/producticons/10'.png" value="10">Palto</option>
+                                    <option data-img-src="../img/producticons/11'.png" value="11">Kaban</option>
+                                    <option data-img-src="../img/producticons/12'.png" value="12">T-Shirt</option>
+                                    <option data-img-src="../img/producticons/13'.png" value="13">Mont</option>
+                                    <option data-img-src="../img/producticons/14'.png" value="14">Pantolon</option>
+                                    <option data-img-src="../img/producticons/15'.png" value="15">Eşofman</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <select class="form-control" name="ofilter" title="İşlem Listesi" id="drpMIslemListe" onchange="drpIslem()">
+                                    <option>İşlem Seç..</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-lg-2">
+                                @Html.TextBox("Quantity", "1", new { @class = "form-control", @placeholder = "Adet", @id = "txtMAdet", @type = "number" })
+                            </div>
+                            <div class="col-lg-2">
+                                @Html.TextBox("Price", "", new { @class = "form-control", @placeholder = "Tutar", @id = "txtMPrice" })
+                            </div>
+                           
+                            <div class="col-lg-1">
+                                <input type="button" name="btnUrunEkle" value="Ekle" id="btnUrunEkle" class="btn btn-default" />
+                            </div>
+                            <div class="divider"></div>
+                            <br />
+                        </div>
+
+                        <div class="modal-footer" id="divOrderDetail">
+                            <table class="table table-striped text-left">
+                                <thead>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tadilat</td>
+                                        <td>Adet</td>
+                                        <td>B.Tutar</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabloveri"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" name="btnSiparisKaydet" value="Kaydet" id="btnSiparisKaydet" class="btn btn-success" />
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                </div>
+                </div>
+
+            </div>
+    </div>
+
     <!--   Core JS Files   -->
     <script src="~/Scripts/jquery-3.2.1.min.js"></script>
     <script src="~/Scripts/jquery-ui.min.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/assets/js/bootstrap.min.js" type="text/javascript"></script>
-    
+
     <!--  Checkbox, Radio & Switch Plugins -->
-   
+
     <script src="~/assets/js/bootstrap-checkbox-radio-switch.js"></script>
     <!--  Charts Plugin -->
     <script src="~/assets/js/chartist.min.js"></script>
@@ -189,7 +286,10 @@
     <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
     <script src="~/assets/js/demo.js"></script>
     <!-- Benim javascript dosyam -->
+    <script src="~/Scripts/chosen.jquery.js"></script>
+    <script src="~/Scripts/ImageSelect.jquery.js"></script>
+    <script src="~/Scripts/bootstrap-select.js"></script>
     <script src="~/Scripts/app.js"></script>
-    <script src="~/Scripts/myapp.js"></script>
+    <script src="~/Scripts/myorder.js"></script>
 </body>
 </html>

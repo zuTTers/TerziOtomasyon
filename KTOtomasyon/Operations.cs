@@ -17,17 +17,17 @@ namespace KTOtomasyon
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Operations()
         {
-            this.OrderDetail = new HashSet<OrderDetail>();
+            this.OrderDetails = new HashSet<OrderDetails>();
         }
     
-        public int Id { get; set; }
-        public Nullable<int> PId { get; set; }
+        public int Operation_Id { get; set; }
+        public Nullable<int> Product_Id { get; set; }
         public string Name { get; set; }
-        public Nullable<int> Price { get; set; }
+        public Nullable<int> UnitPrice { get; set; }
         public Nullable<bool> IsActive { get; set; }
     
         public virtual Products Products { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }
 }

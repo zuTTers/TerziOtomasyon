@@ -17,19 +17,21 @@ namespace KTOtomasyon
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Orders()
         {
-            this.OrderDetail = new HashSet<OrderDetail>();
+            this.OrderDetails = new HashSet<OrderDetails>();
         }
     
-        public int Id { get; set; }
-        public int UId { get; set; }
-        public int CId { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public Nullable<System.TimeSpan> Time { get; set; }
+        public int Order_Id { get; set; }
+        public string CustomerName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Description { get; set; }
+        public System.DateTime OrderDate { get; set; }
+        public int CreatedUser { get; set; }
+        public System.DateTime CreatedDate { get; set; }
+        public Nullable<bool> IsDelivered { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
-        public virtual Customers Customers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
         public virtual Users Users { get; set; }
     }
 }

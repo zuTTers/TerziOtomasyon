@@ -153,9 +153,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
-    <Compile Include="Customers.cs">
-      <DependentUpon>KTData.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -178,7 +175,7 @@
     <Compile Include="Operations.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
-    <Compile Include="OrderDetail.cs">
+    <Compile Include="OrderDetails.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
     <Compile Include="Orders.cs">
@@ -188,15 +185,10 @@
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Roles.cs">
-      <DependentUpon>KTData.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>KTData.tt</DependentUpon>
-    </Compile>
     <Compile Include="Users.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrderViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\animate.min.css" />
@@ -238,11 +230,14 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen.css" />
     <Content Include="Content\CSS\font-awesome.css" />
     <Content Include="Content\CSS\font-awesome.min.css" />
+    <Content Include="Content\Flat.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\ImageSelect.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\jquery-ui.structure.css" />
@@ -255,6 +250,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="img\body-bg.png" />
+    <Content Include="img\icon-safari.png" />
     <Content Include="img\icons-sa7c41345d9.png" />
     <Content Include="img\kuru-temizleme-icon-1.png" />
     <Content Include="img\kuru-temizleme-icon-2.png" />
@@ -299,6 +295,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\base.js" />
+    <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -378,6 +375,9 @@
     <Content Include="Content\Scss\FontAwesome\_rotated-flipped.scss" />
     <Content Include="Content\Scss\FontAwesome\_stacked.scss" />
     <Content Include="Content\Scss\FontAwesome\_variables.scss" />
+    <Content Include="fonts\Font Awesome 5 Brands-Regular-400.otf" />
+    <Content Include="fonts\Font Awesome 5 Free-Regular-400.otf" />
+    <Content Include="fonts\Font Awesome 5 Free-Solid-900.otf" />
     <EntityDeploy Include="KTData.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>KTData.Designer.cs</LastGenOutput>
@@ -385,9 +385,6 @@
     <Content Include="KTData.edmx.diagram">
       <DependentUpon>KTData.edmx</DependentUpon>
     </Content>
-    <Content Include="fonts\Font Awesome 5 Brands-Regular-400.otf" />
-    <Content Include="fonts\Font Awesome 5 Free-Regular-400.otf" />
-    <Content Include="fonts\Font Awesome 5 Free-Solid-900.otf" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\chart.min.js" />
@@ -396,6 +393,7 @@
     <Content Include="Scripts\charts\donut.js" />
     <Content Include="Scripts\charts\line.js" />
     <Content Include="Scripts\charts\pie.js" />
+    <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\excanvas.min.js" />
     <Content Include="Scripts\faq.js" />
     <Content Include="Scripts\fontawesome-all.min.js" />
@@ -405,6 +403,7 @@
     <Content Include="Scripts\guidely\guidely-number.png" />
     <Content Include="Scripts\guidely\guidely.css" />
     <Content Include="Scripts\guidely\guidely.min.js" />
+    <Content Include="Scripts\ImageSelect.jquery.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
@@ -425,7 +424,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\myapp.js" />
+    <Content Include="Scripts\myorder.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -454,6 +453,9 @@
     <Content Include="Views\Home\Customers.cshtml" />
     <Content Include="Views\Home\Products.cshtml" />
     <Content Include="Views\Home\Operations.cshtml" />
+    <Content Include="Views\Shared\_LayoutLog.cshtml" />
+    <Content Include="Views\Shared\layy.cshtml" />
+    <Content Include="Views\Home\NewOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,39 +10,26 @@ namespace KTOtomasyon.Controllers
     public class LoginController : Controller
     {
         // GET: Login
-        public AllList mylist = new AllList();
-
+        
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Index(Users userModel)
+        public ActionResult Index(Users user)
         {
             using (var db = new KTOtomasyonEntities())
             {
-                var userLogin1 = db.Users.SingleOrDefault(x => x.Mail == userModel.Mail && x.Password == userModel.Password && x.Role == 1 && x.IsDeleted == false);
-                var userLogin2 = db.Users.SingleOrDefault(x => x.Mail == userModel.Mail && x.Password == userModel.Password && x.Role == 3 && x.IsDeleted == false);
+                var userLogin = db.Users.SingleOrDefault(x => x.Mail == user.Mail && x.Password == user.Password && x.IsDeleted == false);
 
-                if (userLogin1 != null)
+                if (userLogin != null)
                 {
-                    Session["UserId"] = userLogin1.Id;
-                    Session["Name"] = userLogin1.Name;
-
-                    ViewBag.Mesaj = "Hoşgeldiniz Yetkili!";
+                    Session["UserId"] = userLogin.User_Id;
+                    Session["Name"] = userLogin.Name;
 
                     return RedirectToAction("Index", "Home");
-                }
-                else if (userLogin2 != null)
-                {
-                    Session["UserId"] = userLogin2.Id;
-                    Session["Name"] = userLogin2.Name;
-
-                    ViewBag.Mesaj = "Hoşgeldiniz Yetkili!";
-
-                    return RedirectToAction("Index", "Personel");
-                }
+                }               
                 else
                 {
                     ViewBag.Mesaj = "Hatalı kullanıcı adı ya da şifre!";
@@ -76,7 +63,7 @@ namespace KTOtomasyon.Controllers
 
                 using (var db = new KTOtomasyonEntities())
                 {
-                    userdetail = db.Users.Where(d => d.Id == id).First();
+                    userdetail = db.Users.Where(d => d.User_Id == id).First();
                 }
                 return View(userdetail);
             }

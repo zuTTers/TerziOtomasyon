@@ -20,19 +20,16 @@ namespace KTOtomasyon
             this.Orders = new HashSet<Orders>();
         }
     
-        public int Id { get; set; }
+        public int User_Id { get; set; }
         public string Name { get; set; }
-        public string Surname { get; set; }
-        public Nullable<int> Age { get; set; }
         public Nullable<bool> Gender { get; set; }
-        public Nullable<int> Role { get; set; }
+        public Nullable<System.DateTime> Birthday { get; set; }
         public string Mail { get; set; }
         public string Password { get; set; }
+        public Nullable<int> UserType { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
-        public string IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
-        public virtual Roles Roles { get; set; }
     }
 }

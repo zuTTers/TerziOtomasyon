@@ -25,13 +25,10 @@ namespace KTOtomasyon
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Customers> Customers { get; set; }
         public virtual DbSet<Operations> Operations { get; set; }
-        public virtual DbSet<OrderDetail> OrderDetail { get; set; }
+        public virtual DbSet<OrderDetails> OrderDetails { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<Products> Products { get; set; }
-        public virtual DbSet<Roles> Roles { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Users> Users { get; set; }
     }
 }

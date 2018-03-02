@@ -9,11 +9,10 @@ namespace KTOtomasyon.Models
     {
         public IList<Users> Users { get; set; }
         public IList<Orders> Orders { get; set; }
-        public IList<OrderDetail> OrderDetail { get; set; }
+        public IList<OrderDetails> OrderDetails { get; set; }
         public IList<Products> Products { get; set; }
         public IList<Operations> Operations { get; set; }
-        public IList<Customers> Customers { get; set; }
-        public IList<Roles> Roles { get; set; }
+
 
         public int GetOperationId { get; set; }
 
