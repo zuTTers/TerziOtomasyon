@@ -1,5 +1,21 @@
 ﻿var orderwithdetail = { orderDetails: [] };
 
+var OperationData;
+
+
+//Image Dropdown
+$(".my-select").chosen({ width: "32px;", height: "32px;" });
+$(".my-select2").chosen();
+
+//Modal Ekranı
+$('#myModal').on('show.bs.modal', function (e) {
+    console.debug('modal shown!');
+    $('.my-select', this).chosen({ width: "550px" });
+    $('.my-select2', this).chosen({ width: "550px" });
+});
+
+$("#drpMUrunListe").chosen().change(drpUrunIslem);
+$("#drpMIslemListe").chosen().change(drpIslemGetir);
 
 
 $("#btnUrunEkle").click(function () {
@@ -17,7 +33,7 @@ $("#btnUrunEkle").click(function () {
     orderdetail.Operation_Id = MIslem;
     orderdetail.OperationText = MIslemText;
     orderdetail.Quantity = MAdet;
-    orderdetail.Price = MPrice;
+    orderdetail.UnitPrice = MPrice;
     orderdetail.TotalPrice = MTPrice;
 
     orderwithdetail.orderDetails.push(orderdetail);
@@ -26,62 +42,54 @@ $("#btnUrunEkle").click(function () {
 
 });
 
-var OperationData;
 
 function drpUrunIslem() {
-
     $.post("Home/GetOperations", {
         Product_Id: $("#drpMUrunListe").val()
     },
         function (data, status) {
             OperationData = data;
-            $("#drpMIslemListe").html('');
+
             if (data.length > 0) {
-                $("#txtMPrice").val(data[0].UnitPrice + " TL");
+                $("#txtMPrice").val(data[0].UnitPrice + " ₺");
             }
+            $('#drpMIslemListe').empty(); //remove all child nodes
             $.each(data, function (idx, obj) {
-                $("#drpMIslemListe").append('<option value="' + obj.OperationText + '">' + obj.Name + '</option>');
+                $("#drpMIslemListe").append('<option value="' + obj.Operation_Id + '">' + obj.Name + '</option>');
+                if ($("#drpMIslemListe").val() == obj.Operation_Id) {
+                    $("#txtMPrice").val(obj.UnitPrice + " ₺");
+                }
+            });         
+            
+            $('#drpMIslemListe').trigger("chosen:updated");
 
-            });
-
+            
         });
 }
 
 
-function drpIslem() {
 
+function drpIslemGetir() {
     $.each(OperationData, function (idx, obj) {
         if ($("#drpMIslemListe").val() == obj.Operation_Id) {
-            $("#txtMPrice").val(obj.UnitPrice + " TL");
+            $("#txtMPrice").val(obj.UnitPrice + " ₺");
         }
-
     });
-
+    $('#txtMPrice').trigger("chosen:updated");
+    
 }
 
-
 function createTable() {
-
     var rows = "";
-
     for (var i = 0; i < orderwithdetail.orderDetails.length; i++) {
-        rows += '<tr><td>' + orderwithdetail.orderDetails[i].OrderDetail_Id + '</td>';
+        rows += '<tr><td>' + '<a href="#"><span class="fa fa-close"></span></a>' + '</td>';
         rows += '<td>' + orderwithdetail.orderDetails[i].OperationText + '</td>';
         rows += '<td>' + orderwithdetail.orderDetails[i].Quantity + '</td>';
-        rows += '<td>' + orderwithdetail.orderDetails[i].Price + '</td>';
+        rows += '<td>' + orderwithdetail.orderDetails[i].UnitPrice + '</td>';
     }
     var divTable = document.getElementById("tabloveri");
     divTable.innerHTML = rows;
-
 }
-
-
-
-
-
-
-
-
 
 
 

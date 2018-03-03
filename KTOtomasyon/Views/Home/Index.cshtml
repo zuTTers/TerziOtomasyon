@@ -11,16 +11,16 @@
         <div class="card">
             <div class="header">
                 <div class="col-lg-6">
-                    <h4 class="title" style="color:blue;"><span class="fa fa-tasks"></span> &nbsp; Siparişler</h4>
+                    <h4 class="title" style="color:#ff3e00;"><span class="fa fa-tasks"></span> &nbsp; Siparişler</h4>
                     <p class="category">Sipariş Listesi</p>
                 </div>
                 <div class="col-lg-6">
                     <div class="row">
                         <form action="@Url.Action("Orders","Home")" method="post">
 
-                            <div class="col-lg-4"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Yeni Sipariş</button></div>
-                            <div class="col-lg-6"><input name="filter" type="search" class="form-control text-primary" placeholder="Sipariş Ara" /></div>
-                            <div class="col-lg-2"><input type="submit" value="Ara" class="btn btn-primary" /></div>
+                            <div class="col-lg-4"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal"><span class="fa fa-plus"></span>Yeni Sipariş</button></div>
+                            <div class="col-lg-6"><input name="filter" type="search" class="form-control text-warning" placeholder="Müşteri adı/Fatura No"/></div>
+                            <div class="col-lg-2"><button type="submit" value="Ara" class="btn btn-warning"><span class="fa fa-search"></span>Ara</button></div>
 
 
                         </form>
@@ -43,12 +43,12 @@
                             @foreach (var order in Model.Orders)
                             {
                             <tr>
-                                <td>@Html.ActionLink(" İncele", "OrderDetail", "Home", new { id = order.Order_Id }, new { @class = "btn btn-success" }) </td>
+                                <td><a href="@Url.Action("OrderDetail",new { id = order.Order_Id })"><span class="fa fa-pencil"></span></a></td>
                                 <td>@order.Order_Id</td>
                                 <td>@order.CustomerName</td>
-                                <td>@order.CreatedDate.ToShortDateString()</td>
+                                <td>@order.CreatedDate.Value.ToShortDateString()</td>
                                 <td>@order.Description</td>
-                                <td>@Model.TotalPrice </td>
+                                <td>@Model.TotalPrice ₺</td>
                                 <td>
 
                                     <label class="custom-control custom-checkbox">

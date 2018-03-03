@@ -1,26 +1,4 @@
-﻿//Image Dropdown
-$(".my-select").chosen({ width: "32px;", height:"32px;" });
-
-//Modal Ekranı
-$('#myModal').on('show.bs.modal', function (e) {
-    console.debug('modal shown!');
-    $('.chosen-select', this).chosen({ width: "350px" });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+﻿
 /*BURADAN AŞAĞISI BOŞ*/
 
 //(function (window) {

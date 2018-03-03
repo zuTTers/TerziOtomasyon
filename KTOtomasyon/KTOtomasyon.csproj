@@ -175,7 +175,7 @@
     <Compile Include="Operations.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
-    <Compile Include="OrderDetails.cs">
+    <Compile Include="OrderDetail.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
     <Compile Include="Orders.cs">
@@ -185,10 +185,10 @@
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\OrderViewModels.cs" />
     <Compile Include="Users.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\OrderViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\animate.min.css" />
@@ -454,7 +454,6 @@
     <Content Include="Views\Home\Products.cshtml" />
     <Content Include="Views\Home\Operations.cshtml" />
     <Content Include="Views\Shared\_LayoutLog.cshtml" />
-    <Content Include="Views\Shared\layy.cshtml" />
     <Content Include="Views\Home\NewOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>

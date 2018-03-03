@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="190c1496a58245d4a75a11d5409831a4" Name="Diagram1">
-        <EntityTypeShape EntityType="KTOtomasyonModel.Operations" Width="1.5" PointX="4" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="KTOtomasyonModel.OrderDetails" Width="1.5" PointX="4.875" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KTOtomasyonModel.Orders" Width="1.5" PointX="2.875" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="KTOtomasyonModel.Products" Width="1.5" PointX="1.625" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="KTOtomasyonModel.Users" Width="1.5" PointX="0.875" PointY="0.625" IsExpanded="true" />
+      <Diagram DiagramId="76623dcdb517455b8e3f38930e5f3572" Name="Diagram1">
+        <EntityTypeShape EntityType="KTOtomasyonModel.Operations" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="KTOtomasyonModel.OrderDetail" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="KTOtomasyonModel.Orders" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KTOtomasyonModel.Products" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="KTOtomasyonModel.Users" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
         <AssociationConnector Association="KTOtomasyonModel.FK_Operations_Products" ManuallyRouted="false" />
-        <AssociationConnector Association="KTOtomasyonModel.FK_OrderDetails_OrderDetails" ManuallyRouted="false" />
-        <AssociationConnector Association="KTOtomasyonModel.FK_OrderDetails_Orders" ManuallyRouted="false" />
-        <AssociationConnector Association="KTOtomasyonModel.FK_Orders_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="KTOtomasyonModel.FK_OrderDetail_Operations" ManuallyRouted="false" />
+        <AssociationConnector Association="KTOtomasyonModel.FK_OrderDetail_Orders" ManuallyRouted="false" />
+        <AssociationConnector Association="KTOtomasyonModel.FK_Orders_CreatedUser" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

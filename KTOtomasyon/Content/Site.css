@@ -58,16 +58,16 @@
             transition: left .3s ease, background .3s ease, box-shadow .1s ease;
         }
 
-    .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator {
-        background-color: #84c7c1;
-        background-image: none;
-        box-shadow: none !important;
-    }
+.custom-checkbox .custom-control-input:checked ~ .custom-control-indicator {
+    background-color: #ff3e00;
+    background-image: none;
+    box-shadow: none !important;
+}
 
-        .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator:after {
-            background-color: #84c7c1;
-            left: 15px;
-        }
+    .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator:after {
+        background-color: #ff3e00;
+        left: 15px;
+    }
 
     .custom-checkbox .custom-control-input:focus ~ .custom-control-indicator {
         box-shadow: none !important;
@@ -75,10 +75,10 @@
 
 /*Giriş Panel*/
 .form-login {
-    width: 400px;
-    background-color: #eee;
-    box-shadow:#A1A6AB 0px 0px 20px 5px inset;
-    border-radius:10px;
+    width: 380px;
+    background-color: #FFF;
+    box-shadow: #ffc70f 0px 0px 10px 1px inset;
+    border-radius: 10px;
 }
 
 /*Siparis*/

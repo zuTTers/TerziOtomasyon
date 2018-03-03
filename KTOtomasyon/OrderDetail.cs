@@ -12,7 +12,7 @@ namespace KTOtomasyon
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderDetails
+    public partial class OrderDetail
     {
         public int OrderDetail_Id { get; set; }
         public Nullable<int> Order_Id { get; set; }
