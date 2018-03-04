@@ -172,6 +172,7 @@
       <DependentUpon>KTData.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\AllList.cs" />
+    <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Operations.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
@@ -256,7 +257,7 @@
     <Content Include="img\kuru-temizleme-icon-2.png" />
     <Content Include="img\kuru-temizleme-icon-3.png" />
     <Content Include="img\kuru-temizleme-icon-4.png" />
-    <Content Include="img\logo.png" />
+    <Content Include="img\producticons\0%27.png" />
     <Content Include="img\logo1.png" />
     <Content Include="img\logooldu.png" />
     <Content Include="img\message_avatar1.png" />

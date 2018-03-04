@@ -17,12 +17,9 @@
                 <div class="col-lg-6">
                     <div class="row">
                         <form action="@Url.Action("Orders","Home")" method="post">
-
                             <div class="col-lg-4"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal"><span class="fa fa-plus"></span>Yeni Sipariş</button></div>
                             <div class="col-lg-6"><input name="filter" type="search" class="form-control text-warning" placeholder="Müşteri adı/Fatura No"/></div>
                             <div class="col-lg-2"><button type="submit" value="Ara" class="btn btn-warning"><span class="fa fa-search"></span>Ara</button></div>
-
-
                         </form>
                     </div>
                 </div>
@@ -38,25 +35,22 @@
                                 <td class="text-uppercase"><b>Açıklama</b></td>
                                 <td class="text-uppercase"><b>Toplam Tutar</b></td>
                                 <td class="text-uppercase"><b>Teslim Durumu</b></td>
-
                             </tr>
-                            @foreach (var order in Model.Orders)
+                            @foreach (var order in Model.OrdersList)
                             {
                             <tr>
-                                <td><a href="@Url.Action("OrderDetail",new { id = order.Order_Id })"><span class="fa fa-pencil"></span></a></td>
+                                <td><a href="#" data-toggle="modal" data-target="#myModal"><span class="fa fa-pencil"></span></a></td>
                                 <td>@order.Order_Id</td>
                                 <td>@order.CustomerName</td>
                                 <td>@order.CreatedDate.Value.ToShortDateString()</td>
                                 <td>@order.Description</td>
                                 <td>@Model.TotalPrice ₺</td>
                                 <td>
-
                                     <label class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" checked="@order.IsDelivered.Value" disabled>
                                         <span class="custom-control-indicator"></span>
                                     </label>
                                 </td>
-
                             </tr>
                             }
                         </table>

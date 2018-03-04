@@ -5,18 +5,6 @@ using System.Web;
 
 namespace KTOtomasyon.Models
 {
-    public class DisplayOrderDetail
-    {
-
-        public IList<Orders> Orders { get; set; } 
-        public int TotalPrice { get; set; }
-        public string CreatedUserName { get; set; }
-
-        public int TotalCount { get; set; }
-        public int TotalPage { get; set; }
-        public int CurrentPage { get; set; }
-    }
-
     public class OrderWithDetail
     {
         public int Order_Id { get; set; }
@@ -42,4 +30,18 @@ namespace KTOtomasyon.Models
         public Nullable<decimal> Price { get; set; }
         public Nullable<decimal> TotalPrice { get; set; }         
     }
+
+    public class DisplayOrderDetail
+    {
+
+        public IList<Orders> OrdersList { get; set; }
+        public int TotalPrice { get; set; }
+        public string CreatedUserName { get; set; }
+
+        public int TotalCount { get; set; }
+        public int TotalPage { get; set; }
+        public int CurrentPage { get; set; }
+    }
+
+    
 }

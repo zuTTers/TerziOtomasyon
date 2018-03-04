@@ -173,7 +173,6 @@
             </footer>
         </div>
     </div>
-
     <!-- Modal -->
     <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -186,24 +185,23 @@
                 <div class="modal-body ">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h6 class="text-muted">Müşteri Ad/Soyad</h6>
+                            <h6 class="text-uppercase">Müşteri Ad/Soyad</h6>
                             @Html.TextBox("CustomerName", "", new { @class = "form-control", @placeholder = "Ad", @id = "txtMAdi", @style = "height:30px !important;" })
-                            <h6 class="text-muted"> Teslim Tarihi </h6>
+                            <h6 class="text-uppercase"> Teslim Tarihi </h6>
                             @Html.TextBox("OrderDate", "dd-MM-yyyy", new { @class = "form-control", @placeholder = "Tarih", @id = "txtMSTarihi", @type = "date", @style = "height:30px !important;" })
                         </div>
                         <div class="col-lg-6">
-                            <h6 class="text-muted">Telefon No</h6>
+                            <h6 class="text-uppercase">Telefon No</h6>
                             @Html.TextBox("PhoneNumber", "", new { @class = "form-control", @placeholder = "Telefon", @id = "txtMTelefon", @style = "height:30px !important;" })
-                            <h6 class="text-muted"> Açıklama </h6>
+                            <h6 class="text-uppercase"> Açıklama </h6>
                             @Html.TextBox("Description", "", new { @class = "form-control", @placeholder = "Açıklama", @id = "txtMAciklama", @style = "height:30px !important;" })
                         </div>
                     </div>
-                  
-                    <div class="row" style="margin-top:10px;" >
+                    <div class="row" style="margin-top:10px;">
                         <div class="col-lg-12" style="margin-top:10px;">
                             <div class="col-lg-3">
                                 <select class="my-select" name="pfilter" title="Ürün Listesi" id="drpMUrunListe">
-                                    <option>Ürün Seç..</option>
+                                    <option data-img-src="../img/producticons/0'.png" value="0">Ürün Seç..</option>
                                     <option data-img-src="../img/producticons/1'.png" value="1">KAP</option>
                                     <option data-img-src="../img/producticons/2'.png" value="2">Elbise</option>
                                     <option data-img-src="../img/producticons/3'.png" value="3">Abiye</option>
@@ -225,13 +223,13 @@
                                 <select class="my-select2" name="ofilter" title="İşlem Listesi" id="drpMIslemListe">
                                     <option>İşlem Seç..</option>
                                 </select>
-                            </div>                         
+                            </div>
                             <div class="col-lg-2">
                                 @Html.TextBox("Quantity", "1", new { @class = "form-control", @placeholder = "Adet", @id = "txtMAdet", @type = "number" })
                             </div>
                             <div class="col-lg-2">
                                 @Html.TextBox("Price", "", new { @class = "form-control", @placeholder = "Tutar", @id = "txtMPrice" })
-                            </div>                           
+                            </div>
                             <div class="col-lg-1">
                                 <input type="button" name="btnUrunEkle" value="Ekle" id="btnUrunEkle" class="btn btn-default" />
                             </div>
@@ -239,13 +237,13 @@
                             <br />
                         </div>
                         <div class="modal-footer" id="divOrderDetail">
-                            <table class="table table-striped text-left">
+                            <table class="table text-left">
                                 <thead>
                                     <tr>
                                         <td></td>
-                                        <td>Tadilat</td>
-                                        <td>Adet</td>
-                                        <td>B.Tutar</td>
+                                        <td class="text-uppercase"><b>Tadilat</b></td>
+                                        <td class="text-uppercase"><b>Adet</b></td>
+                                        <td class="text-uppercase"><b>B.Tutar</b></td>
                                     </tr>
                                 </thead>
                                 <tbody id="tabloveri"><!--Tablo Dolduruluyor--></tbody>
@@ -254,12 +252,23 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="button" class="btn btn-warning" name="btnSiparisKaydet" value="Kaydet" id="btnSiparisKaydet"/>
+                    <div class="col-lg-8">
+                        <input id="lblErrorMessage" name="lblErrorMessage" class="form-control text-danger" disabled />
+                    </div>
+                    <div class="col-lg-2">
+                        <b class="text-muted">Teslim Durumu</b>
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="txtMDelivery">
+                            <span class="custom-control-indicator"></span>
+                        </label>
+                    </div>
+                    <div class="col-lg-2">
+                        <input id="btnSiparisKaydet" name="btnSiparisKaydet" type="button" class="btn btn-warning" value="Kaydet" />
+                    </div>
                     @*<button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>*@
                 </div>
-                </div>
-
             </div>
+        </div>
     </div>
 
     <!--   Core JS Files   -->
@@ -267,9 +276,10 @@
     <script src="~/Scripts/jquery-ui.min.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/assets/js/bootstrap.min.js" type="text/javascript"></script>
-
+    <script src="~/Scripts/chosen.jquery.js"></script>
+    <script src="~/Scripts/ImageSelect.jquery.js"></script>
+    <script src="~/Scripts/bootstrap-select.js"></script>
     <!--  Checkbox, Radio & Switch Plugins -->
-
     <script src="~/assets/js/bootstrap-checkbox-radio-switch.js"></script>
     <!--  Charts Plugin -->
     <script src="~/assets/js/chartist.min.js"></script>
@@ -282,9 +292,6 @@
     <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
     <script src="~/assets/js/demo.js"></script>
     <!-- Benim javascript dosyam -->
-    <script src="~/Scripts/chosen.jquery.js"></script>
-    <script src="~/Scripts/ImageSelect.jquery.js"></script>
-    <script src="~/Scripts/bootstrap-select.js"></script>
     <script src="~/Scripts/app.js"></script>
     <script src="~/Scripts/myorder.js"></script>
 </body>

@@ -42,7 +42,7 @@ namespace KTOtomasyon.Controllers
                         query = db.Orders.Where(x => x.CustomerName.Contains(filter));
                     }
 
-                    orders.Orders = query.OrderByDescending(x => x.Order_Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
+                    orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
                     orders.CurrentPage = p.Value;
                     orders.TotalCount = query.Count();
 
@@ -73,48 +73,53 @@ namespace KTOtomasyon.Controllers
                 
         }
 
-        //public ActionResult Users(int? p, string filter)
-        //{
-        //    if (p == null)
-        //        p = 1;
+        public ActionResult Users(int? p, string filter)
+        {
+            DisplayUsers user = new DisplayUsers();
+            
 
-        //    if (Session["UserId"] == null)
-        //    {
-        //        return RedirectToAction("Index", "Login");
-        //    }
-        //    else
-        //    {
-        //        //Kullanıcıları alıyoruz
-        //        using (var db = new KTOtomasyonEntities())
-        //        {
-        //            //Filter
-        //            IQueryable<Users> query = null;
-        //            if (string.IsNullOrEmpty(filter))
-        //            {
-        //                query = db.Users.Where(x => 1 == 1 && x.IsDeleted == false);
-        //            }
-        //            else
-        //            {
-        //                query = db.Users.Where(x => x.IsDeleted == false && (x.Name.Contains(filter) || x.Surname.Contains(filter)));
-        //            }
+            if (p == null)
+                p = 1;
 
-        //            mylist.Users = query.OrderByDescending(x => x.Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
-        //            mylist.CurrentPage = p.Value;
-        //            mylist.TotalCount = query.Count();
-        //            if ((mylist.TotalCount % defaultPageSize) == 0)
-        //            {
-        //                mylist.TotalPage = mylist.TotalCount / defaultPageSize;
-        //            }
-        //            else
-        //            {
-        //                mylist.TotalPage = (mylist.TotalCount / defaultPageSize) + 1;
-        //            }
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                //Kullanıcıları alıyoruz
+                using (var db = new KTOtomasyonEntities())
+                {
+                    //Filter
+                    IQueryable<Users> query = null;
+                    
+                    if (string.IsNullOrEmpty(filter))
+                    {
+                        query = db.Users.Where(x => 1 == 1 && x.IsDeleted == false);
+                    }
+                    else
+                    {
+                        query = db.Users.Where(x => x.IsDeleted == false && (x.Name.Contains(filter)));
+                    }
 
-        //        }
-        //        return View(mylist);
-        //    }
+                    user.UsersList = query.OrderByDescending(x => x.User_Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
 
-        //}
+                    user.CurrentPage = p.Value;
+                    user.TotalCount = query.Count();
+                    if ((user.TotalCount % defaultPageSize) == 0)
+                    {
+                        user.TotalPage = user.TotalCount / defaultPageSize;
+                    }
+                    else
+                    {
+                        user.TotalPage = (user.TotalCount / defaultPageSize) + 1;
+                    }
+
+                }
+                return View(user);
+            }
+
+        }
 
         //public ActionResult UserAdder(Users user)
         //{
@@ -252,7 +257,7 @@ namespace KTOtomasyon.Controllers
 
         //        }
 
-                
+
         //        if (AccordionIndex == "")
         //        {
         //            ViewBag.AccordionIndex = "0";
@@ -263,7 +268,7 @@ namespace KTOtomasyon.Controllers
         //        }
 
 
-                
+
         //        return View(mylist);
 
         //    }

@@ -13,9 +13,6 @@ namespace KTOtomasyon.Models
         public IList<Products> Products { get; set; }
         public IList<Operations> Operations { get; set; }
 
-
-        public int GetOperationId { get; set; }
-
         public int TotalCount { get; set; }
         public int TotalPage { get; set; }
         public int CurrentPage { get; set; }
