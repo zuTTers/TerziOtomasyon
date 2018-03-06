@@ -11,9 +11,10 @@ namespace KTOtomasyon.Controllers
 
     public class HomeController : Controller
     {
-        
-        public int defaultPageSize = 6;
 
+        public int defaultPageSize = 12;
+
+        //Tüm siparişleri listeler.
         public ActionResult Index(int? p, string filter)
         {
             DisplayOrderDetail orders = new DisplayOrderDetail();
@@ -32,17 +33,18 @@ namespace KTOtomasyon.Controllers
                 using (var db = new KTOtomasyonEntities())
                 {
                     //Filter
-                    IQueryable<Orders> query = null;
+                    IQueryable<vOrders> query = null;
                     if (string.IsNullOrEmpty(filter))
                     {
-                        query = db.Orders.Where(x => 1 == 1);
+                        query = db.vOrders.Where(x => 1 == 1);
                     }
                     else
                     {
-                        query = db.Orders.Where(x => x.CustomerName.Contains(filter));
+                        query = db.vOrders.Where(x => x.CustomerName.Contains(filter));
                     }
 
                     orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
+
                     orders.CurrentPage = p.Value;
                     orders.TotalCount = query.Count();
 
@@ -62,21 +64,125 @@ namespace KTOtomasyon.Controllers
 
         }
 
+        //Sipariş kaydet işlemini gerçekleştirir.
+        public JsonResult OrderSave(OrderWithDetail orderWithDetail)
+        {
+            Orders orderadd = new Orders();
+
+
+            using (var db = new KTOtomasyonEntities())
+            {
+
+                if (orderWithDetail.Order_Id != 0)
+                {
+                    orderadd = db.Orders.Where(x => x.Order_Id == orderWithDetail.Order_Id).FirstOrDefault();
+                }
+
+                orderadd.CustomerName = orderWithDetail.CustomerName;
+                orderadd.PhoneNumber = orderWithDetail.PhoneNumber;
+                orderadd.Description = orderWithDetail.Description;
+                orderadd.OrderDate = orderWithDetail.OrderDate;
+                orderadd.CreatedDate = DateTime.Now;
+                orderadd.CreatedUser = Convert.ToInt32(Session["UserId"]);
+                orderadd.IsDelivered = orderWithDetail.IsDelivered;
+                orderadd.IsDeleted = orderWithDetail.IsDeleted;
+
+                if (orderWithDetail.Order_Id == 0)
+                {
+                    db.Orders.Add(orderadd);
+                }
+                 db.SaveChanges();
+
+                int id = orderadd.Order_Id;
+
+                foreach (var item in orderWithDetail.OrderDetails)
+                {
+                    OrderDetail odetail = new OrderDetail();
+
+                    if (item.OrderDetail_Id != 0)
+                    {
+                        odetail = db.OrderDetail.Where(x => x.OrderDetail_Id == item.OrderDetail_Id).FirstOrDefault();
+                    }
+
+                    odetail.Order_Id = id;
+                    odetail.Operation_Id = item.Operation_Id;
+                    odetail.Quantity = item.Quantity;
+                    odetail.Price = item.Price;
+                    odetail.TotalPrice = item.TotalPrice;
+
+                    if (item.OrderDetail_Id == 0)
+                    {                       
+                        db.OrderDetail.Add(odetail);
+                    }
+                    
+                }
+
+                db.SaveChanges();
+            }
+
+
+            return Json("test");
+        }
+
+        //Her ürünün tadilatlarının listesini çekiyoruz.
         public JsonResult GetOperations(int Product_Id)
         {
             using (var db = new KTOtomasyonEntities())
             {
-                var operationdata = db.Operations.Where(x => x.Product_Id == Product_Id).Select(x => new { Name = x.Name, UnitPrice = x.UnitPrice, Operation_Id = x.Operation_Id}).ToList();
+                var operationdata = db.Operations.Where(x => x.Product_Id == Product_Id).Select(x => new { Name = x.Name, Price = x.Price, Operation_Id = x.Operation_Id }).ToList();
 
                 return Json(operationdata);
             }
-                
+
         }
+
+        //Tıklanılan siparişin detayları
+        public JsonResult GetOrderData(int Order_Id)
+        {
+            OrderWithDetail orderWithDetail = new OrderWithDetail();
+
+            using (var db = new KTOtomasyonEntities())
+            {
+                var orderdata = db.Orders.Where(x => x.Order_Id == Order_Id).FirstOrDefault();
+
+                orderWithDetail.Order_Id = orderdata.Order_Id;
+                orderWithDetail.CreatedUser = orderdata.CreatedUser;
+                orderWithDetail.CreatedUserText = orderdata.Users.Name;
+                orderWithDetail.CustomerName = orderdata.CustomerName;
+                orderWithDetail.PhoneNumber = orderdata.PhoneNumber;
+                orderWithDetail.Description = orderdata.Description;
+                orderWithDetail.OrderDate = orderdata.OrderDate;
+                orderWithDetail.IsDelivered = orderdata.IsDelivered;
+                orderWithDetail.IsDeleted = orderdata.IsDeleted;
+
+                orderWithDetail.OrderDetails = new List<OrderDetails>();
+
+                foreach (var item in orderdata.OrderDetail)
+                {
+                    orderWithDetail.OrderDetails.Add(new OrderDetails
+                    {
+                        Order_Id = item.Order_Id,
+                        Operation_Id = item.Operation_Id,
+                        Quantity = item.Quantity,
+                        Price = item.Price,
+                        TotalPrice = item.TotalPrice,
+                        OrderDetail_Id = item.OrderDetail_Id,
+                        OperationText = item.Operations.Name
+
+                    });
+                }
+
+            }
+
+            return Json(orderWithDetail);
+        }
+
+
 
         public ActionResult Users(int? p, string filter)
         {
             DisplayUsers user = new DisplayUsers();
-            
+
 
             if (p == null)
                 p = 1;
@@ -92,7 +198,7 @@ namespace KTOtomasyon.Controllers
                 {
                     //Filter
                     IQueryable<Users> query = null;
-                    
+
                     if (string.IsNullOrEmpty(filter))
                     {
                         query = db.Users.Where(x => 1 == 1 && x.IsDeleted == false);
@@ -121,204 +227,147 @@ namespace KTOtomasyon.Controllers
 
         }
 
-        //public ActionResult UserAdder(Users user)
-        //{
-        //    Users useradd = new Users();
-        //    using (var db = new KTOtomasyonEntities())
-        //    {
+        public ActionResult UserAdder(Users user)
+        {
+            Users useradd = new Users();
+            using (var db = new KTOtomasyonEntities())
+            {
 
-        //        useradd.Name = user.Name;
-        //        useradd.Surname = user.Surname;
-        //        useradd.Age = null;
-        //        useradd.Gender = user.Gender;
-        //        useradd.Mail = user.Mail;
-        //        useradd.Password = user.Name;
-        //        useradd.IsDeleted = false;
-        //        useradd.Role = 1;
+                useradd.Name = user.Name;
+                useradd.Gender = user.Gender;
+                useradd.Mail = user.Mail;
+                useradd.Password = user.Name;
+                useradd.IsDeleted = false;
+                useradd.UserType = 1;
 
-        //        db.Users.Add(useradd);
-        //        db.SaveChanges();
-        //    }
-        //    return RedirectToAction("Index", "Home");
-        //}
+                db.Users.Add(useradd);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index", "Home");
+        }
 
-        //public ActionResult UserDetail(int id)
-        //{
-        //    if (Session["UserId"] == null)
-        //    {
-        //        return RedirectToAction("Index", "Login");
-        //    }
-        //    else
-        //    {
-        //        Users userdetail = null;
+        public ActionResult UserDetail(int id)
+        {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                Users userdetail = null;
 
-        //        using (var db = new KTOtomasyonEntities())
-        //        {
-        //            userdetail = db.Users.Where(d => d.Id == id).First();
-        //        }
-        //        return View(userdetail);
-        //    }
-        //}
+                using (var db = new KTOtomasyonEntities())
+                {
+                    userdetail = db.Users.Where(d => d.User_Id == id).First();
+                }
+                return View(userdetail);
+            }
+        }
 
-        //public ActionResult UserEdit(int id)
-        //{
-        //    if (Session["UserId"] == null)
-        //    {
-        //        return RedirectToAction("Index", "Login");
-        //    }
-        //    else
-        //    {
-        //        Users useredit = null;
+        public ActionResult UserEdit(int id)
+        {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                Users useredit = null;
 
-        //        using (var db = new KTOtomasyonEntities())
-        //        {
-        //            useredit = db.Users.Where(d => d.Id == id).First();
-        //        }
-        //        return View(useredit);
-        //    }
-        //}
+                using (var db = new KTOtomasyonEntities())
+                {
+                    useredit = db.Users.Where(d => d.User_Id == id).First();
+                }
+                return View(useredit);
+            }
+        }
 
-        //public ActionResult UserUpdate(Users user)
-        //{
-        //    Users userupdate = null;
+        public ActionResult UserUpdate(Users user)
+        {
+            Users userupdate = null;
 
-        //    using (var db = new KTOtomasyonEntities())
-        //    {
-        //        userupdate = db.Users.Where(d => d.Id == user.Id).First();
-        //        userupdate.Name = user.Name;
-        //        userupdate.Surname = user.Surname;
-        //        userupdate.Age = user.Age;
-        //        userupdate.Gender = user.Gender;
-        //        userupdate.Mail = user.Mail;
-        //        userupdate.Password = user.Password;
-        //        userupdate.Role = user.Role;
-        //        userupdate.IsDeleted = user.IsDeleted;
+            using (var db = new KTOtomasyonEntities())
+            {
+                userupdate = db.Users.Where(d => d.User_Id == user.User_Id).First();
+                userupdate.Name = user.Name;
+                userupdate.Gender = user.Gender;
+                userupdate.Mail = user.Mail;
+                userupdate.Password = user.Password;
+                userupdate.UserType = 1;
+                userupdate.IsDeleted = user.IsDeleted;
 
-        //        db.SaveChanges();
-        //    }
-        //    return RedirectToAction("UserDetail", new { id = user.Id });
+                db.SaveChanges();
+            }
+            return RedirectToAction("UserDetail", new { id = user.User_Id });
 
-        //}
+        }
 
-        //public ActionResult UserDelete(Users user)
-        //{
-        //    if (Session["UserId"] == null)
-        //    {
-        //        return RedirectToAction("Index", "Login");
-        //    }
-        //    else
-        //    {
-        //        Users userdelete = null;
+        public ActionResult UserDelete(Users user)
+        {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                Users userdelete = null;
 
-        //        using (var db = new KTOtomasyonEntities())
-        //        {
-        //            userdelete = db.Users.Where(d => d.Id == user.Id).First();
-        //            userdelete.Name = user.Name;
-        //            userdelete.Surname = user.Surname;
-        //            userdelete.Age = user.Age;
-        //            userdelete.Gender = user.Gender;
-        //            userdelete.Mail = user.Mail;
-        //            userdelete.Password = user.Password;
-        //            userdelete.Role = user.Role;
-        //            userdelete.IsDeleted = true;
+                using (var db = new KTOtomasyonEntities())
+                {
+                    userdelete = db.Users.Where(d => d.User_Id == user.User_Id).First();
+                    userdelete.IsDeleted = true;
 
-        //            db.SaveChanges();
-        //        }
-        //        return RedirectToAction("Index");
-        //    }
-        //}
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index");
+            }
+        }
 
-        //public ActionResult NewOrder(string pfilter, string AccordionIndex)
-        //{
-        //    if (Session["UserId"] == null)
-        //    {
-        //        return RedirectToAction("Index", "Login");
-        //    }
-        //    else
-        //    {
+        public ActionResult Operations(int? p, string filter)
+        {
+            DisplayOperations operation = new DisplayOperations();
 
-        //        using (var db = new KTOtomasyonEntities())
-        //        {
-        //            //Filtre
-        //            IQueryable<Operations> query = null;
-        //            if (string.IsNullOrEmpty(pfilter))
-        //            {
-        //                query = db.Operations.Where(x => x.PId == 1);
-        //            }
-        //            else
-        //            {
-        //                query = db.Operations.Where(x => x.IsActive == true && (x.PId.ToString() == pfilter));
-        //            }
+            if (p == null)
+                p = 1;
 
-        //            //ViewModel
-        //            DisplayOrderDetail vmDisplayOrderDetail = new DisplayOrderDetail();
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                //Kullanıcıları alıyoruz
+                using (var db = new KTOtomasyonEntities())
+                {
+                    //Filter
+                    IQueryable<Operations> query = null;
+                    if (string.IsNullOrEmpty(filter))
+                    {
+                        query = db.Operations.Where(x => 1 == 1 && x.IsActive == true);
+                    }
+                    else
+                    {
+                        query = db.Operations.Where(x => x.IsActive == true && (x.Name.Contains(filter)));
+                    }
 
-        //            vmDisplayOrderDetail.CreatedUser = db.Users.First().Id;
+                    operation.OperationList = query.OrderByDescending(x => x.Operation_Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
 
-        //        }
+                    operation.CurrentPage = p.Value;
+                    operation.TotalCount = query.Count();
+                    if ((operation.TotalCount % defaultPageSize) == 0)
+                    {
+                        operation.TotalPage = operation.TotalCount / defaultPageSize;
+                    }
+                    else
+                    {
+                        operation.TotalPage = (operation.TotalCount / defaultPageSize) + 1;
+                    }
 
+                }
+                return View(operation);
+            }
 
-        //        if (AccordionIndex == "")
-        //        {
-        //            ViewBag.AccordionIndex = "0";
-        //        }
-        //        else
-        //        {
-        //            ViewBag.AccordionIndex = AccordionIndex;
-        //        }
-
-
-
-        //        return View(mylist);
-
-        //    }
-        //}
-
-
-        //public ActionResult Orders(int? p, string filter)
-        //{
-        //    if (p == null)
-        //        p = 1;
-
-        //    if (Session["UserId"] == null)
-        //    {
-        //        return RedirectToAction("Index", "Login");
-        //    }
-        //    else
-        //    {
-
-        //        //Görevleri alıyoruz
-        //        using (var db = new KTOtomasyonEntities())
-        //        {
-        //            //Filter
-        //            IQueryable<Orders> query = null;
-        //            if (string.IsNullOrEmpty(filter))
-        //            {
-        //                query = db.Orders.Where(x => 1 == 1);
-        //            }
-        //            //else
-        //            //{
-        //            //    query = db.Orders.Where(x => x.Title.Contains(filter));
-        //            //}
-
-        //            mylist.Orders = query.OrderByDescending(x => x.Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
-        //            mylist.CurrentPage = p.Value;
-        //            mylist.TotalCount = query.Count();
-        //            if ((mylist.TotalCount % defaultPageSize) == 0)
-        //            {
-        //                mylist.TotalPage = mylist.TotalCount / defaultPageSize;
-        //            }
-        //            else
-        //            {
-        //                mylist.TotalPage = (mylist.TotalCount / defaultPageSize) + 1;
-        //            }
-        //        }
-        //        return View(mylist);
-
-        //    }
-
-
-        //}
+        }
 
         //public ActionResult OrderAdder(Orders order)
         //{
@@ -443,72 +492,27 @@ namespace KTOtomasyon.Controllers
 
         //}
 
-
-
-        //public ActionResult Customers(int? p, string filter)
+        //public ActionResult OrderDetailAdder(OrderDetail orderdetail)
         //{
-        //    if (p == null)
-        //        p = 1;
-
-        //    if (Session["UserId"] == null)
-        //    {
-        //        return RedirectToAction("Index", "Login");
-        //    }
-        //    else
-        //    {
-        //        //Kullanıcıları alıyoruz
-        //        using (var db = new KTOtomasyonEntities())
-        //        {
-        //            //Filter
-        //            IQueryable<Customers> query = null;
-        //            if (string.IsNullOrEmpty(filter))
-        //            {
-        //                query = db.Customers.Where(x => 1 == 1 && x.IsActive == true);
-        //            }
-        //            else
-        //            {
-        //                query = db.Customers.Where(x => x.IsActive == true && (x.Name.Contains(filter) || x.Surname.Contains(filter)));
-        //            }
-
-        //            mylist.Customers = query.OrderByDescending(x => x.Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
-        //            mylist.CurrentPage = p.Value;
-        //            mylist.TotalCount = query.Count();
-        //            if ((mylist.TotalCount % defaultPageSize) == 0)
-        //            {
-        //                mylist.TotalPage = mylist.TotalCount / defaultPageSize;
-        //            }
-        //            else
-        //            {
-        //                mylist.TotalPage = (mylist.TotalCount / defaultPageSize) + 1;
-        //            }
-
-        //        }
-        //        return View(mylist);
-        //    }
-
-        //}
-
-        //public ActionResult CustomerAdder(Customers customer)
-        //{
-        //    Customers customeradd = new Customers();
+        //    OrderDetail orderdetailadd = new OrderDetail();
         //    using (var db = new KTOtomasyonEntities())
         //    {
 
-        //        customeradd.Name = customer.Name;
-        //        customeradd.Surname = customer.Surname;
-        //        customeradd.Age = customer.Age;
-        //        customeradd.Gender = customer.Gender;
-        //        customeradd.PhoneNumber = customer.PhoneNumber;
-        //        customeradd.Address = customer.Address;
-        //        customeradd.Mail = customer.Mail;
-        //        customeradd.IsActive = true;
+        //        orderdetailadd.OperationId = orderdetail.OperationId;
+        //        orderdetailadd.Quantity = orderdetail.Quantity;
+        //        orderdetailadd.OrderId = orderdetail.OrderId;
+        //        orderdetailadd.Discount = orderdetail.Discount;
+        //        orderdetailadd.NetPrice = orderdetail.NetPrice;
+        //        orderdetailadd.Description = orderdetail.Description;
+        //        orderdetailadd.IsDeleted = false;
+        //        orderdetailadd.IsDelivered = false;
 
-        //        db.Customers.Add(customeradd);
+
+        //        db.OrderDetail.Add(orderdetailadd);
         //        db.SaveChanges();
         //    }
         //    return RedirectToAction("Index", "Home");
         //}
-
 
         //public ActionResult Products(int? p, string filter)
         //{
@@ -583,70 +587,6 @@ namespace KTOtomasyon.Controllers
         //}
 
 
-        //public ActionResult Operations(int? p, string filter)
-        //{
-        //    if (p == null)
-        //        p = 1;
-
-        //    if (Session["UserId"] == null)
-        //    {
-        //        return RedirectToAction("Index", "Login");
-        //    }
-        //    else
-        //    {
-        //        //Kullanıcıları alıyoruz
-        //        using (var db = new KTOtomasyonEntities())
-        //        {
-        //            //Filter
-        //            IQueryable<Operations> query = null;
-        //            if (string.IsNullOrEmpty(filter))
-        //            {
-        //                query = db.Operations.Where(x => 1 == 1 && x.IsActive == true);
-        //            }
-        //            else
-        //            {
-        //                query = db.Operations.Where(x => x.IsActive == true && (x.Name.Contains(filter)));
-        //            }
-
-        //            mylist.Operations = query.OrderByDescending(x => x.Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
-        //            mylist.CurrentPage = p.Value;
-        //            mylist.TotalCount = query.Count();
-        //            if ((mylist.TotalCount % defaultPageSize) == 0)
-        //            {
-        //                mylist.TotalPage = mylist.TotalCount / defaultPageSize;
-        //            }
-        //            else
-        //            {
-        //                mylist.TotalPage = (mylist.TotalCount / defaultPageSize) + 1;
-        //            }
-
-        //        }
-        //        return View(mylist);
-        //    }
-
-        //}
-
-        //public ActionResult OrderDetailAdder(OrderDetail orderdetail)
-        //{
-        //    OrderDetail orderdetailadd = new OrderDetail();
-        //    using (var db = new KTOtomasyonEntities())
-        //    {
-
-        //        orderdetailadd.OperationId = orderdetail.OperationId;
-        //        orderdetailadd.Quantity = orderdetail.Quantity;
-        //        orderdetailadd.OrderId = orderdetail.OrderId;
-        //        orderdetailadd.Discount = orderdetail.Discount;
-        //        orderdetailadd.NetPrice = orderdetail.NetPrice;
-        //        orderdetailadd.Description = orderdetail.Description;
-        //        orderdetailadd.IsDeleted = false;
-        //        orderdetailadd.IsDelivered = false;
-
-
-        //        db.OrderDetail.Add(orderdetailadd);
-        //        db.SaveChanges();
-        //    }
-        //    return RedirectToAction("Index", "Home");
-        //}
 
 
     }

@@ -1,4 +1,76 @@
 ﻿
+function jsDate(x) {
+    var jsonDateRE = /^\/Date\((-?\d )(\ |-)?(\d )?\)\/$/;
+    var arr = jsonDateRE.exec(x);
+    if (arr) {
+        // 0 - complete results; 1 - ticks; 2 - sign; 3 - minutes
+        return new Date(parseInt(arr[1]));
+    }
+    return x;
+}
+
+
+function formatDate(formattedDate) {
+    try {
+        formattedDate = new Date(formattedDate);
+        var d = formattedDate.getDate();
+        var m = formattedDate.getMonth();
+        m = 1;  // JavaScript months are 0-11
+        m = ("00" + m).substr(("00" + m).length - 2);
+        d = ("00" + d).substr(("00" + d).length - 2);
+        var y = formattedDate.getFullYear();
+        return (d + "-" + m + "-" + y);
+    } catch (e) {
+        return formattedDate;
+    }
+
+}
+function formatDateTime(formattedDate) {
+    try {
+        var d = formattedDate.getDate();
+        var m = formattedDate.getMonth();
+        var h = formattedDate.getHours();
+        var mm = formattedDate.getMinutes();
+        m = 1;  // JavaScript months are 0-11
+        m = ("00" + m).substr(("00" + m).length - 2);
+        d = ("00" + d).substr(("00" + d).length - 2);
+        h = ("00" + h).substr(("00" + h).length - 2);
+        mm = ("00" + mm).substr(("00" + mm).length - 2);
+        var y = formattedDate.getFullYear();
+        return (d + "-" + m + "-" + y + " " + h + ":" + mm);
+    } catch (e) {
+        return formattedDate;
+    }
+
+}
+function formatTime(formattedDate) {
+    try {
+        var h = formattedDate.getHours();
+        var mm = formattedDate.getMinutes();
+        h = ("00" + h).substr(("00" + h).length - 2);
+        mm = ("00" + mm).substr(("00" + mm).length - 2);
+        return (h + ":" + mm);
+    } catch (e) {
+        return formattedDate;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*BURADAN AŞAĞISI BOŞ*/
 
 //(function (window) {
@@ -50,7 +122,7 @@
 //    var index = 0;    
 //    $(".accordion").accordion({ active: index + 1 });
 //    $("#AccordionIndex").val(index + 2);   
-    
+
 //});
 
 ////this will open 3rd accordian.

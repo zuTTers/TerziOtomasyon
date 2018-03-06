@@ -23,7 +23,7 @@ namespace KTOtomasyon
         public int Operation_Id { get; set; }
         public Nullable<int> Product_Id { get; set; }
         public string Name { get; set; }
-        public Nullable<int> UnitPrice { get; set; }
+        public Nullable<int> Price { get; set; }
         public Nullable<bool> IsActive { get; set; }
     
         public virtual Products Products { get; set; }

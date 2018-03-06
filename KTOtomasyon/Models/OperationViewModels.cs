@@ -5,10 +5,10 @@ using System.Web;
 
 namespace KTOtomasyon.Models
 {
-    public class DisplayUsers
+    public class DisplayOperations
     {
-        public IList<Users> UsersList { get; set; }
-        
+        public IList<Operations> OperationList { get; set; }
+        public string ProductName { get; set; }
 
         public int TotalCount { get; set; }
         public int TotalPage { get; set; }

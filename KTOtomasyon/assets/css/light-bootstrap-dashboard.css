@@ -1111,6 +1111,7 @@ body > .navbar-collapse {
     color: #FFFFFF;
     padding: 10px 15px;
     font-size: 14px;
+
 }
 
 .container .alert {
@@ -1145,7 +1146,7 @@ body > .navbar-collapse {
     right: 10px;
     top: 50%;
     margin-top: -13px;
-    z-index: 1033;
+    z-index: 91033;
     background-color: #FFFFFF;
     display: block;
     border-radius: 50%;
@@ -1215,13 +1216,13 @@ body > .navbar-collapse {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-    padding: 12px 8px;
+    padding: 3px 2px;
     vertical-align: middle;
 }
 
 .table > thead > tr > th {
     border-bottom-width: 1px;
-    font-size: 12px;
+    font-size: 9px;
     text-transform: uppercase;
     color: #9A9A9A;
     font-weight: 400;
@@ -1542,19 +1543,21 @@ body > .navbar-collapse {
     border: 0;
     font-size: 16px;
     border-radius: 0;
+    min-height: 30px !important;
 }
 
     .navbar .navbar-brand {
         font-weight: 400;
         margin: 5px 0px;
-        padding: 15px 15px;
+        padding: 5px 10px;
         font-size: 20px;
     }
 
     .navbar .navbar-nav > li > a {
-        padding: 10px 15px;
-        margin: 10px 3px;
+        padding: 5px 10px;
+        margin: 0px 10px;
         position: relative;
+        font-size:14px !important;
     }
 
         .navbar .navbar-nav > li > a.btn {

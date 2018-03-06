@@ -1,6 +1,6 @@
-﻿@model  KTOtomasyon.Models.AllList
+﻿@model  KTOtomasyon.Models.DisplayOperations
 @{
-    ViewBag.Title = "İşlemler";
+    ViewBag.Title = "Tadilatlar";
 }
 <br />
 <div class="content">
@@ -24,18 +24,19 @@
                     <div class="col-lg-12">
                         <table class="table table-condensed">
                             <tr>
-                                <td class="text-uppercase"><b>Tadilat No</b></td>
+                                <td class="text-uppercase"><b>Ürün Adı</b></td>
                                 <td class="text-uppercase"><b>İşlem Adı</b></td>
-                                <td class="text-uppercase"><b>Tutarı</b></td>
+                                <td class="text-uppercase"><b>B.Tutar</b></td>
                                 <td></td>
                             </tr>
-                            @foreach (var operation in Model.Operations.OrderByDescending(z => z.Id).Where(x => x.IsActive == true))
+                            @foreach (var operation in Model.OperationList.OrderByDescending(x=>x.Operation_Id).Where(x => x.IsActive == true))
                             {
                             <tr>
-                                <td>@operation.Id</td>
+                                <td>@operation.Product_Id</td>
                                 <td>@operation.Name</td>
-                                <td>@operation.Price ₺</td>
-                                <td>@Html.ActionLink(" İncele", "OperationDetail", "Home", new { id = operation.Id }, new { @class = "btn btn-success" }) </td>
+
+                                <td>@operation.UnitPrice ₺</td>
+                                <td>@Html.ActionLink(" İncele", "OperationDetail", "Home", new { id = operation.Operation_Id }, new { @class = "btn btn-success" }) </td>
                             </tr>
                             }
                         </table>

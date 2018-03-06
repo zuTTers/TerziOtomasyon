@@ -172,6 +172,7 @@
       <DependentUpon>KTData.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\AllList.cs" />
+    <Compile Include="Models\OperationViewModels.cs" />
     <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Operations.cs">
       <DependentUpon>KTData.tt</DependentUpon>
@@ -187,7 +188,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\OrderViewModels.cs" />
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>KTData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Users.cs">
+      <DependentUpon>KTData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vOrders.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -446,16 +453,11 @@
     <Content Include="Views\Home\Users.cshtml" />
     <Content Include="Views\Home\UserDetail.cshtml" />
     <Content Include="Views\Home\UserEdit.cshtml" />
-    <Content Include="Views\Home\Orders.cshtml" />
-    <Content Include="Views\Home\OrderEdit.cshtml" />
-    <Content Include="Views\Home\OrderDetail.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Login\UserProfile.cshtml" />
-    <Content Include="Views\Home\Customers.cshtml" />
     <Content Include="Views\Home\Products.cshtml" />
     <Content Include="Views\Home\Operations.cshtml" />
     <Content Include="Views\Shared\_LayoutLog.cshtml" />
-    <Content Include="Views\Home\NewOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

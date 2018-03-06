@@ -21,7 +21,7 @@ namespace KTOtomasyon.Controllers
         {
             using (var db = new KTOtomasyonEntities())
             {
-                var userLogin = db.Users.SingleOrDefault(x => x.Mail == user.Mail && x.Password == user.Password && x.IsDeleted == false);
+                var userLogin = db.Users.FirstOrDefault(x => x.Mail == user.Mail && x.Password == user.Password && x.IsDeleted == false);
 
                 if (userLogin != null)
                 {

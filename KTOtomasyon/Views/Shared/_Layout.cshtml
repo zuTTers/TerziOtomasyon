@@ -1,5 +1,4 @@
-﻿@model KTOtomasyon.Models.DisplayOrderDetail
-
+﻿
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,22 +46,9 @@
                             <p>Genel</p>
                         </a>
                     </li>
-
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Customers" ? "active" : "")">
-                        <a href="@Url.Action("Customers", "Home")">
-                            <i class="fa fa-users"></i>
-                            <p>Müşteriler</p>
-                        </a>
-                    </li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Orders" ? "active" : "")">
-                        <a href="@Url.Action("Orders", "Home")">
-                            <i class="fa fa-list"></i>
-                            <p>Siparişler</p>
-                        </a>
-                    </li>
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Products" ? "active" : "")">
                         <a href="@Url.Action("Products", "Home")">
-                            <i class="fa fa-book"></i>
+                            <i class="fa fa-list-ol"></i>
                             <p>Ürünler</p>
                         </a>
                     </li>
@@ -75,13 +61,21 @@
                     </li>
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Users" ? "active" : "")">
                         <a href="@Url.Action("Users", "Home")">
-                            <i class="fa fa-user"></i>
+                            <i class="fa fa-users"></i>
                             <p>Personeller</p>
                         </a>
+                    </li>
+                    <li class="active-pro">
+
+                        <p class="copyright text-left">
+                            <a href="#mail">zuTTers &copy;
+                            <script>document.write(new Date().getFullYear())</script></a><br /><br />
+                        </p>
                     </li>
                 </ul>
             </div>
         </div>
+
         <div class="main-panel">
             <nav class="navbar navbar-default navbar-fixed">
                 <div class="container-fluid">
@@ -139,38 +133,6 @@
 
             </div>
 
-            <footer class="footer navbar-fixed-bottom">
-                <div class="container-fluid">
-                    <nav class="pull-left">
-                        <ul>
-                            <li>
-                                <a href="@Url.Action("Index","Home")">
-                                    Genel
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Customers","Home")">
-                                    Müşteriler
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Products","Home")">
-                                    Ürünler
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Orders","Home")">
-                                    Siparişler
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <p class="copyright pull-right">
-                        &copy;
-                        <script>document.write(new Date().getFullYear())</script> <a href="@Url.Action("Index","Home")">Programmed by zuTTers</a>, Terzi Otomasyonu Sistemi
-                    </p>
-                </div>
-            </footer>
         </div>
     </div>
     <!-- Modal -->
@@ -179,16 +141,17 @@
             <!-- Modal content-->
             <div class="modal-content" style="width:800px !important;">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" id="modalkapat">&times;</button>
                     <h4 class="modal-title">Yeni Sipariş</h4>
                 </div>
                 <div class="modal-body ">
                     <div class="row">
                         <div class="col-lg-6">
+                            @Html.Hidden("Order_Id", "0", new { @class = "form-control", @placeholder = "Ad", @id = "txtMOrderId", @style = "height:30px !important;" })
                             <h6 class="text-uppercase">Müşteri Ad/Soyad</h6>
                             @Html.TextBox("CustomerName", "", new { @class = "form-control", @placeholder = "Ad", @id = "txtMAdi", @style = "height:30px !important;" })
                             <h6 class="text-uppercase"> Teslim Tarihi </h6>
-                            @Html.TextBox("OrderDate", "dd-MM-yyyy", new { @class = "form-control", @placeholder = "Tarih", @id = "txtMSTarihi", @type = "date", @style = "height:30px !important;" })
+                            @Html.TextBox("OrderDate", "", new { @class = "form-control", @placeholder = "Tarih", @id = "txtMSTarihi", @type = "date", @style = "height:30px !important;" })
                         </div>
                         <div class="col-lg-6">
                             <h6 class="text-uppercase">Telefon No</h6>
@@ -252,20 +215,16 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div class="col-lg-8">
-                        <input id="lblErrorMessage" name="lblErrorMessage" class="form-control text-danger" disabled />
-                    </div>
-                    <div class="col-lg-2">
-                        <b class="text-muted">Teslim Durumu</b>
+                    <div class="col-lg-4">
+                        <b class="text-muted">Teslim Durumu : </b>
                         <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="txtMDelivery">
+                            @Html.TextBox("IsDelivered", "", new { @class = "custom-control-input", @id = "txtMDelivery", @type = "checkbox"})
                             <span class="custom-control-indicator"></span>
                         </label>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-8">
                         <input id="btnSiparisKaydet" name="btnSiparisKaydet" type="button" class="btn btn-warning" value="Kaydet" />
                     </div>
-                    @*<button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>*@
                 </div>
             </div>
         </div>
@@ -285,8 +244,6 @@
     <script src="~/assets/js/chartist.min.js"></script>
     <!--  Notifications Plugin    -->
     <script src="~/assets/js/bootstrap-notify.js"></script>
-    <!--  Google Maps Plugin    -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
     <script src="~/assets/js/light-bootstrap-dashboard.js"></script>
     <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
