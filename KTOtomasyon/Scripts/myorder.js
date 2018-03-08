@@ -2,7 +2,7 @@
 var OperationData;
 var OrderData;
 
-//Image Dropdown
+//Image Chosen Dropdown
 $(".my-select").chosen({ width: "32px;", height: "32px;" });
 $(".my-select2").chosen();
 
@@ -53,7 +53,7 @@ function drpIslemGetir() {
 function createTable() {
     var rows = "";
     for (var i = 0; i < orderwithdetail.OrderDetails.length; i++) {
-        rows += '<tr><td>' + '<button type="button" id="btnIslemSil" class="btn btn-danger btn-xs" onclick="IslemSil()" value="' + orderwithdetail.OrderDetails[i].Operation_Id + '">';
+        rows += '<tr><td>' + '<button type="button" id="btnIslemSil" class="btn btn-danger btn-xs" onclick="IslemSil(' + i.toString() + ')" value="' + orderwithdetail.OrderDetails[i].Operation_Id + '">';
         rows += '<span class="fa fa-close"></span></button> ' + '</td > ';
         rows += '<td>' + orderwithdetail.OrderDetails[i].OperationText + '</td>';
         rows += '<td>' + orderwithdetail.OrderDetails[i].Quantity + '</td>';
@@ -63,19 +63,19 @@ function createTable() {
     divTable.innerHTML = rows;
 }
 
-function IslemSil() {
+function IslemSil(index) {
     var array = orderwithdetail.OrderDetails;
-    for (var i = array.length; i > -1; i--) {
-        var index = array.indexOf(array[i]);
-    }
+   
     if (index > -1) {
         array.splice(index, 1);
+
         createTable();
     }
 }
 
 $("#btnUrunEkle").click(function () {
     var orderdetail = {};
+
 
     var MOrderDetailId = $("#txtMOrderDetailId").val();
     var MUrun = $("#drpMUrunListe").val();
@@ -93,7 +93,7 @@ $("#btnUrunEkle").click(function () {
     orderdetail.TotalPrice = MTPrice;
 
 
-    if (MUrun !== 0) {
+    if (MUrun != 0) {
         orderwithdetail.OrderDetails.push(orderdetail);
         createTable();
         $('#drpMUrunListe').val(0);
@@ -109,21 +109,20 @@ $("#btnUrunEkle").click(function () {
 });
 
 $("#btnSiparisKaydet").click(function () {
+
     var MAdi = $("#txtMAdi").val();
     var MTelefon = $("#txtMTelefon").val();
     var MSTarihi = $("#txtMSTarihi").val();
     var MAciklama = $("#txtMAciklama").val();
     var MOrderId = $("#txtMOrderId").val();
     var MTDurum;
-    if ($("#txtMDelivery").attr("checked", true)) {
-        $("#txtMDelivery").prop("checked", true);
+    if ($("#txtMDelivery")[0].checked==true) {
         MTDurum = true;
     }
-    else if ($("#txtMDelivery").attr("checked", false)) {
-        $("#txtMDelivery").removeAttr("checked");
+    else {
         MTDurum = false;
     }
-    
+ 
 
     orderwithdetail.Order_Id = MOrderId;
     orderwithdetail.CustomerName = MAdi;
@@ -131,16 +130,31 @@ $("#btnSiparisKaydet").click(function () {
     orderwithdetail.Description = MAciklama;
     orderwithdetail.OrderDate = MSTarihi;
     orderwithdetail.CreatedUser = 1;
-    orderwithdetail.CreatedUserText = "Halit Turan";
+    orderwithdetail.CreatedDate = Date.now;
     orderwithdetail.IsDelivered = MTDurum;
     orderwithdetail.IsDeleted = false;
+    
 
-    if (MAdi !== "" || MTelefon !== "" || MSTarihi !== "") {
+   
+    if (MAdi !== "" && MTelefon !== "" && MSTarihi !== "") {
+        $("#btnSiparisKaydet").attr("disabled", "disabled");
         $.post("Home/OrderSave", { orderwithdetail: orderwithdetail },
             function (data, status) {
-                KayıtBildirim();
-                $("#btnSiparisKaydet").attr("disabled", "disabled");
-                setTimeout(function () { location.reload(); }, 2000);
+                if (data.success == true) {
+                    Bildirim(data.message);
+                    setTimeout(function () { location.reload(); }, 2000);
+                }
+                else {
+                    $("#btnSiparisKaydet").removeAttr("disabled");
+                    if (data.requiredLogin) {
+                        Bildirim(data.message);
+                        setTimeout(function () { location.href = "/Login/Index"; },2000);                        
+                    }
+                    else {
+                        Bildirim(data.message);
+                    }
+                }
+
             });
     }
     else {
@@ -148,13 +162,13 @@ $("#btnSiparisKaydet").click(function () {
     }
 });
 
-
 function GetOrder(id) {
     $.post("Home/GetOrderData", {
         Order_Id: id
     },
 
         function (data, status) {
+            
             orderwithdetail = data;
             createTable();
 
@@ -162,17 +176,17 @@ function GetOrder(id) {
             $("#txtMAdi").val(orderwithdetail.CustomerName);
             $("#txtMTelefon").val(orderwithdetail.PhoneNumber);
             $("#txtMAciklama").val(orderwithdetail.Description);
-            $("#txtMSTarihi").val(orderwithdetail.OrderDate);
+            $("#txtMSTarihi").val(inputFormatDate(jsDate(orderwithdetail.OrderDate)));
             $("#txtMDelivery").attr('checked', orderwithdetail.IsDelivered);
                    
         });
 
 }
 
-function KayıtBildirim() {
+function Bildirim(text) {
     $.notify({
-        icon: 'fa fa-check',
-        message: 'İşleminiz kaydedildi.'
+        icon: 'fa fa-info',
+        message: text
     },
         {
             type: 'info',
@@ -190,3 +204,10 @@ function HataBildirim() {
             timer: 5000
         });
 }
+
+function Yenile() { location.reload(); }
+
+$("#modalkapat").click(function () {
+    Yenile();
+});
+

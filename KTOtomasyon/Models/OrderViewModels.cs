@@ -30,7 +30,10 @@ namespace KTOtomasyon.Models
         public string OperationText { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<decimal> Price { get; set; }
-        public Nullable<decimal> TotalPrice { get; set; }         
+        public Nullable<decimal> TotalPrice { get; set; }
+        public Nullable<decimal> TTotalPrice { get; set; }
+        public int TQuantity { get; set; }
+        public string ProductName { get; set; }
     }
 
     public class DisplayOrderDetail

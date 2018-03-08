@@ -12,14 +12,12 @@
             </div>
             <div class="content">
                 <ul class="list-group">
-                    <li class="list-group-item">Ad : @Model.Name</li>
-                    <li class="list-group-item">Soyad : @Model.Surname</li>
-                    <li class="list-group-item">Yaş : @Model.Age</li>
+                    <li class="list-group-item">Ad : @Model.Name</li>         
                     <li class="list-group-item">Cinsiyet : @Model.Gender</li>
                     <li class="list-group-item">Mail : @Model.Mail</li>
                     <li class="list-group-item">Şifre : @Model.Password</li>
                 </ul>
-                @Html.ActionLink(" Düzenle", "UserEdit", "Home", new { id = Model.Id }, new { @class = "btn btn-warning" })
+                @Html.ActionLink(" Düzenle", "UserEdit", "Home", new { id = Model.User_Id }, new { @class = "btn btn-warning" })
             </div>
         </div>
     </div>

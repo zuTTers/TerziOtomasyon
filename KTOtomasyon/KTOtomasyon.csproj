@@ -153,6 +153,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Helper\Shared.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -173,6 +174,8 @@
     </Compile>
     <Compile Include="Models\AllList.cs" />
     <Compile Include="Models\OperationViewModels.cs" />
+    <Compile Include="Models\ProductViewModels.cs" />
+    <Compile Include="Models\ReceiptViewModels.cs" />
     <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Operations.cs">
       <DependentUpon>KTData.tt</DependentUpon>
@@ -238,6 +241,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen\chosen-sprite.png" />
     <Content Include="Content\chosen.css" />
     <Content Include="Content\CSS\font-awesome.css" />
     <Content Include="Content\CSS\font-awesome.min.css" />
@@ -458,6 +463,8 @@
     <Content Include="Views\Home\Products.cshtml" />
     <Content Include="Views\Home\Operations.cshtml" />
     <Content Include="Views\Shared\_LayoutLog.cshtml" />
+    <Content Include="Views\Home\ErrorPage.cshtml" />
+    <Content Include="Views\Home\Receipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

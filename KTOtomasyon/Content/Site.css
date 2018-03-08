@@ -1,4 +1,11 @@
-﻿/*Dropdownlist Plugin*/
+﻿.the-table {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+
+
+/*Dropdownlist Plugin*/
 .chose-image-small {
     width: 32px !important;
     max-height: 32px !important;
@@ -155,7 +162,7 @@ table.agenda {
     table.agenda td,
     table.agenda th {
         border: 1px solid #fff;
-        padding: 8px;
+        padding: 12px;
         text-align: center;
     }
     table.agenda td {
@@ -165,24 +172,24 @@ table.agenda {
         color: black;
     }
 th:nth-child(1) {
-    background: #CC9;
-    color: white;
+    background: white;
+    color: black !important;
 }
 th:nth-child(2) {
-    background: #236AB9;
-    color: white;
+    background: white;
+    color: black !important;
 }
 th:nth-child(3) {
-    background: #236AB9;
-    color: white;
+    background: white;
+    color: black !important;
 }
 th:nth-child(4) {
-    background: #236AB9;
-    color: white;
+    background: white;
+    color: black !important;
 }
 th:nth-child(5) {
-    background: #236AB9;
-    color: white;
+    background: white;
+    color: black !important;
 }
 th:nth-child(6) {
     background: #236AB9;
@@ -197,20 +204,20 @@ th:nth-child(8) {
     color: white;
 }
 table.agenda tr:nth-child(1) td:first-child {
-    background: #236AB9;
-    color: white;
+    background: #CC9;
+    color: white !important;
 }
 table.agenda tr:nth-child(2) td:first-child {
-    background: #236AB9;
-    color: white;
+    background: #CC9;
+    color: white !important;
 }
 table.agenda tr:nth-child(3) td:first-child {
-    background: #236AB9;
-    color: white;
+    background: #CC9;
+    color: white !important;
 }
 table.agenda tr:nth-child(4) td:first-child {
-    background: #236AB9;
-    color: white;
+    background: #CC9;
+    color: white !important;
 }
 table.agenda tr:nth-child(5) td:first-child {
     background: #236AB9;

@@ -1,4 +1,4 @@
-﻿@model  KTOtomasyon.Models.AllList
+﻿@model  KTOtomasyon.Models.DisplayProducts
 @{
     ViewBag.Title = "Ürünler";
 }
@@ -32,14 +32,14 @@
                                 <td class="text-uppercase"><b>Durum</b></td>
                                 <td></td>
                             </tr>
-                            @foreach (var product in Model.Products.OrderBy(z => z.Id))
+                            @foreach (var product in Model.ProductList.OrderBy(x => x.Product_Id).Where(x => x.IsActive == true))
                             {
                             <tr>
-                                <td>@product.Id</td>
+                                <td>@product.Product_Id</td>
                                 <td>@product.Name</td>
                                 <td><img src="../img/producticons/@product.PhotoUrl'.png" width="50" height="60"/>  </td>
                                 <td>@product.IsActive</td>
-                                <td>@Html.ActionLink(" İncele", "ProductDetail", "Home", new { id = product.Id }, new { @class = "btn btn-success" }) </td>
+                                <td>@Html.ActionLink(" İncele", "ProductDetail", "Home", new { id = product.Product_Id }, new { @class = "btn btn-success" }) </td>
                             </tr>
                             }
                         </table>

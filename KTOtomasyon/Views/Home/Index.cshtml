@@ -10,8 +10,8 @@
         <div class="card">
             <div class="header">
                 <div class="col-lg-6">
-                    <h4 class="title" style="color:#ff3e00;"><span class="fa fa-tasks"></span> &nbsp; Siparişler</h4>
-                    <p class="category">Sipariş Listesi</p>
+                    <h4 class="title" style="color:#ff3e00;"><span class="fa fa-list-ul"></span> &nbsp; Sipariş Listesi</h4>
+                    <p class="category">Tüm Kayıtlar</p>
                 </div>
                 <div class="col-lg-6">
                     <div class="row">
@@ -25,7 +25,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-condensed">
+                        <table class="table table-responsive the-table">
                             <tr>
                                 <td></td>
                                 <td class="text-uppercase"><b>Fiş No</b></td>
@@ -34,11 +34,15 @@
                                 <td class="text-uppercase"><b>Toplam Tutar</b></td>
                                 <td class="text-uppercase"><b>Teslim Tarihi</b></td>
                                 <td class="text-uppercase"><b>Teslim Durumu</b></td>
+                                
                             </tr>
                             @foreach (var order in Model.OrdersList)
                             {
                             <tr>
-                                <td><button data-toggle="modal" data-target="#myModal" onclick="GetOrder(@order.Order_Id)" class="btn-xs btn btn-warning"><span class="fa fa-pencil"></span></button></td>
+                                <td>
+                                        <button data-toggle="modal" data-target="#myModal" onclick="GetOrder(@order.Order_Id)" class="btn-xs btn btn-warning"><span class="fa fa-pencil"></span></button>
+                                    <a href="@Url.Action("Receipt","Home", new { @order.Order_Id })" class="btn-xs btn btn-primary" target="_blank" id="BtnYazdir" style="margin-left:10px;" ><span class="fa fa-print" ></span></a>
+                                </td>
                                 <td>@order.Order_Id</td>
                                 <td>@order.CustomerName</td>
                                 <td>@order.Description</td>
@@ -49,7 +53,7 @@
                                         <input type="checkbox" class="custom-control-input" checked="@order.IsDelivered.Value" disabled>
                                         <span class="custom-control-indicator"></span>
                                     </label>
-                                </td>
+                                </td>                              
                             </tr>
                             }
                         </table>

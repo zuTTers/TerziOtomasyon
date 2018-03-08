@@ -48,7 +48,7 @@
                     </li>
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Products" ? "active" : "")">
                         <a href="@Url.Action("Products", "Home")">
-                            <i class="fa fa-list-ol"></i>
+                            <i class="fa fa-tasks"></i>
                             <p>Ürünler</p>
                         </a>
                     </li>
@@ -66,10 +66,11 @@
                         </a>
                     </li>
                     <li class="active-pro">
-
                         <p class="copyright text-left">
-                            <a href="#mail">zuTTers &copy;
-                            <script>document.write(new Date().getFullYear())</script></a><br /><br />
+                            <a href="@Url.Action("SendMail","Home")" class="label">
+                                z'Order &copy;
+                                @DateTime.Now.Year
+                            </a>
                         </p>
                     </li>
                 </ul>
@@ -141,7 +142,7 @@
             <!-- Modal content-->
             <div class="modal-content" style="width:800px !important;">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" id="modalkapat">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" id="modalkapat" onclick="Yenile()">&times;</button>
                     <h4 class="modal-title">Yeni Sipariş</h4>
                 </div>
                 <div class="modal-body ">

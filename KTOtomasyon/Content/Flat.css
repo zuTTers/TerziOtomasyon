@@ -79,7 +79,7 @@
     width: 16px;
 }
 
-/*.chosen-container-single .chosen-single abbr {
+.chosen-container-single .chosen-single abbr {
   background: url('chosen/chosen-sprite.png') -42px 1px no-repeat;
 }
 
@@ -108,4 +108,4 @@
   .chosen-container .chosen-results-scroll-up span {
     background-image: url('chosen/chosen-sprite@2x.png') !important;
   }
-}*/
+}

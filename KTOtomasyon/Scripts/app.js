@@ -1,6 +1,6 @@
 ﻿
 function jsDate(x) {
-    var jsonDateRE = /^\/Date\((-?\d )(\ |-)?(\d )?\)\/$/;
+    var jsonDateRE = /^\/Date\((-?\d+)(\+|-)?(\d+)?\)\/$/;
     var arr = jsonDateRE.exec(x);
     if (arr) {
         // 0 - complete results; 1 - ticks; 2 - sign; 3 - minutes
@@ -25,6 +25,7 @@ function formatDate(formattedDate) {
     }
 
 }
+
 function formatDateTime(formattedDate) {
     try {
         var d = formattedDate.getDate();
@@ -56,7 +57,21 @@ function formatTime(formattedDate) {
 
 }
 
+function inputFormatDate(formattedDate) {
+    try {
+        formattedDate = new Date(formattedDate);
+        var d = formattedDate.getDate();
+        var m = formattedDate.getMonth();
+        m = 1;  // JavaScript months are 0-11
+        m = ("00" + m).substr(("00" + m).length - 2);
+        d = ("00" + d).substr(("00" + d).length - 2);
+        var y = formattedDate.getFullYear();
+        return (y + "-" + m + "-" + d);
+    } catch (e) {
+        return formattedDate;
+    }
 
+}
 
 
 
