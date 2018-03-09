@@ -63,7 +63,6 @@
                     </div>
                 </div>
                 <div class="row">
-
                     <table class="table table-hover">
                         <thead style="font-size:13px !important; font-weight:400 !important;">
                             <tr>
@@ -81,7 +80,6 @@
                                     <td>@item.ProductName</td>
                                     <td>@item.OperationText</td>
                                     <td>@item.Quantity</td>
-
                                     <td>@item.Price</td>
                                     <td>@item.TotalPrice</td>
                                 </tr>
@@ -101,11 +99,11 @@
                         <p>Müşteri Bilgileri</p>
                     </div>
                     <div>
-                        <b>Ad Soyad: @Model.CustomerName</b>
+                        <b>Ad Soyad:</b> @Model.CustomerName
                         <br />
-                        <b>Telefon: @Model.PhoneNumber</b>
+                        <b>Telefon:</b>@Model.PhoneNumber
                         <br />
-                        <b>Teslim Tarihi: @Model.OrderDate.Value.ToShortDateString()</b>
+                        <b>Teslim Tarihi:</b> @Model.OrderDate.Value.ToShortDateString()
                     </div>
                     <div>
                         <b>Açıklama:</b>

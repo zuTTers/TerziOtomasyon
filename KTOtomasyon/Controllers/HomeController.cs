@@ -16,13 +16,14 @@ namespace KTOtomasyon.Controllers
         //Bir sayfadaki kayıt sayısıdır.
         public int defaultPageSize = 12;
 
+        //Error sayfası controller.
         public ActionResult ErrorPage()
         {
             return View();
         }
 
-        //Tüm siparişleri listelenir.
-        public ActionResult Index(int? p, string filter)
+        //Tüm siparişlerin listelendiği ekrandır.
+        public ActionResult Index(int? p, string filter, string otype, string oname)
         {
             DisplayOrderDetail orders = new DisplayOrderDetail();
 
@@ -48,10 +49,26 @@ namespace KTOtomasyon.Controllers
                         }
                         else
                         {
-                            query = db.vOrders.Where(x => x.CustomerName.Contains(filter));
+                            query = db.vOrders.Where(x => x.CustomerName.Contains(filter) || x.Order_Id.ToString().Contains(filter));
+
                         }
 
-                        orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
+                        if (string.IsNullOrEmpty(oname))
+                        {
+                            orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
+                        }
+
+                        else if (oname == "durum")
+                        {
+                            if (string.IsNullOrEmpty(otype) || otype == "asc")
+                            {
+                                orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Where(x => x.IsDelivered == false).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
+                            }
+                            else if (otype == "desc")
+                            {
+                                orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Where(x => x.IsDelivered == true).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
+                            }
+                        }
 
                         orders.CurrentPage = p.Value;
                         orders.TotalCount = query.Count();
@@ -71,6 +88,8 @@ namespace KTOtomasyon.Controllers
                     RedirectToAction("ErrorPage", "Home");
                 }
 
+                ViewBag.oname = oname;
+                ViewBag.otype = otype;
 
                 return View(orders);
 
@@ -240,10 +259,10 @@ namespace KTOtomasyon.Controllers
 
         //Makbuz görüntülenme ekranıdır.
         public ActionResult Receipt(int Order_Id)
-        {           
+        {
             DisplayReceipt orderreceipt = new DisplayReceipt();
 
-            
+
 
             if (Session["UserId"] == null)
             {
@@ -283,7 +302,7 @@ namespace KTOtomasyon.Controllers
 
                             });
                         }
-                        
+
                     }
                 }
                 catch (Exception)
@@ -596,10 +615,10 @@ namespace KTOtomasyon.Controllers
             mailMessage.Body = "Hello my friend!";
 
             client.Send(mailMessage);
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
-        
+
 
 
     }

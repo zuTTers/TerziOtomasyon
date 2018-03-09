@@ -30,7 +30,6 @@
                                 <td class="text-uppercase"><b>Şifre</b></td>
                                 <td class="text-uppercase"><b>Cinsiyet</b></td>
                                 <td class="text-uppercase"><b>Doğum Tarihi</b></td>
-                                <td class="text-uppercase"><b>Silindi Mi</b></td>
                                 <td></td>
                             </tr>
                             @foreach (var user in Model.UsersList.OrderByDescending(x => x.User_Id).Where(x => x.IsDeleted == false))
@@ -56,12 +55,6 @@
 
                                     </td>
                                     <td>@user.Birthday</td>
-                                    <td>
-                                        <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" checked="@user.IsDeleted.Value" disabled>
-                                            <span class="custom-control-indicator"></span>
-                                        </label>
-                                    </td>
                                     <td>@Html.ActionLink(" İncele", "UserDetail", "Home", new { id = user.User_Id }, new { @class = "btn btn-success" }) </td>
                                 </tr>
                             }

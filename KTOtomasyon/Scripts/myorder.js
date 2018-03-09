@@ -63,14 +63,17 @@ function createTable() {
     divTable.innerHTML = rows;
 }
 
-function IslemSil(index) {
-    var array = orderwithdetail.OrderDetails;
-   
-    if (index > -1) {
-        array.splice(index, 1);
 
-        createTable();
-    }
+function IslemSil(index) {
+    var r = confirm("İşlemi onaylıyor musunuz?");
+    if (r == true) {
+        var array = orderwithdetail.OrderDetails;
+        if (index > -1) {
+            array.splice(index, 1);
+
+            createTable();
+        }
+    }          
 }
 
 $("#btnUrunEkle").click(function () {

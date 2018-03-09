@@ -8,11 +8,11 @@ namespace KTOtomasyon.Controllers
 
     public class ReturnValue
     {
-        public string error;
-        public string message; //Server taraflı işlem sonu dönen mesaj
-        public bool requiredLogin;
-        public object retObject;
-        public bool success;
+        public string error; //Hata mesajı içeriği
+        public string message; //Server taraflı işlem sonu dönen mesaj içeriği
+        public bool requiredLogin; //Session kontrolü
+        public object retObject; //İşlem sonu dönen data objesi
+        public bool success; //İşlem başarı kontrolü
 
         public ReturnValue() { }
     }

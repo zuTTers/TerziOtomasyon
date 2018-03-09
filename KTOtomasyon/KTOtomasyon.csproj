@@ -259,37 +259,28 @@
     <Content Include="Content\jquery-ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="img\body-bg.png" />
-    <Content Include="img\icon-safari.png" />
-    <Content Include="img\icons-sa7c41345d9.png" />
     <Content Include="img\kuru-temizleme-icon-1.png" />
-    <Content Include="img\kuru-temizleme-icon-2.png" />
-    <Content Include="img\kuru-temizleme-icon-3.png" />
-    <Content Include="img\kuru-temizleme-icon-4.png" />
     <Content Include="img\producticons\0%27.png" />
-    <Content Include="img\logo1.png" />
     <Content Include="img\logooldu.png" />
-    <Content Include="img\message_avatar1.png" />
-    <Content Include="img\message_avatar2.png" />
+    <Content Include="img\producticons\10%27.png" />
+    <Content Include="img\producticons\13%27.png" />
     <Content Include="img\producticons\3%27.png" />
-    <Content Include="img\producticons\5%27.png" />
     <Content Include="img\producticons\2%27.png" />
     <Content Include="img\producticons\15%27.png" />
     <Content Include="img\producticons\4%27.png" />
+    <Content Include="img\producticons\5%27.png" />
     <Content Include="img\producticons\6%27.png" />
+    <Content Include="img\producticons\7%27.png" />
     <Content Include="img\producticons\8%27.png" />
-    <Content Include="img\producticons\9%27.png" />
     <Content Include="img\producticons\11%27.png" />
     <Content Include="img\producticons\1%27.png" />
     <Content Include="img\producticons\14%27.png" />
+    <Content Include="img\producticons\9%27.png" />
     <Content Include="img\producticons\bb.png" />
-    <Content Include="img\producticons\13%27.png" />
-    <Content Include="img\producticons\10%27.png" />
     <Content Include="img\producticons\12%27.png" />
-    <Content Include="img\producticons\7%27.png" />
     <Content Include="img\signin\check.png" />
     <Content Include="img\signin\fb_btn.png" />
     <Content Include="img\signin\password.png" />
@@ -471,13 +462,13 @@
     <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
