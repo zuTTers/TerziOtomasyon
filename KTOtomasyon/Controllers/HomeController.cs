@@ -49,7 +49,7 @@ namespace KTOtomasyon.Controllers
                         }
                         else
                         {
-                            query = db.vOrders.Where(x => x.CustomerName.Contains(filter) || x.Order_Id.ToString().Contains(filter));
+                            query = db.vOrders.Where(x => x.CustomerName.Contains(filter) || x.Order_Id.ToString().Equals(filter) || x.PhoneNumber.ToString().Equals(filter));
 
                         }
 
@@ -69,7 +69,6 @@ namespace KTOtomasyon.Controllers
                                 orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Where(x => x.IsDelivered == true).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
                             }
                         }
-
                         orders.CurrentPage = p.Value;
                         orders.TotalCount = query.Count();
 
@@ -189,28 +188,30 @@ namespace KTOtomasyon.Controllers
         //Her ürünün tadilatlarının listesini çeker.
         public JsonResult GetOperations(int Product_Id)
         {
-            try
+
+            using (var db = new KTOtomasyonEntities())
             {
-                using (var db = new KTOtomasyonEntities())
-                {
-                    var operationdata = db.Operations.Where(x => x.Product_Id == Product_Id).Select(x => new { Name = x.Name, Price = x.Price, Operation_Id = x.Operation_Id }).ToList();
+                var operationdata = db.Operations.Where(x => x.Product_Id == Product_Id).Select(x => new { Name = x.Name, Price = x.Price, Operation_Id = x.Operation_Id }).ToList();
 
-                    return Json(operationdata);
-                }
+                return Json(operationdata);
+
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-
+            
         }
 
         //Tıklanılan siparişin detaylarını getirir.
         public JsonResult GetOrderData(int Order_Id)
         {
             OrderWithDetail orderWithDetail = new OrderWithDetail();
+            ReturnValue ret = new ReturnValue();
+
+            if (Shared.CheckSession() == false)
+            {
+                ret.requiredLogin = true;
+                ret.message = "Lütfen giriş yapınız.";
+                ret.success = false;
+                return Json(ret);
+            }
 
             try
             {
@@ -246,15 +247,66 @@ namespace KTOtomasyon.Controllers
                         });
                     }
 
+                    return Json(orderWithDetail);
+
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                ret.success = false;
+                ret.message = ex.Message;
             }
 
-            return Json(orderWithDetail);
+            
+            return Json(ret);
+        }
+
+        //Telefon noya göre müşteri bilgisi çeker.
+        public JsonResult GetPhoneData(string PhoneNumber)
+        {
+            OrderWithDetail orderWithDetail = new OrderWithDetail();
+            ReturnValue ret = new ReturnValue();
+
+            if (Shared.CheckSession() == false)
+            {
+                ret.requiredLogin = true;
+                ret.message = "Lütfen giriş yapınız.";
+                ret.success = false;
+                return Json(ret);
+            }
+
+            try
+            {
+                using (var db = new KTOtomasyonEntities())
+                {
+                    var phonedata = db.Orders.Where(x => x.PhoneNumber == PhoneNumber).FirstOrDefault();
+
+                    orderWithDetail.Order_Id = phonedata.Order_Id;
+                    orderWithDetail.CreatedUser = phonedata.CreatedUser;
+                    orderWithDetail.CreatedUserText = phonedata.Users.Name;
+                    orderWithDetail.CustomerName = phonedata.CustomerName;
+                    orderWithDetail.PhoneNumber = phonedata.PhoneNumber;
+                    orderWithDetail.Description = phonedata.Description;
+                    orderWithDetail.OrderDate = phonedata.OrderDate;
+                    orderWithDetail.CreatedDate = phonedata.CreatedDate;
+                    orderWithDetail.IsDelivered = phonedata.IsDelivered;
+                    orderWithDetail.IsDeleted = phonedata.IsDeleted;
+
+                    ret.message = "Müşteri Bulundu.";
+                    ret.success = true;
+
+                    ret.retObject = orderWithDetail;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                ret.success = false;
+                ret.message = ex.Message;
+            }
+           
+            
+            return Json(ret);
         }
 
         //Makbuz görüntülenme ekranıdır.
@@ -313,7 +365,6 @@ namespace KTOtomasyon.Controllers
 
             return PartialView(orderreceipt);
         }
-
 
         public ActionResult Users(int? p, string filter)
         {

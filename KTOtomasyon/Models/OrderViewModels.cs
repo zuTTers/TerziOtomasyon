@@ -19,7 +19,6 @@ namespace KTOtomasyon.Models
         public Nullable<bool> IsDeleted { get; set; }
         public IList<OrderDetails> OrderDetails { get; set; }
 
-
     }
 
     public class OrderDetails

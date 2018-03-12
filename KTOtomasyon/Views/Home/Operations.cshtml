@@ -31,7 +31,7 @@
                             </tr>
                             @foreach (var operation in Model.OperationList.OrderByDescending(x=>x.Operation_Id).Where(x => x.IsActive == true))
                             {
-                            <tr>
+                            <tr>                                
                                 <td>@operation.Product_Id</td>
                                 <td>@operation.Name</td>
 

@@ -1,4 +1,5 @@
-﻿var orderwithdetail = { OrderDetails: [] };
+﻿//Genel Objelerimiz
+var orderwithdetail = { OrderDetails: [] };
 var OperationData;
 var OrderData;
 
@@ -13,8 +14,10 @@ $('#myModal').on('show.bs.modal', function (e) {
     $('.my-select2', this).chosen({ width: "700px" });
 });
 
+//Dropdownlistlere onChange attr'si eklendi.
 $("#drpMUrunListe").chosen().change(drpUrunIslem);
 $("#drpMIslemListe").chosen().change(drpIslemGetir);
+
 
 function drpUrunIslem() {
     $.post("Home/GetOperations", {
@@ -29,7 +32,7 @@ function drpUrunIslem() {
             $('#drpMIslemListe').empty(); //remove all child nodes
             $.each(data, function (idx, obj) {
                 $("#drpMIslemListe").append('<option value="' + obj.Operation_Id + '">' + obj.Name + '</option>');
-                if ($("#drpMIslemListe").val() === obj.Operation_Id) {
+                if ($("#drpMIslemListe").val() == obj.Operation_Id) {
                     $("#txtMPrice").val(obj.Price);
                 }
             });
@@ -42,12 +45,37 @@ function drpUrunIslem() {
 
 function drpIslemGetir() {
     $.each(OperationData, function (idx, obj) {
-        if ($("#drpMIslemListe").val() === obj.Operation_Id) {
+        if ($("#drpMIslemListe").val() == obj.Operation_Id) {
             $("#txtMPrice").val(obj.Price);
         }
     });
     $('#txtMPrice').trigger("chosen:updated");
 
+}
+
+function txtTelefonGetir() {
+    var pid = $("#txtMTelefon").val();
+    $.post("Home/GetPhoneData", {
+        PhoneNumber: pid
+    },
+    function (data, status) {
+        if (data.success == true) {
+            Bildirim(data.message);
+            $("#txtMAdi").val(data.retObject.CustomerName);
+            $("#txtMTelefon").val(data.retObject.PhoneNumber);
+            $("#txtMAciklama").val(data.retObject.Description);
+        }
+        else {
+            if (data.requiredLogin) {
+                Bildirim(data.message);
+                setTimeout(function () { location.href = "/Login/Index"; }, 2000);
+            }
+            else {
+                Bildirim(data.message);
+            }
+        }
+
+    });
 }
 
 function createTable() {
@@ -63,7 +91,6 @@ function createTable() {
     divTable.innerHTML = rows;
 }
 
-
 function IslemSil(index) {
     var r = confirm("İşlemi onaylıyor musunuz?");
     if (r == true) {
@@ -75,95 +102,6 @@ function IslemSil(index) {
         }
     }          
 }
-
-$("#btnUrunEkle").click(function () {
-    var orderdetail = {};
-
-
-    var MOrderDetailId = $("#txtMOrderDetailId").val();
-    var MUrun = $("#drpMUrunListe").val();
-    var MIslem = $("#drpMIslemListe").val();
-    var MIslemText = $("#drpMIslemListe option:selected").text();
-    var MAdet = $("#txtMAdet").val();
-    var MPrice = $("#txtMPrice").val();
-    var MTPrice = MAdet * MPrice;
-
-    orderdetail.OrderDetail_Id = MOrderDetailId;
-    orderdetail.Operation_Id = MIslem;
-    orderdetail.OperationText = MIslemText;
-    orderdetail.Quantity = MAdet;
-    orderdetail.Price = MPrice;
-    orderdetail.TotalPrice = MTPrice;
-
-
-    if (MUrun != 0) {
-        orderwithdetail.OrderDetails.push(orderdetail);
-        createTable();
-        $('#drpMUrunListe').val(0);
-        $('#drpMIslemListe').val(0);
-        $('#drpMUrunListe').trigger("chosen:updated");
-        $('#drpMIslemListe').trigger("chosen:updated");
-        $("#txtMPrice").val("");
-    }
-    else {
-        HataBildirim();
-    }
-
-});
-
-$("#btnSiparisKaydet").click(function () {
-
-    var MAdi = $("#txtMAdi").val();
-    var MTelefon = $("#txtMTelefon").val();
-    var MSTarihi = $("#txtMSTarihi").val();
-    var MAciklama = $("#txtMAciklama").val();
-    var MOrderId = $("#txtMOrderId").val();
-    var MTDurum;
-    if ($("#txtMDelivery")[0].checked==true) {
-        MTDurum = true;
-    }
-    else {
-        MTDurum = false;
-    }
- 
-
-    orderwithdetail.Order_Id = MOrderId;
-    orderwithdetail.CustomerName = MAdi;
-    orderwithdetail.PhoneNumber = MTelefon;
-    orderwithdetail.Description = MAciklama;
-    orderwithdetail.OrderDate = MSTarihi;
-    orderwithdetail.CreatedUser = 1;
-    orderwithdetail.CreatedDate = Date.now;
-    orderwithdetail.IsDelivered = MTDurum;
-    orderwithdetail.IsDeleted = false;
-    
-
-   
-    if (MAdi !== "" && MTelefon !== "" && MSTarihi !== "") {
-        $("#btnSiparisKaydet").attr("disabled", "disabled");
-        $.post("Home/OrderSave", { orderwithdetail: orderwithdetail },
-            function (data, status) {
-                if (data.success == true) {
-                    Bildirim(data.message);
-                    setTimeout(function () { location.reload(); }, 2000);
-                }
-                else {
-                    $("#btnSiparisKaydet").removeAttr("disabled");
-                    if (data.requiredLogin) {
-                        Bildirim(data.message);
-                        setTimeout(function () { location.href = "/Login/Index"; },2000);                        
-                    }
-                    else {
-                        Bildirim(data.message);
-                    }
-                }
-
-            });
-    }
-    else {
-        HataBildirim();
-    }
-});
 
 function GetOrder(id) {
     $.post("Home/GetOrderData", {
@@ -214,3 +152,95 @@ $("#modalkapat").click(function () {
     Yenile();
 });
 
+$("#btnUrunEkle").click(function () {
+    var orderdetail = {};
+
+
+    var MOrderDetailId = $("#txtMOrderDetailId").val();
+    var MUrun = $("#drpMUrunListe").val();
+    var MIslem = $("#drpMIslemListe").val();
+    var MIslemText = $("#drpMIslemListe option:selected").text();
+    var MAdet = $("#txtMAdet").val();
+    var MPrice = $("#txtMPrice").val();
+    var MTPrice = MAdet * MPrice;
+
+    orderdetail.OrderDetail_Id = MOrderDetailId;
+    orderdetail.Operation_Id = MIslem;
+    orderdetail.OperationText = MIslemText;
+    orderdetail.Quantity = MAdet;
+    orderdetail.Price = MPrice;
+    orderdetail.TotalPrice = MTPrice;
+
+
+    if (MUrun != 0) {
+        orderwithdetail.OrderDetails.push(orderdetail);
+        createTable();
+        $('#drpMUrunListe').val(0);
+        $('#drpMIslemListe').val(0);
+        $('#drpMUrunListe').trigger("chosen:updated");
+        $('#drpMIslemListe').trigger("chosen:updated");
+        $("#txtMPrice").val("");
+    }
+    else {
+        HataBildirim();
+    }
+
+});
+
+$("#btnSiparisKaydet").click(function () {
+
+    var MAdi = $("#txtMAdi").val();
+    var MTelefon = $("#txtMTelefon").val();
+    var MSTarihi = $("#txtMSTarihi").val();
+    var MAciklama = $("#txtMAciklama").val();
+    var MOrderId = $("#txtMOrderId").val();
+    var MTDurum;
+    if ($("#txtMDelivery")[0].checked == true) {
+        MTDurum = true;
+    }
+    else {
+        MTDurum = false;
+    }
+
+
+    orderwithdetail.Order_Id = MOrderId;
+    orderwithdetail.CustomerName = MAdi;
+    orderwithdetail.PhoneNumber = MTelefon;
+    orderwithdetail.Description = MAciklama;
+    orderwithdetail.OrderDate = MSTarihi;
+    orderwithdetail.CreatedUser = 1;
+    orderwithdetail.CreatedDate = Date.now;
+    orderwithdetail.IsDelivered = MTDurum;
+    orderwithdetail.IsDeleted = false;
+
+
+    if (MAdi !== "" && MTelefon !== "" && MSTarihi !== "") {
+        $("#btnSiparisKaydet").attr("disabled", "disabled");
+        $.post("Home/OrderSave", { orderwithdetail: orderwithdetail },
+            function (data, status) {
+                if (data.success == true) {
+
+                    Bildirim(data.message);
+
+                    setTimeout(function () {
+                        location.href = "/Home/Index/?filter=" + $("#txtMTelefon").val();
+
+                    }, 2000);
+                }
+                else {
+                    $("#btnSiparisKaydet").removeAttr("disabled");
+                    if (data.requiredLogin) {
+                        Bildirim(data.message);
+                        setTimeout(function () { location.href = "/Login/Index"; }, 2000);
+                    }
+                    else {
+                        Bildirim(data.message);
+                    }
+                }
+
+            });
+    }
+    else {
+        HataBildirim();
+    }
+});

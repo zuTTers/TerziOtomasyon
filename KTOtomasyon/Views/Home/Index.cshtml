@@ -9,16 +9,17 @@
     <div class="container-fluid">
         <div class="card">
             <div class="header">
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <h4 class="title" style="color:#ff3e00;"><span class="fa fa-list-ul"></span> &nbsp; Sipariş Listesi</h4>
                     <p class="category">Tüm Kayıtlar</p>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <div class="row">
                         <form action="@Url.Action("Index","Home")" method="post">
-                            <div class="col-lg-4"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal"><span class="fa fa-plus"></span>Yeni Sipariş</button></div>
-                            <div class="col-lg-6"><input name="filter" type="search" class="form-control text-warning" placeholder="Müşteri adı/Fatura No" /></div>
-                            <div class="col-lg-2"><button type="submit" value="Ara" class="btn btn-warning"><span class="fa fa-search"></span>Ara</button></div>
+                            <div class="col-lg-2 pull-left"><a href="@Url.Action("Index","Home")" type="button" class="btn btn-warning"><span class="fa fa-refresh"></span>Yenile</a></div>
+                            <div class="col-lg-3"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal"><span class="fa fa-plus"></span>Yeni Sipariş</button></div>
+                            <div class="col-lg-5"><input id="filter" name="filter" type="search" class="form-control text-warning" placeholder="Müşteri adı/Fatura No/Telefon No" /></div>
+                            <div class="col-lg-2"><button id="btnFilter" type="submit" value="Ara" class="btn btn-warning"><span class="fa fa-search"></span>Ara</button></div>
                         </form>
                     </div>
                 </div>
@@ -30,6 +31,7 @@
                                 <td></td>
                                 <td class="text-uppercase"><b>Fiş No</b></td>
                                 <td class="text-uppercase"><b>Müşteri</b></td>
+                                <td class="text-uppercase"><b>Telefon No</b></td>
                                 <td class="text-uppercase"><b>Açıklama</b></td>
                                 <td class="text-uppercase"><b>Toplam Tutar</b></td>
                                 <td class="text-uppercase"><b>Teslim Tarihi</b></td>
@@ -59,6 +61,7 @@
                                     </td>
                                     <td>@order.Order_Id</td>
                                     <td>@order.CustomerName</td>
+                                    <td>@order.PhoneNumber</td>
                                     <td>@order.Description</td>
                                     <td>@String.Format("{0:N0}", @order.TotalPrice) ₺</td>
                                     <td>@order.OrderDate.ToShortDateString()</td>

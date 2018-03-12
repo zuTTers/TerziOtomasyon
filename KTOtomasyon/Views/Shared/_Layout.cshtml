@@ -156,7 +156,11 @@
                         </div>
                         <div class="col-lg-6">
                             <h6 class="text-uppercase">Telefon No</h6>
-                            @Html.TextBox("PhoneNumber", "", new { @class = "form-control", @placeholder = "Telefon", @id = "txtMTelefon", @style = "height:30px !important;" })
+                            <p class="col-lg-10">
+                                @Html.TextBox("PhoneNumber", "", new { @class = "form-control", @placeholder = "Telefon", @id = "txtMTelefon", @style = "height:30px !important;" })
+                            </p><p class="col-lg-2">
+                                <button id="btnTelefonBul" class="btn-xs btn btn-default" onclick="txtTelefonGetir()"><span class="fa fa-search"></span></button>
+                            </p>
                             <h6 class="text-uppercase"> Açıklama </h6>
                             @Html.TextBox("Description", "", new { @class = "form-control", @placeholder = "Açıklama", @id = "txtMAciklama", @style = "height:30px !important;" })
                         </div>
@@ -192,7 +196,7 @@
                                 @Html.TextBox("Quantity", "1", new { @class = "form-control", @placeholder = "Adet", @id = "txtMAdet", @type = "number" })
                             </div>
                             <div class="col-lg-2">
-                                @Html.TextBox("Price", "", new { @class = "form-control", @placeholder = "Tutar", @id = "txtMPrice" })
+                                @Html.TextBox("Price", "0", new { @class = "form-control", @placeholder = "Tutar", @id = "txtMPrice" })
                             </div>
                             <div class="col-lg-1">
                                 <input type="button" name="btnUrunEkle" value="Ekle" id="btnUrunEkle" class="btn btn-default" />
@@ -219,7 +223,7 @@
                     <div class="col-lg-4">
                         <b class="text-muted">Teslim Durumu : </b>
                         <label class="custom-control custom-checkbox">
-                            @Html.TextBox("IsDelivered", "", new { @class = "custom-control-input", @id = "txtMDelivery", @type = "checkbox"})
+                            @Html.TextBox("IsDelivered", "", new { @class = "custom-control-input", @id = "txtMDelivery", @type = "checkbox" })
                             <span class="custom-control-indicator"></span>
                         </label>
                     </div>
