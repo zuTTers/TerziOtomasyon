@@ -15,6 +15,7 @@ namespace KTOtomasyon.Models
         public Nullable<int> CreatedUser { get; set; }
         public string CreatedUserText { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<bool> IsPaid { get; set; }
         public Nullable<bool> IsDelivered { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
         public IList<OrderDetails> OrderDetails { get; set; }

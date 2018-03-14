@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -10,11 +11,13 @@ using KTOtomasyon.Models;
 
 namespace KTOtomasyon.Controllers
 {
+  
 
     public class HomeController : Controller
     {
+        //--Anasayfa--
         //Bir sayfadaki kayıt sayısıdır.
-        public int defaultPageSize = 12;
+        public int defaultPageSize = 15;
 
         //Error sayfası controller.
         public ActionResult ErrorPage()
@@ -52,38 +55,39 @@ namespace KTOtomasyon.Controllers
                             query = db.vOrders.Where(x => x.CustomerName.Contains(filter) || x.Order_Id.ToString().Equals(filter) || x.PhoneNumber.ToString().Equals(filter));
 
                         }
-
+                        //Skip ve Take parametreleri silindi!
                         if (string.IsNullOrEmpty(oname))
                         {
-                            orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
+                            orders.OrdersList = query.OrderByDescending(x => x.Order_Id).ToList();
                         }
 
                         else if (oname == "durum")
                         {
                             if (string.IsNullOrEmpty(otype) || otype == "asc")
                             {
-                                orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Where(x => x.IsDelivered == false).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
+                                orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Where(x => x.IsDelivered == false).ToList();
                             }
                             else if (otype == "desc")
                             {
-                                orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Where(x => x.IsDelivered == true).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
+                                orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Where(x => x.IsDelivered == true).ToList();
                             }
                         }
-                        orders.CurrentPage = p.Value;
-                        orders.TotalCount = query.Count();
+                        //orders.CurrentPage = p.Value;
+                        //orders.TotalCount = query.Count();
 
-                        if ((orders.TotalCount % defaultPageSize) == 0)
-                        {
-                            orders.TotalPage = orders.TotalCount / defaultPageSize;
-                        }
-                        else
-                        {
-                            orders.TotalPage = (orders.TotalCount / defaultPageSize) + 1;
-                        }
+                        //if ((orders.TotalCount % defaultPageSize) == 0)
+                        //{
+                        //    orders.TotalPage = orders.TotalCount / defaultPageSize;
+                        //}
+                        //else
+                        //{
+                        //    orders.TotalPage = (orders.TotalCount / defaultPageSize) + 1;
+                        //}
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    e.AddToDBLog("HomeController.Index");
                     RedirectToAction("ErrorPage", "Home");
                 }
 
@@ -137,6 +141,7 @@ namespace KTOtomasyon.Controllers
                     orderadd.OrderDate = orderWithDetail.OrderDate;
                     orderadd.CreatedDate = orderWithDetail.OrderDate;
                     orderadd.CreatedUser = Convert.ToInt32(Session["UserId"]);
+                    orderadd.IsPaid = orderWithDetail.IsPaid;
                     orderadd.IsDelivered = orderWithDetail.IsDelivered;
                     orderadd.IsDeleted = orderWithDetail.IsDeleted;
 
@@ -196,7 +201,7 @@ namespace KTOtomasyon.Controllers
                 return Json(operationdata);
 
             }
-            
+
         }
 
         //Tıklanılan siparişin detaylarını getirir.
@@ -227,6 +232,7 @@ namespace KTOtomasyon.Controllers
                     orderWithDetail.Description = orderdata.Description;
                     orderWithDetail.OrderDate = orderdata.OrderDate;
                     orderWithDetail.CreatedDate = orderdata.CreatedDate;
+                    orderWithDetail.IsPaid = orderdata.IsPaid;
                     orderWithDetail.IsDelivered = orderdata.IsDelivered;
                     orderWithDetail.IsDeleted = orderdata.IsDeleted;
 
@@ -257,7 +263,7 @@ namespace KTOtomasyon.Controllers
                 ret.message = ex.Message;
             }
 
-            
+
             return Json(ret);
         }
 
@@ -295,17 +301,20 @@ namespace KTOtomasyon.Controllers
                     ret.message = "Müşteri Bulundu.";
                     ret.success = true;
 
+
+
                     ret.retObject = orderWithDetail;
                 }
-                
+
             }
             catch (Exception ex)
             {
                 ret.success = false;
                 ret.message = ex.Message;
+                ret.message = "Müşteri Bulunamadı.";
             }
-           
-            
+
+
             return Json(ret);
         }
 
@@ -357,8 +366,9 @@ namespace KTOtomasyon.Controllers
 
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    e.AddToDBLog("HomeController.Receipt");
                     RedirectToAction("ErrorPage", "Home");
                 }
             }
@@ -366,6 +376,7 @@ namespace KTOtomasyon.Controllers
             return PartialView(orderreceipt);
         }
 
+        //--Kullanıcılar--
         public ActionResult Users(int? p, string filter)
         {
             DisplayUsers user = new DisplayUsers();
@@ -412,9 +423,9 @@ namespace KTOtomasyon.Controllers
 
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-
+                    e.AddToDBLog("HomeController.Users");
                     RedirectToAction("ErrorPage", "Home");
                 }
 
@@ -519,7 +530,9 @@ namespace KTOtomasyon.Controllers
             }
         }
 
-        public ActionResult Operations(int? p, string filter)
+
+        //--Tadilatlar--
+        public ActionResult Operations(int? p, string filter, string pfilter)
         {
             DisplayOperations operation = new DisplayOperations();
 
@@ -541,14 +554,15 @@ namespace KTOtomasyon.Controllers
                         IQueryable<Operations> query = null;
                         if (string.IsNullOrEmpty(filter))
                         {
-                            query = db.Operations.Where(x => 1 == 1 && x.IsActive == true);
+                            query = db.Operations.Where(x => x.Product_Id.ToString() == filter && x.IsActive == true);
                         }
                         else
                         {
-                            query = db.Operations.Where(x => x.IsActive == true && (x.Name.Contains(filter)));
+                            query = db.Operations.Where(x => x.IsActive == true && (x.Product_Id.ToString().Equals(filter)));
                         }
 
                         operation.OperationList = query.OrderByDescending(x => x.Operation_Id).Skip(defaultPageSize * (p.Value - 1)).Take(defaultPageSize).ToList();
+                        operation.ProductName = db.Products.Where(x => x.Product_Id.ToString() == filter).FirstOrDefault().Name;
 
                         operation.CurrentPage = p.Value;
                         operation.TotalCount = query.Count();
@@ -574,6 +588,86 @@ namespace KTOtomasyon.Controllers
 
         }
 
+        public ActionResult NewOperation()
+        {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                try
+                {
+                    using (var db = new KTOtomasyonEntities())
+                    {
+                        ViewBag.VBProducts = db.Products.ToList();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.AddToDBLog("Newoperation");
+                }               
+
+            }
+            return View();
+        }
+
+        public ActionResult OperationAdder(Operations operation)
+        {
+            Operations op = new Operations();
+
+            using (var db = new KTOtomasyonEntities())
+            {
+                op.Product_Id = operation.Product_Id;
+                op.Name = operation.Name;
+                op.Price = operation.Price;
+                op.IsActive = true;
+
+                db.Operations.Add(op);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("NewOperation", "Home");
+        }
+
+        public ActionResult OperationEdit(int id)
+        {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                Operations op = null;
+
+                using (var db = new KTOtomasyonEntities())
+                {
+                    ViewBag.VBProducts = db.Products.ToList();
+                    op = db.Operations.Where(d => d.Operation_Id == id).First();
+                }
+                return View(op);
+            }
+        }
+
+        public ActionResult OperationUpdate(Operations operation)
+        {
+            Operations op = null;
+
+            using (var db = new KTOtomasyonEntities())
+            {
+                op = db.Operations.Where(x => x.Operation_Id == operation.Operation_Id).First();
+                op.Product_Id = operation.Product_Id;
+                op.Name = operation.Name;
+                op.Price = operation.Price;
+                op.IsActive = true;
+
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("NewOperation","Home");
+        }
+
+        //--Ürünler--
         public ActionResult Products(int? p, string filter)
         {
             DisplayProducts product = new DisplayProducts();
@@ -630,6 +724,11 @@ namespace KTOtomasyon.Controllers
 
         }
 
+        public ActionResult NewProduct()
+        {
+            return View();
+        }
+        [HttpPost]
         public ActionResult ProductAdder(Products product)
         {
             Products newproduct = new Products();
@@ -637,14 +736,68 @@ namespace KTOtomasyon.Controllers
             using (var db = new KTOtomasyonEntities())
             {
 
+
+
+                if (Request.Files.Count > 0)
+                {
+                    var file = Request.Files[0];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        var path = Path.Combine(Server.MapPath("~/img/producticons/"), fileName);
+                        file.SaveAs(path);
+                    }
+                }
+
                 newproduct.Name = product.Name;
                 newproduct.PhotoUrl = product.PhotoUrl;
                 newproduct.IsActive = true;
+
 
                 db.Products.Add(newproduct);
                 db.SaveChanges();
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        //--Harici Sayfalar
+        public ActionResult BackUp()
+        {
+
+            Shared.BackupDB();
+            string path = "C:\\backupdb";
+            var getfilesvm = GetFilesFromDirectory(path);
+
+            return View(getfilesvm);
+        }
+
+        public ActionResult AboutMe()
+        {
+            return View();
+        }
+
+        //--Harici Methodlar--
+        private List<FilesViewModel> GetFilesFromDirectory(string DirPath)
+        {
+
+            List<FilesViewModel> dosyavm = new List<FilesViewModel>();
+            
+            try
+            {
+                DirectoryInfo Dir = new DirectoryInfo(DirPath);
+                FileInfo[] FileList = Dir.GetFiles("*.*", SearchOption.AllDirectories);
+                foreach (FileInfo FI in FileList)
+                {
+                    dosyavm.Add(new FilesViewModel { FileName = FI.FullName });
+
+                }
+            }
+            catch (Exception e)
+            {
+                e.AddToDBLog("HomeController.GetFilesFromDirectory");
+            }
+            return dosyavm;
         }
 
         public ActionResult SendMail()
@@ -668,7 +821,6 @@ namespace KTOtomasyon.Controllers
             client.Send(mailMessage);
             return RedirectToAction("Index", "Home");
         }
-
 
 
 

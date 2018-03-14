@@ -12,12 +12,13 @@ namespace KTOtomasyon
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagrams
+    public partial class Logs
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int Log_Id { get; set; }
+        public string MethodName { get; set; }
+        public string ExMessage { get; set; }
+        public string Message { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<int> CreatedUser { get; set; }
     }
 }

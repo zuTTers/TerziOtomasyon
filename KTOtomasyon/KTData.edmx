@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="KTOtomasyonModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Logs">
+          <Key>
+            <PropertyRef Name="Log_Id" />
+          </Key>
+          <Property Name="Log_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MethodName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExMessage" Type="nvarchar" MaxLength="250" />
+          <Property Name="Message" Type="nvarchar" MaxLength="250" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedUser" Type="int" />
+        </EntityType>
         <EntityType Name="Operations">
           <Key>
             <PropertyRef Name="Operation_Id" />
@@ -37,6 +48,7 @@
           <Property Name="OrderDate" Type="datetime" />
           <Property Name="CreatedUser" Type="int" />
           <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="IsPaid" Type="bit" />
           <Property Name="IsDelivered" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
         </EntityType>
@@ -48,16 +60,6 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="PhotoUrl" Type="nvarchar" MaxLength="50" />
           <Property Name="IsActive" Type="bit" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -79,13 +81,12 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           <Key>
             <PropertyRef Name="Order_Id" />
             <PropertyRef Name="CustomerName" />
-            <PropertyRef Name="OrderDate" />
           </Key>
           <Property Name="Order_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="OrderDate" Type="datetime" Nullable="false" />
+          <Property Name="OrderDate" Type="datetime" />
           <Property Name="IsDelivered" Type="bit" />
           <Property Name="TotalPrice" Type="decimal" Precision="38" Scale="6" />
         </EntityType>
@@ -138,11 +139,11 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="KTOtomasyonModelStoreContainer">
+          <EntitySet Name="Logs" EntityType="Self.Logs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Operations" EntityType="Self.Operations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vOrders" EntityType="Self.vOrders" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -177,6 +178,17 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KTOtomasyonModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Logs">
+          <Key>
+            <PropertyRef Name="Log_Id" />
+          </Key>
+          <Property Name="Log_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MethodName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExMessage" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedUser" Type="Int32" />
+        </EntityType>
         <EntityType Name="Operations">
           <Key>
             <PropertyRef Name="Operation_Id" />
@@ -213,6 +225,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           <Property Name="OrderDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedUser" Type="Int32" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsPaid" Type="Boolean" />
           <Property Name="IsDelivered" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <NavigationProperty Name="OrderDetail" Relationship="Self.FK_OrderDetails_Orders" FromRole="Orders" ToRole="OrderDetail" />
@@ -227,16 +240,6 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           <Property Name="PhotoUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="Operations" Relationship="Self.FK_Operations_Products" FromRole="Products" ToRole="Operations" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -257,13 +260,12 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           <Key>
             <PropertyRef Name="Order_Id" />
             <PropertyRef Name="CustomerName" />
-            <PropertyRef Name="OrderDate" />
           </Key>
           <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
           <Property Name="IsDelivered" Type="Boolean" />
           <Property Name="TotalPrice" Type="Decimal" Precision="38" Scale="6" />
         </EntityType>
@@ -316,11 +318,11 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="KTOtomasyonEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Logs" EntityType="Self.Logs" />
           <EntitySet Name="Operations" EntityType="Self.Operations" />
           <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" />
           <EntitySet Name="Orders" EntityType="Self.Orders" />
           <EntitySet Name="Products" EntityType="Self.Products" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Users" EntityType="Self.Users" />
           <EntitySet Name="vOrders" EntityType="Self.vOrders" />
           <AssociationSet Name="FK_Operations_Products" Association="Self.FK_Operations_Products">
@@ -346,6 +348,18 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="KTOtomasyonModelStoreContainer" CdmEntityContainer="KTOtomasyonEntities">
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="KTOtomasyonModel.Logs">
+              <MappingFragment StoreEntitySet="Logs">
+                <ScalarProperty Name="Log_Id" ColumnName="Log_Id" />
+                <ScalarProperty Name="MethodName" ColumnName="MethodName" />
+                <ScalarProperty Name="ExMessage" ColumnName="ExMessage" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Operations">
             <EntityTypeMapping TypeName="KTOtomasyonModel.Operations">
               <MappingFragment StoreEntitySet="Operations">
@@ -379,6 +393,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
                 <ScalarProperty Name="IsDelivered" ColumnName="IsDelivered" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
               </MappingFragment>
@@ -391,17 +406,6 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="PhotoUrl" ColumnName="PhotoUrl" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="KTOtomasyonModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "AboutMe";
+    Layout = "~/Views/Shared/_LayoutLog.cshtml";
+}
+
+<div class="container" id="wrap">
+    <div class="row">
+        <div class="col-md-offset-4">
+            <div class="form-login">
+                <form action="#" method="post" style="padding:5%;">
+                    <h4 class="text-center text-uppercase" style="font-family:Century; font-weight:900; font-size:larger; font-kerning:normal;">İletişim</h4>
+                    <br />
+                    <p>Yazan ve Geliştiren: Zübeyir KOÇALİOĞLU</p>
+                    <br />
+                    <p>Telefon: 0537 566 07 28</p>
+                    <br />
+                    <p>E-Posta: zubeyir.kocalioglu@gmail.com</p>
+                    <div class="">
+                        <span class="group-btn">
+                            <a href="@Url.Action("Index","Home")" id="btnDon" rol="button" class="form-control text-uppercase text-center" style="background-color:#ff3e00; color:white; font-family:Century; font-weight:900;">Anasayfaya Dön</a>
+                        </span>
+                    </div>
+                    <div class="">
+                        <span class="group-btn">
+                            <a href="@Url.Action("BackUp","Home")" id="btnDon" rol="button" class="form-control text-uppercase text-center" style="background-color:#ff0000; color:white; font-family:Gisha; font-weight:900;">Veritabanını Yedekle</a>
+                        </span>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

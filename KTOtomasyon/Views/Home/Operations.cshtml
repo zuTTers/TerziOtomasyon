@@ -7,16 +7,35 @@
     <div class="container-fluid">
         <div class="card">
             <div class="header">
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <h4 class="title" style="color:blue;"><span class="fa fa-users"></span> &nbsp; İşlemler</h4>
                     <p class="category">İşlemler Listesi</p>
                 </div>
-                <div class="col-lg-6">
-                    <div class="category">
+                <div class="col-lg-8">
+                    <div class="category">                        
                         <form action="@Url.Action("Operations","Home")" method="post">
-                            <div class="col-lg-10"><input name="filter" type="search" class="form-control text-primary" placeholder="Ad/Soyad Ara" /></div>
+                            <div class="col-lg-3"><a href="@Url.Action("NewOperation","Home")" class="btn btn-primary"><span class="fa fa-plus"></span> Yeni Tadilat</a></div>
+                            <div class="col-lg-7">
+                                <select class="my-select" name="filter" title="Ürün Listesi" id="drpMUrunListe">
+                                    <option data-img-src="../img/producticons/0'.png" value="0">Ürün Seç..</option>
+                                    <option data-img-src="../img/producticons/1'.png" value="1">KAP</option>
+                                    <option data-img-src="../img/producticons/2'.png" value="2">Elbise</option>
+                                    <option data-img-src="../img/producticons/3'.png" value="3">Abiye</option>
+                                    <option data-img-src="../img/producticons/4'.png" value="4">Etek</option>
+                                    <option data-img-src="../img/producticons/5'.png" value="5">Pardösü</option>
+                                    <option data-img-src="../img/producticons/6'.png" value="6">Ferace</option>
+                                    <option data-img-src="../img/producticons/7'.png" value="7">Tunik</option>
+                                    <option data-img-src="../img/producticons/8'.png" value="8">Gömlek</option>
+                                    <option data-img-src="../img/producticons/9'.png" value="9">Ceket</option>
+                                    <option data-img-src="../img/producticons/10'.png" value="10">Palto</option>
+                                    <option data-img-src="../img/producticons/11'.png" value="11">Kaban</option>
+                                    <option data-img-src="../img/producticons/12'.png" value="12">T-Shirt</option>
+                                    <option data-img-src="../img/producticons/13'.png" value="13">Mont</option>
+                                    <option data-img-src="../img/producticons/14'.png" value="14">Pantolon</option>
+                                    <option data-img-src="../img/producticons/15'.png" value="15">Eşofman</option>
+                                </select>
+                            </div>
                             <div class="col-lg-2"><input type="submit" role="img" value="Ara" class="btn btn-primary" /></div>
-
                         </form>
                     </div>
                 </div>
@@ -32,11 +51,10 @@
                             @foreach (var operation in Model.OperationList.OrderByDescending(x=>x.Operation_Id).Where(x => x.IsActive == true))
                             {
                             <tr>                                
-                                <td>@operation.Product_Id</td>
+                                <td>@Model.ProductName</td>
                                 <td>@operation.Name</td>
-
                                 <td>@operation.Price ₺</td>
-                                <td>@Html.ActionLink(" İncele", "OperationDetail", "Home", new { id = operation.Operation_Id }, new { @class = "btn btn-success" }) </td>
+                                <td>@Html.ActionLink("Düzenle", "OperationEdit", "Home", new { id = operation.Operation_Id }, new { @class = "btn btn-primary" }) </td>
                             </tr>
                             }
                         </table>

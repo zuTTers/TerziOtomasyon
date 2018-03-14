@@ -13,6 +13,10 @@ $('#myModal').on('show.bs.modal', function (e) {
     $('.my-select', this).chosen({ width: "700px" });
     $('.my-select2', this).chosen({ width: "700px" });
 });
+$('#myModal').on('hidden.bs.modal', function () {
+    $(this).find('#frmSiparis')[0].reset();
+    $(this).find('#tabloveri').children("tr:has('td')").remove();
+});
 
 //Dropdownlistlere onChange attr'si eklendi.
 $("#drpMUrunListe").chosen().change(drpUrunIslem);
@@ -119,6 +123,7 @@ function GetOrder(id) {
             $("#txtMAciklama").val(orderwithdetail.Description);
             $("#txtMSTarihi").val(inputFormatDate(jsDate(orderwithdetail.OrderDate)));
             $("#txtMDelivery").attr('checked', orderwithdetail.IsDelivered);
+            $("#txtMPaid").attr('checked', orderwithdetail.IsPaid);
                    
         });
 
@@ -145,12 +150,6 @@ function HataBildirim() {
             timer: 5000
         });
 }
-
-function Yenile() { location.reload(); }
-
-$("#modalkapat").click(function () {
-    Yenile();
-});
 
 $("#btnUrunEkle").click(function () {
     var orderdetail = {};
@@ -195,11 +194,19 @@ $("#btnSiparisKaydet").click(function () {
     var MAciklama = $("#txtMAciklama").val();
     var MOrderId = $("#txtMOrderId").val();
     var MTDurum;
+    var MOdendi;
     if ($("#txtMDelivery")[0].checked == true) {
         MTDurum = true;
     }
     else {
         MTDurum = false;
+    }
+
+    if ($("#txtMPaid")[0].checked == true) {
+        MOdendi = true;
+    }
+    else {
+        MOdendi = false;
     }
 
 
@@ -210,6 +217,7 @@ $("#btnSiparisKaydet").click(function () {
     orderwithdetail.OrderDate = MSTarihi;
     orderwithdetail.CreatedUser = 1;
     orderwithdetail.CreatedDate = Date.now;
+    orderwithdetail.IsPaid = MOdendi;
     orderwithdetail.IsDelivered = MTDurum;
     orderwithdetail.IsDeleted = false;
 
@@ -244,3 +252,5 @@ $("#btnSiparisKaydet").click(function () {
         HataBildirim();
     }
 });
+
+

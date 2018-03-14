@@ -172,7 +172,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>KTData.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Logs.cs">
+      <DependentUpon>KTData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AllList.cs" />
+    <Compile Include="Models\FilesViewModel.cs" />
     <Compile Include="Models\OperationViewModels.cs" />
     <Compile Include="Models\ProductViewModels.cs" />
     <Compile Include="Models\ReceiptViewModels.cs" />
@@ -191,9 +195,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\OrderViewModels.cs" />
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>KTData.tt</DependentUpon>
-    </Compile>
     <Compile Include="Users.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
@@ -257,6 +258,7 @@
     <Content Include="Content\jquery-ui.structure.min.css" />
     <Content Include="Content\jquery-ui.theme.css" />
     <Content Include="Content\jquery-ui.theme.min.css" />
+    <Content Include="Content\simplePagination.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
@@ -419,9 +421,13 @@
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
+    <Content Include="Scripts\jquery-simple-pagination-plugin.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.fullscreen.js" />
+    <Content Include="Scripts\jquery.fullscreen.min.js" />
     <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\jquery.simplePagination.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -456,6 +462,12 @@
     <Content Include="Views\Shared\_LayoutLog.cshtml" />
     <Content Include="Views\Home\ErrorPage.cshtml" />
     <Content Include="Views\Home\Receipt.cshtml" />
+    <Content Include="Views\Home\AboutMe.cshtml" />
+    <Content Include="Views\Login\Support.cshtml" />
+    <Content Include="Views\Home\NewProduct.cshtml" />
+    <Content Include="Views\Home\BackUp.cshtml" />
+    <Content Include="Views\Home\NewOperation.cshtml" />
+    <Content Include="Views\Home\OperationEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

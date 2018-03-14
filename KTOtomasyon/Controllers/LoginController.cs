@@ -68,5 +68,10 @@ namespace KTOtomasyon.Controllers
                 return View(userdetail);
             }
         }
+
+        public ActionResult Support()
+        {
+            return View();
+        }
     }
 }

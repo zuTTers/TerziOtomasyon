@@ -15,16 +15,16 @@
                             <li class="list-group-item">
                                 Cinsiyet :
                                 @{
-                                    if (Model.Gender.Equals(true))
-                                    {
+                if (Model.Gender.Equals(true))
+                {
 
-                                        <bdo>Erkek</bdo>
+                    <bdo>Erkek</bdo>
 
-                                    }
-                                    else
-                                    {
-                                        <bdo>Kadın</bdo>
-                                    }
+}
+else
+{
+                    <bdo>Kadın</bdo>
+}
                                 }
 
                             </li>
@@ -33,22 +33,22 @@
                             <li class="list-group-item">
                                 Rol :
                                 @{
-                                    if (Model.UserType.Equals(1))
-                                    {
+                if (Model.UserType.Equals(1))
+                {
 
-                                        <bdo>Admin</bdo>
+                    <bdo>Admin</bdo>
 
-                                    }
-                                    else
-                                    {
-                                        <bdo>Personel</bdo>
-                                    }
+}
+else
+{
+                    <bdo>Personel</bdo>
+}
                                 }
                             </li>
                         </ul>
-                        @Html.ActionLink(" Geri", "Index", "Home", new { @class = "btn btn-primary" })
-                        @Html.ActionLink(" ", "UserEdit", "Home", new { id = Model.User_Id }, new { @class = "btn btn-warning pull-right fa fa-pencil" })
-                        @Html.ActionLink(" ", "UserDelete", "Home", new { id = Model.User_Id }, new { @class = "btn btn-danger pull-right fa fa-trash" })
+                        @Html.ActionLink(" Geri", "Index", "Home", new { @class = "btn btn-primary" }) &nbsp;
+                        @Html.ActionLink(" Düzenle", "UserEdit", "Home", new { id = Model.User_Id }, new { @class = "btn btn-warning pull-right" }) &nbsp;
+                        @*@Html.ActionLink(" Sil", "", "", new { @class = "btn btn-danger pull-right", @disabled = "true", @readonly= "readonly" }) &nbsp;*@
 
                     </div>
                 </div>

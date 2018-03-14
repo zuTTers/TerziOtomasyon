@@ -9,7 +9,6 @@ function jsDate(x) {
     return x;
 }
 
-
 function formatDate(formattedDate) {
     try {
         formattedDate = new Date(formattedDate);
@@ -44,6 +43,7 @@ function formatDateTime(formattedDate) {
     }
 
 }
+
 function formatTime(formattedDate) {
     try {
         var h = formattedDate.getHours();
@@ -73,92 +73,66 @@ function inputFormatDate(formattedDate) {
 
 }
 
+function IsNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+
+// Sayfalama yapılıyor. 'simplePagination' jQuery Plugin
+// Consider adding an ID to your table
+// incase a second table ever enters the picture.
+var items = $("table tbody tr");
+
+var numItems = items.length;
+var perPage = 15;
+
+// Only show the first 2 (or first `per_page`) items initially.
+items.slice(perPage).hide();
+
+// Now setup the pagination using the `.pagination-page` div.
+$(".pagination-page").pagination({
+    items: numItems,
+    itemsOnPage: perPage,
+    cssStyle: "light-theme",
+
+    // This is the actual page changing functionality.
+    onPageClick: function (pageNumber) {
+        // We need to show and hide `tr`s appropriately.
+        var showFrom = perPage * (pageNumber - 1);
+        var showTo = showFrom + perPage;
+
+        // We'll first hide everything...
+        items.hide()
+            // ... and then only show the appropriate rows.
+            .slice(showFrom, showTo).show();
+    }
+});
 
 
+// We'll create a function to check the URL fragment
+// and trigger a change of page accordingly.
+function checkFragment() {
+    // If there's no hash, treat it like page 1.
+    var hash = window.location.hash || "#page-1";
 
+    // We'll use a regular expression to check the hash string.
+    hash = hash.match(/^#page-(\d+)$/);
 
+    if (hash) {
+        // The `selectPage` function is described in the documentation.
+        // We've captured the page number in a regex group: `(\d+)`.
+        $(".pagination-page").pagination("selectPage", parseInt(hash[1]));
+    }
+};
 
+// We'll call this function whenever back/forward is pressed...
+$(window).bind("popstate", checkFragment);
 
-
-
-
-
-
-
-
-/*BURADAN AŞAĞISI BOŞ*/
-
-//(function (window) {
-
-//    /* A full compatability script from MDN: */
-//    var supportPageOffset = window.pageXOffset !== undefined;
-//    var isCSS1Compat = ((document.compatMode || "") === "CSS1Compat");
-
-//    /* Set up some variables  */
-//    var demoItem2 = document.getElementById("demoItem2");
-//    var demoItem3 = document.getElementById("demoItem3");
-//    /* Add an event to the window.onscroll event */
-//    window.addEventListener("scroll", function (e) {
-
-//        /* A full compatability script from MDN for gathering the x and y values of scroll: */
-//        var x = supportPageOffset ? window.pageXOffset : isCSS1Compat ? document.documentElement.scrollLeft : document.body.scrollLeft;
-//        var y = supportPageOffset ? window.pageYOffset : isCSS1Compat ? document.documentElement.scrollTop : document.body.scrollTop;
-
-//        demoItem2.style.left = -x + 50 + "px";
-//        demoItem3.style.top = -y + 50 + "px";
-//    });
-
-//})(window);
-
-//$(function () {
-//    var activeIndex = parseInt($('#AccordionIndex').val());
-
-//    $("#accordion").accordion({
-//        collapsible: true,
-//        active: activeIndex,
-//        event: "mousedown",
-//        change: function (event, ui) {
-//            var index = $(this).children('h3').index(ui.newHeader);
-//            $('#AccordionIndex').val(index);
-//        }
-//    });
-//});
-
-
-//$("#accordion").accordion({ header: "h3" });
-
-////this will open 1st accordian.
-//$('#openfirst').click(function () {
-//    $(".accordion").accordion({ active: 0 });
-//});
-
-////this will open 2nd accordian.
-//$('#BtnCustomerEkle').click(function () {
-//    var index = 0;    
-//    $(".accordion").accordion({ active: index + 1 });
-//    $("#AccordionIndex").val(index + 2);   
-
-//});
-
-////this will open 3rd accordian.
-//$('#openthird').click(function () {
-//    $(".accordion").accordion({ active: 2 });
-//});
-
-//$("#BtnUrunSec").on("click", function () {
-//    $("#txtOId2").val($("#txtOId").val());
-//    $("#txtPPrice2").val($("#txtPPrice").val());
-//    $("#txtPQuan2").val($("#txtPQuan").val());
-//});
-
-
-//$("#BtnUrunSec").click(function () {
-//    $("#txtOId2").val($("#txtOId").val());
-//    $("#txtPPrice2").val($("#txtPPrice").val());
-//    $("#txtPQuan2").val($("#txtPQuan").val());
-//});
-
-
-
-
+// ... and we'll also call it when the page has loaded
+// (which is right now).
+checkFragment();
 

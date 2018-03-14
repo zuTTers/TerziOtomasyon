@@ -27,6 +27,7 @@ namespace KTOtomasyon
         public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<int> CreatedUser { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<bool> IsPaid { get; set; }
         public Nullable<bool> IsDelivered { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
     

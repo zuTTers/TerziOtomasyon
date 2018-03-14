@@ -18,7 +18,7 @@ namespace KTOtomasyon
         public string CustomerName { get; set; }
         public string PhoneNumber { get; set; }
         public string Description { get; set; }
-        public System.DateTime OrderDate { get; set; }
+        public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<bool> IsDelivered { get; set; }
         public Nullable<decimal> TotalPrice { get; set; }
     }

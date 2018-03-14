@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Newoperation";
+}
+
+<br />
+<div class="content">
+    <div class="container-fluid">
+        <div class="card col-lg-6">
+            <div class="header">
+                <h4 class="title" style="color:blue;"><span class="pe-7s-notebook"></span> &nbsp;Yeni Tadilat Ekle</h4>
+                <p class="category">Tadilat Bilgileri</p>
+            </div>
+            <div class="content">
+                <form action="@Url.Action("OperationAdder","Home")" method="post">
+                    <p>Ürün Adı: @Html.DropDownList("Product_Id", new SelectList (ViewBag.VBProducts, "Product_Id","Name"), new { @class="form-control"})</p>
+                    <p>Tadilat Adı:  @Html.TextBox("Name", "", new { @class = "form-control", @placeholder="Örnek:Kol Daraltma" })</p>
+                    <p>Tadilat Tutarı:  @Html.TextBox("Price", "0", new { @class = "form-control", @onkeypress = "return IsNumber(event)" })</p>
+                    <p><input class="btn btn-primary" type="submit" value="Kaydet" /></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

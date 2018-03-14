@@ -27,7 +27,7 @@
     <link href="~/Content/CSS/font-awesome.min.css" rel="stylesheet" />
     <link href="~/assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
-
+    <link href="~/Content/simplePagination.css" rel="stylesheet" />
 </head>
 <body>
     <div class="wrapper">
@@ -67,8 +67,8 @@
                     </li>
                     <li class="active-pro">
                         <p class="copyright text-left">
-                            <a href="@Url.Action("SendMail","Home")" class="label">
-                                z'Order &copy;
+                            <a href="@Url.Action("AboutMe","Home")" class="label">
+                                zuTTers &copy;
                                 @DateTime.Now.Year
                             </a>
                         </p>
@@ -99,6 +99,11 @@
                                             <b class="caret hidden-sm hidden-xs"></b>
                                         </a>
                                         <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="@Url.Action("Support", "Login")">
+                                                    Destek
+                                                </a>
+                                            </li>
                                             <li>
                                                 <a href="@Url.Action("UserProfile", "Login", new { id = Session["UserId"]})">
                                                     Profil Bilgileri
@@ -138,101 +143,110 @@
     </div>
     <!-- Modal -->
     <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <!-- Modal content-->
-            <div class="modal-content" style="width:800px !important;">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" id="modalkapat" onclick="Yenile()">&times;</button>
-                    <h4 class="modal-title">Yeni Sipariş</h4>
-                </div>
-                <div class="modal-body ">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            @Html.Hidden("Order_Id", "0", new { @class = "form-control", @placeholder = "Ad", @id = "txtMOrderId", @style = "height:30px !important;" })
-                            <h6 class="text-uppercase">Müşteri Ad/Soyad</h6>
-                            @Html.TextBox("CustomerName", "", new { @class = "form-control", @placeholder = "Ad", @id = "txtMAdi", @style = "height:30px !important;" })
-                            <h6 class="text-uppercase"> Teslim Tarihi </h6>
-                            @Html.TextBox("OrderDate", "", new { @class = "form-control", @placeholder = "Tarih", @id = "txtMSTarihi", @type = "date", @style = "height:30px !important;" })
+        <form id="frmSiparis">
+            <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content" style="width:800px !important;">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" id="modalkapat"><b style="color:darkred !important;"><span class="fa fa-close"></span></b></button>
+                        <h4 class="modal-title">Yeni Sipariş</h4>
+                    </div>
+                    <div class="modal-body ">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                @Html.Hidden("Order_Id", "0", new { @class = "form-control", @id = "txtMOrderId" })
+                                <h6 class="text-uppercase">Müşteri Ad/Soyad</h6>
+                                @Html.TextBox("CustomerName", "", new { @class = "form-control", @placeholder = "İsim soyisim", @id = "txtMAdi", @style = "height:30px !important;" })
+                                <h6 class="text-uppercase"> Teslim Tarihi </h6>
+                                @Html.TextBox("OrderDate", "", new { @class = "form-control", @placeholder = "Tarih", @id = "txtMSTarihi", @type = "date", @style = "height:30px !important;" })
+                            </div>
+                            <div class="col-lg-6">
+                                <h6 class="text-uppercase">Telefon No</h6>
+                                <p class="col-lg-10">
+                                    @Html.TextBox("PhoneNumber", "", new { @class = "form-control", @placeholder = "( 5 * * ) * * *  * *  * *", @id = "txtMTelefon", @style = "height:30px !important;", @onkeypress = "return IsNumber(event)", @maxlength = "10" })
+                                </p><p class="col-lg-2">
+                                    <button id="btnTelefonBul" class="btn-xs btn btn-default" onclick="txtTelefonGetir()"><span class="fa fa-search"></span></button>
+                                </p>
+                                <h6 class="text-uppercase"> Açıklama </h6>
+                                @Html.TextBox("Description", "", new { @class = "form-control", @placeholder = "Borç?", @id = "txtMAciklama", @style = "height:30px !important;" })
+                            </div>
                         </div>
-                        <div class="col-lg-6">
-                            <h6 class="text-uppercase">Telefon No</h6>
-                            <p class="col-lg-10">
-                                @Html.TextBox("PhoneNumber", "", new { @class = "form-control", @placeholder = "Telefon", @id = "txtMTelefon", @style = "height:30px !important;" })
-                            </p><p class="col-lg-2">
-                                <button id="btnTelefonBul" class="btn-xs btn btn-default" onclick="txtTelefonGetir()"><span class="fa fa-search"></span></button>
-                            </p>
-                            <h6 class="text-uppercase"> Açıklama </h6>
-                            @Html.TextBox("Description", "", new { @class = "form-control", @placeholder = "Açıklama", @id = "txtMAciklama", @style = "height:30px !important;" })
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-lg-12" style="margin-top:10px;">
+                                <div class="col-lg-3">
+                                    <select class="my-select" name="pfilter" title="Ürün Listesi" id="drpMUrunListe">
+                                        <option data-img-src="../img/producticons/0'.png" value="0">Ürün Seç..</option>
+                                        <option data-img-src="../img/producticons/1'.png" value="1">KAP</option>
+                                        <option data-img-src="../img/producticons/2'.png" value="2">Elbise</option>
+                                        <option data-img-src="../img/producticons/3'.png" value="3">Abiye</option>
+                                        <option data-img-src="../img/producticons/4'.png" value="4">Etek</option>
+                                        <option data-img-src="../img/producticons/5'.png" value="5">Pardösü</option>
+                                        <option data-img-src="../img/producticons/6'.png" value="6">Ferace</option>
+                                        <option data-img-src="../img/producticons/7'.png" value="7">Tunik</option>
+                                        <option data-img-src="../img/producticons/8'.png" value="8">Gömlek</option>
+                                        <option data-img-src="../img/producticons/9'.png" value="9">Ceket</option>
+                                        <option data-img-src="../img/producticons/10'.png" value="10">Palto</option>
+                                        <option data-img-src="../img/producticons/11'.png" value="11">Kaban</option>
+                                        <option data-img-src="../img/producticons/12'.png" value="12">T-Shirt</option>
+                                        <option data-img-src="../img/producticons/13'.png" value="13">Mont</option>
+                                        <option data-img-src="../img/producticons/14'.png" value="14">Pantolon</option>
+                                        <option data-img-src="../img/producticons/15'.png" value="15">Eşofman</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <select class="my-select2" name="ofilter" title="İşlem Listesi" id="drpMIslemListe">
+                                        <option>İşlem Seç..</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2">
+                                    @Html.TextBox("Quantity", "1", new { @class = "form-control", @placeholder = "Adet", @id = "txtMAdet", @type = "number" })
+                                </div>
+                                <div class="col-lg-2">
+                                    @Html.TextBox("Price", "0", new { @class = "form-control", @placeholder = "Tutar", @id = "txtMPrice", @onkeypress = "return IsNumber(event)" })
+                                </div>
+                                <div class="col-lg-1">
+                                    <input type="button" name="btnUrunEkle" value="Ekle" id="btnUrunEkle" class="btn btn-default" />
+                                </div>
+                                <div class="divider"></div>
+                                <br />
+                            </div>
+                            <div class="modal-footer">
+                                <table class="table text-left" id="divOrderDetail">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td class="text-uppercase"><b>Tadilat</b></td>
+                                            <td class="text-uppercase"><b>Adet</b></td>
+                                            <td class="text-uppercase"><b>B.Tutar</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabloveri"><!--Tablo Dolduruluyor--></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="row" style="margin-top:10px;">
-                        <div class="col-lg-12" style="margin-top:10px;">
-                            <div class="col-lg-3">
-                                <select class="my-select" name="pfilter" title="Ürün Listesi" id="drpMUrunListe">
-                                    <option data-img-src="../img/producticons/0'.png" value="0">Ürün Seç..</option>
-                                    <option data-img-src="../img/producticons/1'.png" value="1">KAP</option>
-                                    <option data-img-src="../img/producticons/2'.png" value="2">Elbise</option>
-                                    <option data-img-src="../img/producticons/3'.png" value="3">Abiye</option>
-                                    <option data-img-src="../img/producticons/4'.png" value="4">Etek</option>
-                                    <option data-img-src="../img/producticons/5'.png" value="5">Pardösü</option>
-                                    <option data-img-src="../img/producticons/6'.png" value="6">Ferace</option>
-                                    <option data-img-src="../img/producticons/7'.png" value="7">Tunik</option>
-                                    <option data-img-src="../img/producticons/8'.png" value="8">Gömlek</option>
-                                    <option data-img-src="../img/producticons/9'.png" value="9">Ceket</option>
-                                    <option data-img-src="../img/producticons/10'.png" value="10">Palto</option>
-                                    <option data-img-src="../img/producticons/11'.png" value="11">Kaban</option>
-                                    <option data-img-src="../img/producticons/12'.png" value="12">T-Shirt</option>
-                                    <option data-img-src="../img/producticons/13'.png" value="13">Mont</option>
-                                    <option data-img-src="../img/producticons/14'.png" value="14">Pantolon</option>
-                                    <option data-img-src="../img/producticons/15'.png" value="15">Eşofman</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-3">
-                                <select class="my-select2" name="ofilter" title="İşlem Listesi" id="drpMIslemListe">
-                                    <option>İşlem Seç..</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-2">
-                                @Html.TextBox("Quantity", "1", new { @class = "form-control", @placeholder = "Adet", @id = "txtMAdet", @type = "number" })
-                            </div>
-                            <div class="col-lg-2">
-                                @Html.TextBox("Price", "0", new { @class = "form-control", @placeholder = "Tutar", @id = "txtMPrice" })
-                            </div>
-                            <div class="col-lg-1">
-                                <input type="button" name="btnUrunEkle" value="Ekle" id="btnUrunEkle" class="btn btn-default" />
-                            </div>
-                            <div class="divider"></div>
-                            <br />
+                    <div class="modal-footer">
+                        <div class="col-lg-2">
+                            <b class="text-muted">Teslim Durumu : </b>
+                            <label class="custom-control custom-checkbox">
+                                @Html.TextBox("IsDelivered", "", new { @class = "custom-control-input", @id = "txtMDelivery", @type = "checkbox" })
+                                <span class="custom-control-indicator"></span>
+                            </label>
                         </div>
-                        <div class="modal-footer" id="divOrderDetail">
-                            <table class="table text-left">
-                                <thead>
-                                    <tr>
-                                        <td></td>
-                                        <td class="text-uppercase"><b>Tadilat</b></td>
-                                        <td class="text-uppercase"><b>Adet</b></td>
-                                        <td class="text-uppercase"><b>B.Tutar</b></td>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabloveri"><!--Tablo Dolduruluyor--></tbody>
-                            </table>
+                        <div class="col-lg-2">
+                            <b class="text-muted">Ödendi Durumu : </b>
+                            <label class="custom-control custom-checkbox">
+                                @Html.TextBox("IsPaid", "", new { @class = "custom-control-input", @id = "txtMPaid", @type = "checkbox" })
+                                <span class="custom-control-indicator"></span>
+                            </label>
                         </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="col-lg-4">
-                        <b class="text-muted">Teslim Durumu : </b>
-                        <label class="custom-control custom-checkbox">
-                            @Html.TextBox("IsDelivered", "", new { @class = "custom-control-input", @id = "txtMDelivery", @type = "checkbox" })
-                            <span class="custom-control-indicator"></span>
-                        </label>
-                    </div>
-                    <div class="col-lg-8">
-                        <input id="btnSiparisKaydet" name="btnSiparisKaydet" type="button" class="btn btn-warning" value="Kaydet" />
+                        <div class="col-lg-8">
+                            <input id="btnSiparisKaydet" name="btnSiparisKaydet" type="button" class="btn btn-warning" value="Kaydet" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <!--   Core JS Files   -->
@@ -243,6 +257,8 @@
     <script src="~/Scripts/chosen.jquery.js"></script>
     <script src="~/Scripts/ImageSelect.jquery.js"></script>
     <script src="~/Scripts/bootstrap-select.js"></script>
+    <script src="~/Scripts/jquery.fullscreen.min.js"></script>
+    <script src="~/Scripts/jquery.simplePagination.js"></script>
     <!--  Checkbox, Radio & Switch Plugins -->
     <script src="~/assets/js/bootstrap-checkbox-radio-switch.js"></script>
     <!--  Charts Plugin -->
@@ -256,5 +272,6 @@
     <!-- Benim javascript dosyam -->
     <script src="~/Scripts/app.js"></script>
     <script src="~/Scripts/myorder.js"></script>
+
 </body>
 </html>
