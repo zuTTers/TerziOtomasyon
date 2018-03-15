@@ -23,7 +23,7 @@
 				hrefTextPrefix: '#page-',
 				hrefTextSuffix: '',
 				prevText: 'Geri',
-				nextText: 'Ýleri',
+				nextText: 'Ileri',
 				ellipseText: '&hellip;',
 				ellipsePageSet: true,
 				cssStyle: 'light-theme',

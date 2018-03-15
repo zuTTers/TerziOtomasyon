@@ -78,20 +78,21 @@ namespace KTOtomasyon.Controllers
             }
         }
 
+
         //Veritabanına log ekler.
         public static void AddToDBLog(this Exception exc, string MethodName, string Message="")
         {
-            Logs log = new Logs();
+            Logs logum = new Logs();
 
             using (var db = new KTOtomasyonEntities())
             {
-                log.CreatedDate = DateTime.Now;
-                log.CreatedUser = Convert.ToInt32(HttpContext.Current.Session["UserId"]);
-                log.ExMessage = exc.ToString();
-                log.MethodName = MethodName;
-                log.Message = Message;
+                logum.CreatedDate = DateTime.Now;
+                logum.CreatedUser = Convert.ToInt32(HttpContext.Current.Session["UserId"]);
+                logum.ExMessage = exc.ToString();
+                logum.MethodName = MethodName;
+                logum.Message = Message;
 
-                db.Logs.Add(log);
+                db.Logs.Add(logum);
                 db.SaveChanges();
             }
         }

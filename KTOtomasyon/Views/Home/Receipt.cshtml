@@ -34,87 +34,90 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="well col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+            <div class="col-lg-12">
                 <div class="text-center">
-                    <img src="~/img/logooldu.png" alt="allytees-500-trans.png" width="120" height="120">
-                    <h6 style="font-family:fantasy; font-weight:200;">FATURA BİLGİLERİ</h6>
+                    <img src="~/img/logooldu.png" alt="allytees-500-trans.png" width="120" height="60">
                 </div>
-                <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6 text-left">
-                        <shadow class="text-uppercase">
-                            <em>Fiş NO: @Model.Order_Id</em>
-                            <br />
-                            <em>@Model.CreatedDate.Value.ToShortDateString()</em>&nbsp;-&nbsp;
-                            <em>@Model.CreatedDate.Value.ToShortTimeString()</em>
+            </div>
+        </div>
+        <hr />
+        <div class="row" style="font-size:11px;">
+            <div class="col-lg-6">
+                <samp class="text-uppercase">Topçular Mah. Osman Gazi Cad. No:21 - 2 Eyüp / İstanbul</samp>
+                <samp><b>AXİS İSTANBUL AVM</b></samp>
+                <br />
+                <samp><b>0212 801 32 11</b></samp>
+                <br />
+                <samp><i>www.sampleterzi.com</i></samp>
+            </div>
 
-                            <br />
-                            <em>YEtKİLİ:  @Model.CreatedUserText</em>
-                        </shadow>
-                    </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6">
-                        <address class="text-uppercase">
-                            <strong class="text-right">AXİS Şubesİ</strong>
-                            <br>
-                            <em>TOPÇULAR MH OSMANGAZİ CD B2 NO 125</em>
-                            <em>EYÜP - İSTANBUL</em>
-                            <br>
-                            <abbr title="Telefon">Tel:</abbr> +90 (532) 484-6829
-                        </address>
-                    </div>
+            <div class="col-lg-6 text-right" style="font-size:11px;">
+                <div class="col-lg-12 text-uppercase">
+                    <samp>Fiş NO: @Model.Order_Id</samp>
+                    <br />
+                    <samp>@Model.CreatedDate.Value.ToShortDateString()</samp>&nbsp;-&nbsp;
+                    <samp>@Model.CreatedDate.Value.ToShortTimeString()</samp>
+                    <br />
+                    <samp>@Model.CreatedUserText</samp>
                 </div>
-                <div class="row">
-                    <table class="table table-hover">
-                        <thead style="font-size:13px !important; font-weight:400 !important;">
-                            <tr>
-                                <th>Ürün</th>
-                                <th>İşlem</th>
-                                <th>Adet</th>
-                                <th>B.Tutar</th>
-                                <th>T.Tutar</th>
-                            </tr>
-                        </thead>
-                        <tbody style="font-size:12px;">
-                            @foreach (var item in Model.DetailList.ToList())
-                            {
-                                <tr>
-                                    <td>@item.ProductName</td>
-                                    <td>@item.OperationText</td>
-                                    <td>@item.Quantity</td>
-                                    <td>@item.Price</td>
-                                    <td>@item.TotalPrice</td>
-                                </tr>
-                            }
-                            <tr>
-                                <td>   </td>
-                                <td><strong>Toplam Parça: </strong></td>
-                                <td><strong>@Model.TQuantity</strong></td>
-                                <td><b>Toplam Fiyat:</b> </td>
-                                <td>
-                                    <strong>@Model.TTotalPrice</strong>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div style="background-color:white;">
-                        <p>Müşteri Bilgileri</p>
-                    </div>
-                    <div>
-                        <b>Ad Soyad:</b> @Model.CustomerName
-                        <br />
-                        <b>Telefon:</b>@Model.PhoneNumber
-                        <br />
-                        <b>Teslim Tarihi:</b> @Model.OrderDate.Value.ToShortDateString()
-                    </div>
-                    <div>
-                        <b>Açıklama:</b>
-                        @Model.Description<br />
+            </div>
+        </div>
 
-                    </div>
-                    <div>
-                        <h2 style="text-align:center; font-family:fantasy;">
-                            TEŞEKKÜRLER
-                        </h2>
-                    </div>
+        <div class="row">
+            <table class="" border="1">
+                <thead style="font-size:15px !important; font-weight:600 !important;">
+                    <tr>
+                        <th>Ürün</th>
+                        <th>İşlem</th>
+                        <th>Adet</th>
+                        <th>B.Tutar</th>
+                        <th>T.Tutar</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size:12px;">
+                    @foreach (var item in Model.DetailList.ToList())
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.OperationText</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price ₺</td>
+                            <td>@item.TotalPrice ₺</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>   </td>
+                        <td><strong>Toplam Parça: </strong></td>
+                        <td><strong>@Model.TQuantity</strong></td>
+                        <td><b>Toplam Fiyat:</b> </td>
+                        <td><strong>@Model.TTotalPrice ₺</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row text-left">
+            <div>
+                <p class="text-uppercase" style="font-size:11px;">Müşteri Bilgileri</p>
+            </div>
+            <div style="font-size:11px;">
+                <samp>Ad Soyad: </samp>@Model.CustomerName
+                <br />
+                <samp>Telefon: </samp>@Model.PhoneNumber
+                <br />
+                <samp>Teslim Tarihi: </samp>@Model.OrderDate.Value.ToShortDateString()
+            </div>
+            <div style="font-size:11px;">
+                <samp>Açıklama:</samp>
+                @Model.Description <br />
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-lg-12" style="font-size:10px !important;">
+                    <em style="font-size:10px !important;"><i>SAMPLE Terzi'yi Tercih Ettiğiniz İçin Teşekkür Ederiz.</i></em>
+                    <em style="font-size:10px !important;" class="text-uppercase">Ürün verenler aşağıdaki şartları kabul etmiştir.</em>
+                    <em style="font-size:10px !important;">Temizleme talimatı olmayan giysiler garantisiz olarak temizlenir.</em>
+                    <em style="font-size:10px !important;">Deri,abiye ve gelinlikler garantisiz olarak temizlenir.</em>
+                    <em style="font-size:10px !important;">30 gün içerisinde alınmayan ürünlerden ve üretimden kaynaklı ürün bozulmalarından firmamız sorumlu değildir.</em>
                 </div>
             </div>
         </div>
@@ -138,8 +141,7 @@
     <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
     <script src="~/assets/js/demo.js"></script>
     <!-- Benim javascript dosyam -->
-    <script src="~/Scripts/app.js"></script>
-    <script src="~/Scripts/myorder.js"></script>
+    <script src="~/Scripts/myscripts/app.js"></script>
+    <script src="~/Scripts/myscripts/myorder.js"></script>
 </body>
-
 </html>

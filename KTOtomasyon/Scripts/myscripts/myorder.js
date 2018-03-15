@@ -59,15 +59,16 @@ function drpIslemGetir() {
 
 function txtTelefonGetir() {
     var pid = $("#txtMTelefon").val();
+
     $.post("Home/GetPhoneData", {
-        PhoneNumber: pid
+        PNumber: pid
     },
     function (data, status) {
         if (data.success == true) {
             Bildirim(data.message);
-            $("#txtMAdi").val(data.retObject.CustomerName);
-            $("#txtMTelefon").val(data.retObject.PhoneNumber);
-            $("#txtMAciklama").val(data.retObject.Description);
+            $("#txtMAdi").val(data.CustomerName);
+            $("#txtMTelefon").val(data.PhoneNumber);
+            $("#txtMAciklama").val(data.Description);
         }
         else {
             if (data.requiredLogin) {

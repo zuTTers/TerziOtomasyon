@@ -28,13 +28,15 @@
                                 <td class="text-uppercase"><b>Ürün Adı</b></td>
                                 <td class="text-uppercase"><b></b></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             @foreach (var product in Model.ProductList.OrderByDescending(x => x.Product_Id).Where(x => x.IsActive == true))
                             {
                             <tr>
                                 <td>@product.Product_Id</td>
                                 <td>@product.Name</td>
-                                <td><img src="../img/producticons/@product.PhotoUrl'.png" width="50" height="60"/>  </td>
+                                <td><img src="../img/producticons/@product.PhotoUrl'.png" width="50" height="60" /></td>
+                                <td>@Html.ActionLink("Düzenle", "ProductEdit", "Home", new { id = product.Product_Id }, new { @class = "btn btn-primary" }) </td>
                             </tr>
                             }
                         </table>

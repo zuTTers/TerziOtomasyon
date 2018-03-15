@@ -16,14 +16,8 @@ namespace KTOtomasyon.Controllers
     public class HomeController : Controller
     {
         //--Anasayfa--
-        //Bir sayfadaki kayıt sayısıdır.
+        //Bir sayfadaki kayıt sayısıdır.İptal!!!
         public int defaultPageSize = 15;
-
-        //Error sayfası controller.
-        public ActionResult ErrorPage()
-        {
-            return View();
-        }
 
         //Tüm siparişlerin listelendiği ekrandır.
         public ActionResult Index(int? p, string filter, string otype, string oname)
@@ -268,7 +262,7 @@ namespace KTOtomasyon.Controllers
         }
 
         //Telefon noya göre müşteri bilgisi çeker.
-        public JsonResult GetPhoneData(string PhoneNumber)
+        public JsonResult GetPhoneData(string PNumber)
         {
             OrderWithDetail orderWithDetail = new OrderWithDetail();
             ReturnValue ret = new ReturnValue();
@@ -285,25 +279,26 @@ namespace KTOtomasyon.Controllers
             {
                 using (var db = new KTOtomasyonEntities())
                 {
-                    var phonedata = db.Orders.Where(x => x.PhoneNumber == PhoneNumber).FirstOrDefault();
+                    var phonedata = db.Orders.Where(x => x.PhoneNumber == PNumber).FirstOrDefault();
 
-                    orderWithDetail.Order_Id = phonedata.Order_Id;
-                    orderWithDetail.CreatedUser = phonedata.CreatedUser;
-                    orderWithDetail.CreatedUserText = phonedata.Users.Name;
-                    orderWithDetail.CustomerName = phonedata.CustomerName;
-                    orderWithDetail.PhoneNumber = phonedata.PhoneNumber;
-                    orderWithDetail.Description = phonedata.Description;
-                    orderWithDetail.OrderDate = phonedata.OrderDate;
-                    orderWithDetail.CreatedDate = phonedata.CreatedDate;
-                    orderWithDetail.IsDelivered = phonedata.IsDelivered;
-                    orderWithDetail.IsDeleted = phonedata.IsDeleted;
+                    
+                        orderWithDetail.Order_Id = phonedata.Order_Id;
+                        orderWithDetail.CreatedUser = Convert.ToInt32(Session["UserId"]);
+                        orderWithDetail.CreatedUserText = phonedata.Users.Name;
+                        orderWithDetail.CustomerName = phonedata.CustomerName;
+                        orderWithDetail.PhoneNumber = phonedata.PhoneNumber;
+                        orderWithDetail.Description = phonedata.Description;
+                        orderWithDetail.OrderDate = phonedata.OrderDate;
+                        orderWithDetail.CreatedDate = phonedata.CreatedDate;
+                        orderWithDetail.IsPaid = phonedata.IsPaid;
+                        orderWithDetail.IsDelivered = phonedata.IsDelivered;
+                        orderWithDetail.IsDeleted = phonedata.IsDeleted;
 
-                    ret.message = "Müşteri Bulundu.";
-                    ret.success = true;
+                        ret.message = "Müşteri Bulundu.";
+                        ret.success = true;
 
-
-
-                    ret.retObject = orderWithDetail;
+                        ret.retObject = orderWithDetail;      
+                    
                 }
 
             }
@@ -311,9 +306,9 @@ namespace KTOtomasyon.Controllers
             {
                 ret.success = false;
                 ret.message = ex.Message;
-                ret.message = "Müşteri Bulunamadı.";
-            }
+                ex.AddToDBLog("HomeController.GetPhoneData");
 
+            }
 
             return Json(ret);
         }
@@ -492,19 +487,28 @@ namespace KTOtomasyon.Controllers
         public ActionResult UserUpdate(Users user)
         {
             Users userupdate = null;
-
-            using (var db = new KTOtomasyonEntities())
+            try
             {
-                userupdate = db.Users.Where(d => d.User_Id == user.User_Id).First();
-                userupdate.Name = user.Name;
-                userupdate.Gender = user.Gender;
-                userupdate.Mail = user.Mail;
-                userupdate.Password = user.Password;
-                userupdate.UserType = 1;
-                userupdate.IsDeleted = user.IsDeleted;
+                using (var db = new KTOtomasyonEntities())
+                {
+                    userupdate = db.Users.Where(d => d.User_Id == user.User_Id).First();
+                    userupdate.Name = user.Name;
+                    userupdate.Gender = user.Gender;
+                    userupdate.Birthday = user.Birthday;
+                    userupdate.Mail = user.Mail;
+                    userupdate.Password = user.Password;
+                    userupdate.UserType = 1;
+                    userupdate.IsDeleted = false;
+                    userupdate.IsActive = true;
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
             }
+            catch (Exception ex)
+            {
+                ex.AddToDBLog("HomeController.UserUpdate","Sıkıntı Büyük");               
+            }
+            
             return RedirectToAction("UserDetail", new { id = user.User_Id });
 
         }
@@ -773,6 +777,11 @@ namespace KTOtomasyon.Controllers
         }
 
         public ActionResult AboutMe()
+        {
+            return View();
+        }
+
+        public ActionResult ErrorPage()
         {
             return View();
         }
