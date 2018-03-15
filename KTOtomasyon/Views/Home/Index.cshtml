@@ -33,8 +33,8 @@
                                 <td class="text-uppercase"><b>Fiş No</b></td>
                                 <td class="text-uppercase"><b>Müşteri</b></td>
                                 <td class="text-uppercase"><b>Telefon No</b></td>
-                                <td class="text-uppercase"><b>Açıklama</b></td>
-                                <td class="text-uppercase"><b>Toplam Tutar</b></td>
+                                <td class="text-uppercase"><b>T. Borç Bakiye</b></td>
+                                <td class="text-uppercase"><b>T. Tutar</b></td>
                                 <td class="text-uppercase"><b>Teslim Tarihi</b></td>
                                 @{
                                     if (string.IsNullOrEmpty(ViewBag.oname) || (ViewBag.oname == "durum" && ViewBag.otype == "desc"))
@@ -64,7 +64,7 @@
                                     <td>@order.Order_Id</td>
                                     <td>@order.CustomerName</td>
                                     <td>@order.PhoneNumber</td>
-                                    <td>@order.Description</td>
+                                    <td>@order.Description ₺</td>
                                     <td>@String.Format("{0:N0}", @order.TotalPrice) ₺</td>
                                     <td>@order.OrderDate.Value.ToShortDateString()</td>
                                     <td>

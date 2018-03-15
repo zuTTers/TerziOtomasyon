@@ -343,6 +343,7 @@ namespace KTOtomasyon.Controllers
                         orderreceipt.TTotalPrice = Convert.ToInt32(orderdata.OrderDetail.Sum(x => x.TotalPrice).Value);
                         orderreceipt.TQuantity = orderdata.OrderDetail.Sum(x => x.Quantity).Value;
                         orderreceipt.DetailList = new List<OrderDetails>();
+                        orderreceipt.IsPaid = orderdata.IsPaid.Value;
 
                         foreach (var item in orderdata.OrderDetail.ToList())
                         {
