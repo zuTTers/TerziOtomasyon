@@ -167,8 +167,8 @@
                                 </p><p class="col-lg-2">
                                     <button id="btnTelefonBul" class="btn-xs btn btn-default" onclick="txtTelefonGetir(); return false;"><span class="fa fa-search"></span></button>
                                 </p>
-                                <h6 class="text-uppercase"> Açıklama </h6>
-                                @Html.TextBox("Description", "", new { @class = "form-control", @placeholder = "Borç?", @id = "txtMAciklama", @style = "height:30px !important;" })
+                                <h6 class="text-uppercase"> Toplam Borç Bakiyesi </h6>
+                                @Html.TextBox("Description", "", new { @class = "form-control", @placeholder = "Tutar", @id = "txtMAciklama", @style = "height:30px !important;" })
                             </div>
                         </div>
                         <div class="row" style="margin-top:10px;">
@@ -227,14 +227,14 @@
                     </div>
                     <div class="modal-footer">
                         <div class="col-lg-2">
-                            <b class="text-muted">Teslim Durumu : </b>
+                            <b class="text-muted">Teslim : </b>
                             <label class="custom-control custom-checkbox">
                                 @Html.TextBox("IsDelivered", "", new { @class = "custom-control-input", @id = "txtMDelivery", @type = "checkbox" })
                                 <span class="custom-control-indicator"></span>
                             </label>
                         </div>
                         <div class="col-lg-2">
-                            <b class="text-muted">Ödendi Durumu : </b>
+                            <b class="text-muted">Ödeme : </b>
                             <label class="custom-control custom-checkbox">
                                 @Html.TextBox("IsPaid", "", new { @class = "custom-control-input", @id = "txtMPaid", @type = "checkbox" })
                                 <span class="custom-control-indicator"></span>
@@ -252,12 +252,10 @@
     <!--   Core JS Files   -->
     <script src="~/Scripts/jquery-3.2.1.min.js"></script>
     <script src="~/Scripts/jquery-ui.min.js"></script>
-    <script src="~/Scripts/angular.min.js"></script>
     <script src="~/assets/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="~/Scripts/chosen.jquery.js"></script>
     <script src="~/Scripts/ImageSelect.jquery.js"></script>
     <script src="~/Scripts/bootstrap-select.js"></script>
-    <script src="~/Scripts/jquery.fullscreen.min.js"></script>
     <script src="~/Scripts/jquery.simplePagination.js"></script>
     <!--  Checkbox, Radio & Switch Plugins -->
     <script src="~/assets/js/bootstrap-checkbox-radio-switch.js"></script>

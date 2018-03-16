@@ -815,7 +815,7 @@ namespace KTOtomasyon.Controllers
             SmtpClient client = new SmtpClient();
 
             //If you need to authenticate
-            client.Credentials = new NetworkCredential("zubeyir.kocalioglu@gmail.com", "530549.zK");
+            client.Credentials = new NetworkCredential("zubeyir.kocalioglu@gmail.com", "********");
             client.Host = "smtp.gmail.com";
             client.Port = 465;
 

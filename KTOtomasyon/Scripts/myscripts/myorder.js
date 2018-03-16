@@ -66,9 +66,9 @@ function txtTelefonGetir() {
     function (data, status) {
         if (data.success == true) {
             Bildirim(data.message);
-            $("#txtMAdi").val(data.CustomerName);
-            $("#txtMTelefon").val(data.PhoneNumber);
-            $("#txtMAciklama").val(data.Description);
+            $("#txtMAdi").val(data.retObject.CustomerName);
+            $("#txtMTelefon").val(data.retObject.PhoneNumber);
+            $("#txtMAciklama").val(data.retObject.Description);
         }
         else {
             if (data.requiredLogin) {
