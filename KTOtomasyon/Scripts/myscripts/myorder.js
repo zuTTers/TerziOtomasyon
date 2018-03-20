@@ -123,6 +123,7 @@ function GetOrder(id) {
             $("#txtMTelefon").val(orderwithdetail.PhoneNumber);
             $("#txtMAciklama").val(orderwithdetail.Description);
             $("#txtMSTarihi").val(inputFormatDate(jsDate(orderwithdetail.OrderDate)));
+            $("#txtMCTarihi").val(inputFormatDate(jsDate(orderwithdetail.CreatedDate)));
             $("#txtMDelivery").attr('checked', orderwithdetail.IsDelivered);
             $("#txtMPaid").attr('checked', orderwithdetail.IsPaid);
                    

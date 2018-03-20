@@ -154,6 +154,8 @@
                     <div class="modal-body ">
                         <div class="row">
                             <div class="col-lg-6">
+                                @Html.TextBox("CreatedDate", DateTime.Now , new { @class = "form-control", @placeholder = "Tarih", @id = "txtMCTarihi", @type = "hidden", @style = "height:30px !important;" })
+
                                 @Html.Hidden("Order_Id", "0", new { @class = "form-control", @id = "txtMOrderId" })
                                 <h6 class="text-uppercase">Müşteri Ad/Soyad</h6>
                                 @Html.TextBox("CustomerName", "", new { @class = "form-control", @placeholder = "İsim soyisim", @id = "txtMAdi", @style = "height:30px !important;" })
@@ -175,22 +177,53 @@
                             <div class="col-lg-12" style="margin-top:10px;">
                                 <div class="col-lg-3">
                                     <select class="my-select" name="pfilter" title="Ürün Listesi" id="drpMUrunListe">
-                                        <option data-img-src="../img/producticons/0'.png" value="0">Ürün Seç..</option>
-                                        <option data-img-src="../img/producticons/1'.png" value="1">KAP</option>
-                                        <option data-img-src="../img/producticons/2'.png" value="2">Elbise</option>
-                                        <option data-img-src="../img/producticons/3'.png" value="3">Abiye</option>
-                                        <option data-img-src="../img/producticons/4'.png" value="4">Etek</option>
-                                        <option data-img-src="../img/producticons/5'.png" value="5">Pardösü</option>
-                                        <option data-img-src="../img/producticons/6'.png" value="6">Ferace</option>
-                                        <option data-img-src="../img/producticons/7'.png" value="7">Tunik</option>
-                                        <option data-img-src="../img/producticons/8'.png" value="8">Gömlek</option>
-                                        <option data-img-src="../img/producticons/9'.png" value="9">Ceket</option>
-                                        <option data-img-src="../img/producticons/10'.png" value="10">Palto</option>
-                                        <option data-img-src="../img/producticons/11'.png" value="11">Kaban</option>
-                                        <option data-img-src="../img/producticons/12'.png" value="12">T-Shirt</option>
-                                        <option data-img-src="../img/producticons/13'.png" value="13">Mont</option>
-                                        <option data-img-src="../img/producticons/14'.png" value="14">Pantolon</option>
-                                        <option data-img-src="../img/producticons/15'.png" value="15">Eşofman</option>
+                                        <option data-img-src="../img/producticons/0'.png" value="0" disabled selected>Ürün Seç..</option>
+                                        <optgroup label="Kadın">
+                                            <option data-img-src="../img/k/1.jpg" value="1">Kap</option>
+                                            <option data-img-src="../img/k/2.jpg" value="2">Elbise</option>
+                                            <option data-img-src="../img/k/3.jpg" value="3">Abiye</option>
+                                            <option data-img-src="../img/k/4.png" value="4">Etek</option>
+                                            <option data-img-src="../img/k/5.jpg" value="5">Pardösü</option>
+                                            <option data-img-src="../img/k/6.jpg" value="6">Ferace</option>
+                                            <option data-img-src="../img/k/7.png" value="7">Tunik</option>
+                                            <option data-img-src="../img/k/8.jpg" value="8">Gömlek</option>
+                                            <option data-img-src="../img/k/9.jpg" value="9">Ceket</option>
+                                            <option data-img-src="../img/k/10.jpg" value="10">Bluz</option>
+                                            <option data-img-src="../img/k/11.jpg" value="11">Kaban</option>
+                                            <option data-img-src="../img/k/12.jpg" value="12">T-Shirt</option>
+                                            <option data-img-src="../img/k/13.png" value="13">Kaztüyü Mont</option>
+                                            <option data-img-src="../img/k/26.jpg" value="14">Kaztüyü Yelek</option>
+                                            <option data-img-src="../img/k/24.jpg" value="15">Klasik Yelek</option>
+                                            <option data-img-src="../img/k/23.png" value="16">Şişme Yelek</option>
+                                            <option data-img-src="../img/k/22.jpg" value="17">Şişme Mont</option>
+                                            <option data-img-src="../img/k/14.jpg" value="18">Pantolon</option>
+                                            <option data-img-src="../img/k/15.jpg" value="19">Alt Eşofman</option>
+                                            <option data-img-src="../img/k/16.jpg" value="20">Üst Eşofman</option>
+                                            <option data-img-src="../img/k/18.jpg" value="21">Hırka</option>
+                                            <option data-img-src="../img/k/19.jpg" value="22">Kazak</option>
+                                            <option data-img-src="../img/k/20.jpg" value="23">Kapri</option>
+                                            <option data-img-src="../img/k/21.png" value="24">Manto</option>
+                                            <option data-img-src="../img/k/25.jpg" value="25">Şort</option>
+                                        </optgroup>
+                                        <optgroup label="Erkek">
+                                            <option data-img-src="../img/e/1.jpg" value="1">Alt Eşofman</option>
+                                            <option data-img-src="../img/e/2.jpg" value="2">Ceket</option>
+                                            <option data-img-src="../img/e/3.jpg" value="3">Gömlek</option>
+                                            <option data-img-src="../img/e/4.jpg" value="4">Hırka</option>
+                                            <option data-img-src="../img/e/5.jpeg" value="5">Kaban</option>
+                                            <option data-img-src="../img/e/6.jpg" value="6">Kapri</option>
+                                            <option data-img-src="../img/e/7.jpg" value="7">Kazak</option>
+                                            <option data-img-src="../img/e/8.jpg" value="8">Kaztüyü Mont</option>
+                                            <option data-img-src="../img/e/9.jpg" value="9">Kaztüyü Yelek</option>
+                                            <option data-img-src="../img/e/10.png" value="10">Klasik Yelek</option>
+                                            <option data-img-src="../img/e/11.jpg" value="11">Palto</option>
+                                            <option data-img-src="../img/e/12.jpg" value="12">Pantolon</option>
+                                            <option data-img-src="../img/e/13.jpg" value="13">Şişme Mont</option>
+                                            <option data-img-src="../img/e/14.jpg" value="14">Şişme Yelek</option>
+                                            <option data-img-src="../img/e/15.jpg" value="15">Şort</option>
+                                            <option data-img-src="../img/e/16.jpg" value="16">Tişort</option>
+                                            <option data-img-src="../img/e/17.jpg" value="17">Üst Eşofman</option>
+                                        </optgroup>
                                     </select>
                                 </div>
                                 <div class="col-lg-3">

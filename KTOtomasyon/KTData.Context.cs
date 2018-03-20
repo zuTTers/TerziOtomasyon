@@ -12,6 +12,8 @@ namespace KTOtomasyon
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class KTOtomasyonEntities : DbContext
     {
@@ -32,5 +34,18 @@ namespace KTOtomasyon
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<vOrders> vOrders { get; set; }
+    
+        public virtual ObjectResult<Nullable<decimal>> ILKPROS(Nullable<System.DateTime> firstodate, Nullable<System.DateTime> lastodate)
+        {
+            var firstodateParameter = firstodate.HasValue ?
+                new ObjectParameter("firstodate", firstodate) :
+                new ObjectParameter("firstodate", typeof(System.DateTime));
+    
+            var lastodateParameter = lastodate.HasValue ?
+                new ObjectParameter("lastodate", lastodate) :
+                new ObjectParameter("lastodate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("ILKPROS", firstodateParameter, lastodateParameter);
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace KTOtomasyon.Controllers
         public ActionResult Index(int? p, string filter, string otype, string oname)
         {
             DisplayOrderDetail orders = new DisplayOrderDetail();
+            
 
             if (p == null)
                 p = 1;
@@ -38,6 +39,8 @@ namespace KTOtomasyon.Controllers
                     //Siparişleri databeseden alıyoruz
                     using (var db = new KTOtomasyonEntities())
                     {
+                       
+
                         //Filter
                         IQueryable<vOrders> query = null;
                         if (string.IsNullOrEmpty(filter))
@@ -77,6 +80,7 @@ namespace KTOtomasyon.Controllers
                         //{
                         //    orders.TotalPage = (orders.TotalCount / defaultPageSize) + 1;
                         //}
+                        
                     }
                 }
                 catch (Exception e)
@@ -133,7 +137,7 @@ namespace KTOtomasyon.Controllers
                     orderadd.PhoneNumber = orderWithDetail.PhoneNumber;
                     orderadd.Description = orderWithDetail.Description;
                     orderadd.OrderDate = orderWithDetail.OrderDate;
-                    orderadd.CreatedDate = orderWithDetail.OrderDate;
+                    orderadd.CreatedDate = DateTime.Now;
                     orderadd.CreatedUser = Convert.ToInt32(Session["UserId"]);
                     orderadd.IsPaid = orderWithDetail.IsPaid;
                     orderadd.IsDelivered = orderWithDetail.IsDelivered;
@@ -283,16 +287,16 @@ namespace KTOtomasyon.Controllers
 
                     
                         orderWithDetail.Order_Id = phonedata.Order_Id;
-                        orderWithDetail.CreatedUser = Convert.ToInt32(Session["UserId"]);
-                        orderWithDetail.CreatedUserText = phonedata.Users.Name;
+                        //orderWithDetail.CreatedUser = Convert.ToInt32(Session["UserId"]);
+                        //orderWithDetail.CreatedUserText = phonedata.Users.Name;
                         orderWithDetail.CustomerName = phonedata.CustomerName;
                         orderWithDetail.PhoneNumber = phonedata.PhoneNumber;
                         orderWithDetail.Description = phonedata.Description;
-                        orderWithDetail.OrderDate = phonedata.OrderDate;
-                        orderWithDetail.CreatedDate = phonedata.CreatedDate;
-                        orderWithDetail.IsPaid = phonedata.IsPaid;
-                        orderWithDetail.IsDelivered = phonedata.IsDelivered;
-                        orderWithDetail.IsDeleted = phonedata.IsDeleted;
+                        //orderWithDetail.OrderDate = phonedata.OrderDate;
+                        //orderWithDetail.CreatedDate = phonedata.CreatedDate;
+                        //orderWithDetail.IsPaid = phonedata.IsPaid;
+                        //orderWithDetail.IsDelivered = phonedata.IsDelivered;
+                        //orderWithDetail.IsDeleted = phonedata.IsDeleted;
 
                         ret.message = "Müşteri Bulundu.";
                         ret.success = true;
@@ -832,6 +836,20 @@ namespace KTOtomasyon.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult Reports()
+        {
+            return View();
+        }
+
+        public JsonResult GetReport(DateTime? FirstOrderDate, DateTime? LastOrderDate)
+        {           
+            using (var db = new KTOtomasyonEntities())
+            {
+                var yilliktoplam = db.ILKPROS(FirstOrderDate, LastOrderDate).First();
+                return Json(yilliktoplam);
+            }
+        }
+        
 
 
     }

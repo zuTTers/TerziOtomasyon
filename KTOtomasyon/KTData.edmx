@@ -10,9 +10,9 @@
             <PropertyRef Name="Log_Id" />
           </Key>
           <Property Name="Log_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MethodName" Type="nvarchar" MaxLength="150" />
-          <Property Name="ExMessage" Type="nvarchar(max)" />
-          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="MethodName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExMessage" Type="nvarchar" MaxLength="250" />
+          <Property Name="Message" Type="nvarchar" MaxLength="250" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedUser" Type="int" />
         </EntityType>
@@ -43,7 +43,7 @@
           </Key>
           <Property Name="Order_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="OrderDate" Type="datetime" />
           <Property Name="CreatedUser" Type="int" />
@@ -65,12 +65,12 @@
           <Key>
             <PropertyRef Name="User_Id" />
           </Key>
-          <Property Name="User_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="nvarchar" MaxLength="10" />
+          <Property Name="User_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="Gender" Type="bit" />
           <Property Name="Birthday" Type="datetime" />
-          <Property Name="Mail" Type="nvarchar" MaxLength="50" />
-          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="UserType" Type="int" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="IsActive" Type="bit" />
@@ -81,11 +81,10 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           <Key>
             <PropertyRef Name="Order_Id" />
             <PropertyRef Name="CustomerName" />
-            
           </Key>
           <Property Name="Order_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="OrderDate" Type="datetime" />
           <Property Name="IsDelivered" Type="bit" />
@@ -103,7 +102,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderDetail_Operations">
+        <Association Name="FK_OrderDetails_Operation_Id">
           <End Role="Operations" Type="Self.Operations" Multiplicity="0..1" />
           <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -115,7 +114,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderDetail_Orders">
+        <Association Name="FK_OrderDetails_Orders">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -127,7 +126,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Orders_CreatedUser">
+        <Association Name="FK_Orders_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -139,6 +138,10 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="ILKPROS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="firstodate" Type="datetime" Mode="In" />
+          <Parameter Name="lastodate" Type="datetime" Mode="In" />
+        </Function>
         <EntityContainer Name="KTOtomasyonModelStoreContainer">
           <EntitySet Name="Logs" EntityType="Self.Logs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Operations" EntityType="Self.Operations" Schema="dbo" store:Type="Tables" />
@@ -161,15 +164,15 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
             <End Role="Products" EntitySet="Products" />
             <End Role="Operations" EntitySet="Operations" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderDetail_Operations" Association="Self.FK_OrderDetail_Operations">
+          <AssociationSet Name="FK_OrderDetails_Operation_Id" Association="Self.FK_OrderDetails_Operation_Id">
             <End Role="Operations" EntitySet="Operations" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderDetail_Orders" Association="Self.FK_OrderDetail_Orders">
+          <AssociationSet Name="FK_OrderDetails_Orders" Association="Self.FK_OrderDetails_Orders">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK_Orders_CreatedUser" Association="Self.FK_Orders_CreatedUser">
+          <AssociationSet Name="FK_Orders_Users" Association="Self.FK_Orders_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
@@ -183,9 +186,9 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
             <PropertyRef Name="Log_Id" />
           </Key>
           <Property Name="Log_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MethodName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ExMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MethodName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExMessage" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedUser" Type="Int32" />
         </EntityType>
@@ -220,7 +223,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           </Key>
           <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OrderDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedUser" Type="Int32" />
@@ -246,11 +249,11 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
             <PropertyRef Name="User_Id" />
           </Key>
           <Property Name="User_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Gender" Type="Boolean" />
           <Property Name="Birthday" Type="DateTime" Precision="3" />
-          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserType" Type="Int32" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="IsActive" Type="Boolean" />
@@ -263,7 +266,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           </Key>
           <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OrderDate" Type="DateTime" Precision="3" />
           <Property Name="IsDelivered" Type="Boolean" />
@@ -341,6 +344,10 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
             <End Role="Users" EntitySet="Users" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
+          <FunctionImport Name="ILKPROS" ReturnType="Collection(Decimal)">
+            <Parameter Name="firstodate" Mode="In" Type="DateTime" />
+            <Parameter Name="lastodate" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -437,6 +444,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ILKPROS" FunctionName="KTOtomasyonModel.Store.ILKPROS" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -452,7 +460,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

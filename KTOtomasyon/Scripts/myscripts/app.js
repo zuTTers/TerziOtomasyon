@@ -1,4 +1,59 @@
-﻿
+﻿function Rapor() {
+    $.post("GetReport", {
+        LastOrderDate: $("#LastOrderDate").val(),
+        FirstOrderDate: $("#FirstOrderDate").val()
+    },
+        function (datax, status) {
+            data.series[0][0] = datax;
+            Bildirim(data.series[0][0]);
+            $("#lblToplamPara").val(datax);
+            //$("#chartActivity").trigger("chosen:updated");
+        });
+    
+    
+}
+
+var data = {
+    labels: ['Ciro','Hedef'],
+    series: [
+        [1000],
+        [1000]
+    ]
+};
+
+var options = {
+    seriesBarDistance: 10,
+    axisX: {
+        showGrid: false
+    }
+};
+
+var responsiveOptions = [
+    ['screen and (max-width: 640px)', {
+        seriesBarDistance: 5,
+        axisX: {
+            labelInterpolationFnc: function (value) {
+                return value[0];
+            }
+        }
+    }]
+];
+
+
+Chartist.Bar('#chartActivity', data, options, responsiveOptions);
+
+
+
+
+
+
+
+
+
+
+
+
+
 function jsDate(x) {
     var jsonDateRE = /^\/Date\((-?\d+)(\+|-)?(\d+)?\)\/$/;
     var arr = jsonDateRE.exec(x);

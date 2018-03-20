@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Reports";
+
+}
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="col-md-6">
+                <div class="">
+                    <div class="card-header ">
+                        <h4 class="card-title">Satışlar</h4>
+                        <p class="card-category">Tüm siparişlerin tarihler arası toplam fiyatını verir.</p>
+                    </div>
+                    <div class="card-body ">
+                        <div id="chartActivity" class="ct-chart"></div>
+                    </div>
+                    <div class="card-footer ">
+                        <div class="legend">
+                            <i class="fa fa-circle text-info"></i> Ciro
+                            <i class="fa fa-circle text-danger"></i> Hedef
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="card">
+                    
+                        <input type="date" id="FirstOrderDate" value="" class="form-control" />
+                        <input type="date" id="LastOrderDate" value="" class="form-control" />
+                        <input type="submit" name="btnGonder" value="Gönder" class="btn btn-default" onclick="Rapor()"/>
+                        <br />
+                        <input id="lblToplamPara" type="text" />
+                    
+                </div>
+                </div>
+            </div>
+        </div>
+</div>
