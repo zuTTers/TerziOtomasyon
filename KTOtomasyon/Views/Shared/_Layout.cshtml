@@ -65,6 +65,12 @@
                             <p>Personeller</p>
                         </a>
                     </li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Reports" ? "active" : "")">
+                        <a href="@Url.Action("Reports", "Home")">
+                            <i class="fa fa-users"></i>
+                            <p>Raporlar</p>
+                        </a>
+                    </li>
                     <li class="active-pro">
                         <p class="copyright text-left">
                             <a href="@Url.Action("AboutMe","Home")" class="label">

@@ -838,7 +838,24 @@ namespace KTOtomasyon.Controllers
 
         public ActionResult Reports()
         {
-            return View();
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                try
+                {
+
+                }
+                catch (Exception ex)
+                {
+
+                    ex.AddToDBLog("Reports");
+                }
+            }
+
+                return View();
         }
 
         public JsonResult GetReport(DateTime? FirstOrderDate, DateTime? LastOrderDate)
