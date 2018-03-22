@@ -3,20 +3,6 @@ var orderwithdetail = { OrderDetails: [] };
 var OperationData;
 var OrderData;
 
-//Image Chosen Dropdown
-$(".my-select").chosen({ width: "32px;", height: "32px;" });
-$(".my-select2").chosen();
-
-//Modal Ekranı
-$('#myModal').on('show.bs.modal', function (e) {
-    console.debug('modal shown!');
-    $('.my-select', this).chosen({ width: "700px" });
-    $('.my-select2', this).chosen({ width: "700px" });
-});
-$('#myModal').on('hidden.bs.modal', function () {
-    $(this).find('#frmSiparis')[0].reset();
-    $(this).find('#tabloveri').children("tr:has('td')").remove();
-});
 
 //Dropdownlistlere onChange attr'si eklendi.
 $("#drpMUrunListe").chosen().change(drpUrunIslem);
@@ -129,28 +115,6 @@ function GetOrder(id) {
                    
         });
 
-}
-
-function Bildirim(text) {
-    $.notify({
-        icon: 'fa fa-info',
-        message: text
-    },
-        {
-            type: 'info',
-            timer: 5000
-        });
-}
-
-function HataBildirim() {
-    $.notify({
-        icon: 'fa fa-warning',
-        message: 'Bilgilerinizi kontrol ediniz!'
-    },
-        {
-            type: 'danger',
-            timer: 5000
-        });
 }
 
 $("#btnUrunEkle").click(function () {

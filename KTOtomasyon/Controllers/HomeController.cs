@@ -846,7 +846,7 @@ namespace KTOtomasyon.Controllers
             {
                 try
                 {
-
+                    
                 }
                 catch (Exception ex)
                 {
@@ -858,13 +858,23 @@ namespace KTOtomasyon.Controllers
                 return View();
         }
 
-        public JsonResult GetReport(DateTime? FirstOrderDate, DateTime? LastOrderDate)
+        public JsonResult GetDateReport(DateTime? FirstOrderDate, DateTime? LastOrderDate)
         {           
             using (var db = new KTOtomasyonEntities())
             {
-                var yilliktoplam = db.ILKPROS(FirstOrderDate, LastOrderDate).First();
-                return Json(yilliktoplam);
+                var toplam = db.ILKPROS(FirstOrderDate, LastOrderDate).First();
+                return Json(toplam);
             }
+        }
+
+        public JsonResult GetMountlyReport()
+        {
+            using (var db =new KTOtomasyonEntities())
+            {
+                var ayliktoplam = db.AYLIKSIPARISRAPOR().ToList();
+                return Json(ayliktoplam);
+            }
+
         }
         
 

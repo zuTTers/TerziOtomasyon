@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c4080798e9404464aeeb6353d62c8c22" Name="Diagram1">
+      <Diagram DiagramId="d09f0d77cb4c474c824b679d2e4b2199" Name="Diagram1">
         <EntityTypeShape EntityType="KTOtomasyonModel.Logs" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="KTOtomasyonModel.Operations" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="KTOtomasyonModel.OrderDetail" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />

@@ -35,6 +35,11 @@ namespace KTOtomasyon
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<vOrders> vOrders { get; set; }
     
+        public virtual ObjectResult<Nullable<decimal>> AYLIKSIPARISRAPOR()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("AYLIKSIPARISRAPOR");
+        }
+    
         public virtual ObjectResult<Nullable<decimal>> ILKPROS(Nullable<System.DateTime> firstodate, Nullable<System.DateTime> lastodate)
         {
             var firstodateParameter = firstodate.HasValue ?

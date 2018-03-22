@@ -341,7 +341,7 @@
       <LastGenOutput>KTData.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\angular.min.js" />
-    <Content Include="Scripts\myscripts\app.js" />
+    <Content Include="Scripts\myscripts\myapp.js" />
     <Content Include="Scripts\base.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -477,6 +477,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\myscripts\myorder.js" />
+    <Content Include="Scripts\myscripts\myreports.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />

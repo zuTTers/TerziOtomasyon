@@ -1,59 +1,44 @@
-﻿function Rapor() {
-    $.post("GetReport", {
-        LastOrderDate: $("#LastOrderDate").val(),
-        FirstOrderDate: $("#FirstOrderDate").val()
+﻿/*Bildirim yapılacak text bu fonksiyona gelir.*/
+function Bildirim(text) {
+    $.notify({
+        icon: 'fa fa-info',
+        message: text
     },
-        function (datax, status) {
-            data.series[0][0] = datax;
-            Bildirim(data.series[0][0]);
-            $("#lblToplamPara").val(datax);
-            //$("#chartActivity").trigger("chosen:updated");
+        {
+            type: 'info',
+            timer: 5000
         });
-    
-    
+}
+/*Hata Bildirimi yapar.*/
+function HataBildirim() {
+    $.notify({
+        icon: 'fa fa-warning',
+        message: 'Bilgilerinizi kontrol ediniz!'
+    },
+        {
+            type: 'danger',
+            timer: 5000
+        });
 }
 
-var data = {
-    labels: ['Ciro','Hedef'],
-    series: [
-        [1000],
-        [1000]
-    ]
-};
+//Image Chosen Dropdown
+$(".my-select").chosen({ width: "32px;", height: "32px;" });
+$(".my-select2").chosen();
 
-var options = {
-    seriesBarDistance: 10,
-    axisX: {
-        showGrid: false
-    }
-};
-
-var responsiveOptions = [
-    ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
-        axisX: {
-            labelInterpolationFnc: function (value) {
-                return value[0];
-            }
-        }
-    }]
-];
-
-
-Chartist.Bar('#chartActivity', data, options, responsiveOptions);
+//Modal Ekranı
+$('#myModal').on('show.bs.modal', function (e) {
+    console.debug('modal shown!');
+    $('.my-select', this).chosen({ width: "700px" });
+    $('.my-select2', this).chosen({ width: "700px" });
+});
+$('#myModal').on('hidden.bs.modal', function () {
+    $(this).find('#frmSiparis')[0].reset();
+    $(this).find('#tabloveri').children("tr:has('td')").remove();
+});
 
 
 
-
-
-
-
-
-
-
-
-
-
+/*Tarih Formatını ayarlar*/
 function jsDate(x) {
     var jsonDateRE = /^\/Date\((-?\d+)(\+|-)?(\d+)?\)\/$/;
     var arr = jsonDateRE.exec(x);
@@ -128,6 +113,7 @@ function inputFormatDate(formattedDate) {
 
 }
 
+/*Textbox'ın sadece int değer almasını sağlar.*/
 function IsNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;

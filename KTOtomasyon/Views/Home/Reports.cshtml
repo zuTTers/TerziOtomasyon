@@ -3,43 +3,37 @@
     ViewBag.Title = "Reports";
 
 }
-<br />
 
 <div class="content">
     <div class="container-fluid">
-        
-        <div class="card" >
+        <div class="card">
             <div class="col-md-6">
-                <div class="card text-center"  style="padding:5%;">
+                <div class="card" style="padding:5%">
                     <div class="card-header ">
-                        <h4 class="card-title">Yıllık Toplam Sipariş Tutarı</h4>
+                        <h4 class="card-title">Gelir Miktarı Grafiği</h4>
                     </div>
                     <div class="card-body ">
-                        <div id="chartActivity" class="ct-chart"></div>
+                        <div id="chartViews" class="ct-chart"></div>
                     </div>
                     <div class="card-footer ">
                         <div class="legend">
-                            <i class="fa fa-circle text-info"></i> Ciro
-                            <i class="fa fa-circle text-danger"></i> Hedef
+                            <i class="fa fa-circle text-info"></i> Gelir
                         </div>
                         <hr>
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6">
-                <div class="card" style="padding:5%;">
-                    <div class="card-header ">
-                        <h4 class="card-title">Tarihler Arası Sipariş Tutarı Hesaplama</h4>
-                    </div>
-                    <div class="card-body">
-                        Başlangıç Tarihi:<input type="date" id="FirstOrderDate" value="" class="form-control" />
-                        Bitiş Tarihi:<input type="date" id="LastOrderDate" value="" class="form-control" />
-                        <br />
-                        <input type="submit" name="btnGonder" value="Hesapla" class="form-control" style="background-color:aquamarine;" onclick="Rapor()" />
-                        <br /><br />
-                        Değer:<input id="lblToplamPara" type="text" style="border:0px;" readonly/>
-                    </div>
+                <div class="card-header ">
+                    <h4 class="card-title">Aylık Gelir Miktarı</h4>
+                </div>
+                <div class="card-body">
+                    <input type="submit" name="btnGonder" value="Tarihsel Getir" class="form-control" style="background-color:aquamarine;" onclick="TarihRapor()" />
+                    <br />
+                    Başlangıç Tarihi:<input type="date" id="FirstOrderDate" value="" class="form-control" />
+                    Bitiş Tarihi:<input type="date" id="LastOrderDate" value="" class="form-control" />
+                    <hr />
+                    <input type="submit" id="btnAylikRapor" value="Aylık Getir" class="form-control" style="background-color:darkcyan;" onclick="AylikRapor()" />
                 </div>
             </div>
         </div>
