@@ -72,39 +72,6 @@
             </div>
         </div>
         <br />
-        <div class="row">
-            <table border="1" class="table table-bordered" style="border:5px !important;">
-                <thead style="font-size:11px !important; font-weight:600 !important;">
-                    <tr>
-                        <th>Ürün</th>
-                        <th>İşlem</th>
-                        <th>Adet</th>
-                        <th>B.Tutar</th>
-                        <th>T.Tutar</th>
-                    </tr>
-                </thead>
-                <tbody style="font-size:9px;">
-                    @foreach (var item in Model.DetailList.ToList())
-                    {
-                        <tr>
-                            <td>@item.ProductName</td>
-                            <td>@item.OperationText</td>
-                            <td>@item.Quantity</td>
-                            <td>@item.Price ₺</td>
-                            <td>@item.TotalPrice ₺</td>
-                        </tr>
-                    }
-                    <tr>
-                        <td><strong> Toplam Parça: </strong>  </td>
-                        <td></td>
-                        <td><strong>@Model.TQuantity</strong></td>
-                        <td><b>Toplam Fiyat:</b> </td>
-                        <td><strong>@Model.TTotalPrice ₺</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <br />
         <div class="row text-left">
             <div>
                 <p class="text-uppercase text-center" style="font-size:11px;">Müşteri Bilgileri</p>
@@ -119,25 +86,57 @@
                 <samp>Toplam Borç Bakiyeniz:</samp>@Model.Description ₺
                 <br />
                 @{ if (@Model.IsPaid == true)
-                    {
-                        ViewBag.Durum = "Ödendi";
-                    }
-                    else
-                    {
-                        ViewBag.Durum = "Ödenmedi";
-                    }
+                {
+                    ViewBag.Durum = "Ödendi";
+                }
+                else
+                {
+                    ViewBag.Durum = "Ödenmedi";
+                }
                 }
                 <em class="pull-right"><b>< @ViewBag.Durum ></b></em>
             </div>
-            <br />
-            <div class="row">
-                <div class="col-lg-12" style="font-size:10px !important;">
-                    <em style="font-size:10px !important;"><i>SAMPLE Terzi'yi Tercih Ettiğiniz İçin Teşekkür Ederiz.</i></em>
-                    <em style="font-size:10px !important;" class="text-uppercase">Ürün verenler aşağıdaki şartları kabul etmiştir.</em>
-                    <em style="font-size:10px !important;">Temizleme talimatı olmayan giysiler garantisiz olarak temizlenir.</em>
-                    <em style="font-size:10px !important;">Deri,abiye ve gelinlikler garantisiz olarak temizlenir.</em>
-                    <em style="font-size:10px !important;">30 gün içerisinde alınmayan ürünlerden ve üretimden kaynaklı ürün bozulmalarından firmamız sorumlu değildir.</em>
-                </div>
+
+        </div>
+        <br />
+        <div class="row">
+            <table border="1" class="table table-bordered" style="border:5px !important;">
+                <thead style="font-size:11px !important; font-weight:600 !important;">
+                    <tr>
+                        <th>Ürün</th>
+                        <th>İşlem</th>
+                        <th>Adet</th>
+                        <th>B.Tutar</th>
+                        <th>T.Tutar</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size:9px;">
+                    @foreach (var item in Model.DetailList.ToList())
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.OperationText</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Price ₺</td>
+                        <td>@item.TotalPrice ₺</td>
+                    </tr>
+            }
+                    <tr>
+                        <td><strong> Toplam Parça: </strong>  </td>
+                        <td></td>
+                        <td><strong>@Model.TQuantity</strong></td>
+                        <td><b>Toplam Fiyat:</b> </td>
+                        <td><strong>@Model.TTotalPrice ₺</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12" style="font-size:10px !important;">
+                <em style="font-size:10px !important;"><i>SAMPLE Terzi'yi Tercih Ettiğiniz İçin Teşekkür Ederiz.</i></em>
+                <em style="font-size:10px !important;" class="text-uppercase">Ürün verenler aşağıdaki şartları kabul etmiştir.</em>
+                <em style="font-size:10px !important;">30 gün içerisinde alınmayan ürünlerden ve üretimden kaynaklı ürün bozulmalarından firmamız sorumlu değildir.</em>
             </div>
         </div>
     </div>
