@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="KTOtomasyonModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="KTOtomasyonModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Logs">
           <Key>
             <PropertyRef Name="Log_Id" />
@@ -51,6 +51,7 @@
           <Property Name="IsPaid" Type="bit" />
           <Property Name="IsDelivered" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
+          <Property Name="Discount" Type="int" />
         </EntityType>
         <EntityType Name="Products">
           <Key>
@@ -75,13 +76,6 @@
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="IsActive" Type="bit" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'KTOtomasyon.dbo.vOperations' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vOperations">
-          <Property Name="Name" Type="nvarchar" MaxLength="50" />
-          <Property Name="Expr1" Type="varchar" MaxLength="50" />
-          <Property Name="Price" Type="int" />
-        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vOrders">
@@ -185,8 +179,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KTOtomasyonModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -242,6 +235,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           <Property Name="IsDeleted" Type="Boolean" />
           <NavigationProperty Name="OrderDetail" Relationship="Self.FK_OrderDetails_Orders" FromRole="Orders" ToRole="OrderDetail" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
+          <Property Name="Discount" Type="Int32" />
         </EntityType>
         <EntityType Name="Products">
           <Key>
@@ -403,6 +397,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="KTOtomasyonModel.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />

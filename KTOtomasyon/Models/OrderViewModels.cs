@@ -19,6 +19,7 @@ namespace KTOtomasyon.Models
         public Nullable<bool> IsDelivered { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
         public IList<OrderDetails> OrderDetails { get; set; }
+        public Nullable<int> Discount { get; set;}
 
     }
 
@@ -34,6 +35,7 @@ namespace KTOtomasyon.Models
         public Nullable<decimal> TTotalPrice { get; set; }
         public int TQuantity { get; set; }
         public string ProductName { get; set; }
+        public Nullable<int> Discount { get; set; }
     }
 
     public class DisplayOrderDetail

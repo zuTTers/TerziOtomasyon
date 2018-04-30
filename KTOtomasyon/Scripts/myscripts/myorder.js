@@ -112,6 +112,7 @@ function GetOrder(id) {
             $("#txtMCTarihi").val(inputFormatDate(jsDate(orderwithdetail.CreatedDate)));
             $("#txtMDelivery").attr('checked', orderwithdetail.IsDelivered);
             $("#txtMPaid").attr('checked', orderwithdetail.IsPaid);
+            $("#txtMDiscount").val(orderwithdetail.Discount);
                    
         });
 
@@ -174,6 +175,7 @@ $("#btnSiparisKaydet").click(function () {
     else {
         MOdendi = false;
     }
+    var MDiscount = $("#txtMDiscount").val();
 
 
     orderwithdetail.Order_Id = MOrderId;
@@ -186,6 +188,7 @@ $("#btnSiparisKaydet").click(function () {
     orderwithdetail.IsPaid = MOdendi;
     orderwithdetail.IsDelivered = MTDurum;
     orderwithdetail.IsDeleted = false;
+    orderwithdetail.MDiscount = MDiscount;
 
 
     if (MAdi !== "" && MTelefon !== "" && MSTarihi !== "") {

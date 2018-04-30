@@ -30,6 +30,7 @@ namespace KTOtomasyon
         public Nullable<bool> IsPaid { get; set; }
         public Nullable<bool> IsDelivered { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
+        public Nullable<int> Discount { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetail { get; set; }

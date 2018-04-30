@@ -20,6 +20,7 @@ namespace KTOtomasyon.Models
         public int TQuantity { get; set; }
         public bool IsPaid { get; set; }
         public List<OrderDetails> DetailList { get; set; }
+        public Nullable<int> Discount { get; set; }
 
     }
 }
