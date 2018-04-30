@@ -152,7 +152,7 @@
         <form id="frmSiparis">
             <div class="modal-dialog modal-lg">
                 <!-- Modal content-->
-                <div class="modal-content" style="width:800px !important;">
+                <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" id="modalkapat"><b style="color:darkred !important;"><span class="fa fa-close"></span></b></button>
                         <h4 class="modal-title">Yeni Sipariş</h4>
@@ -160,24 +160,29 @@
                     <div class="modal-body ">
                         <div class="row">
                             <div class="col-lg-6">
-                                @Html.TextBox("CreatedDate", DateTime.Now , new { @class = "form-control", @placeholder = "Tarih", @id = "txtMCTarihi", @type = "hidden", @style = "height:30px !important;" })
-
+                                @Html.Hidden("CreatedDate", DateTime.Now, new { @class = "form-control", @placeholder = "Tarih", @id = "txtMCTarihi", @type = "hidden", @style = "height:30px !important;" })
                                 @Html.Hidden("Order_Id", "0", new { @class = "form-control", @id = "txtMOrderId" })
-                                <h6 class="text-uppercase">Müşteri Ad/Soyad</h6>
-                                @Html.TextBox("CustomerName", "", new { @class = "form-control", @placeholder = "İsim soyisim", @id = "txtMAdi", @style = "height:30px !important;" })
-                                <h6 class="text-uppercase"> Teslim Tarihi </h6>
-                                @Html.TextBox("OrderDate", "", new { @class = "form-control", @placeholder = "Tarih", @id = "txtMSTarihi", @type = "date", @style = "height:30px !important;" })
-                            </div>
-                            <div class="col-lg-6">
                                 <h6 class="text-uppercase">Telefon No</h6>
-                                <p class="col-lg-10">
-                                    @Html.TextBox("PhoneNumber", "", new { @class = "form-control", @placeholder = "( 5 * * ) * * *  * *  * *", @id = "txtMTelefon", @style = "height:30px !important;", @onkeypress = "return IsNumber(event)", @maxlength = "10" })
-                                </p><p class="col-lg-2">
-                                    <button id="btnTelefonBul" class="btn-xs btn btn-default" onclick="txtTelefonGetir(); return false;"><span class="fa fa-search"></span></button>
-                                </p>
-                                <h6 class="text-uppercase"> Toplam Borç Bakiyesi </h6>
-                                @Html.TextBox("Description", "", new { @class = "form-control", @placeholder = "Tutar", @id = "txtMAciklama", @style = "height:30px !important;" })
+                                <div class="row">
+                                    <div class="col-lg-11 pull-left">
+                                        @Html.TextBox("PhoneNumber", "", new { @class = "form-control", @tabindex = "1", @placeholder = "( 5 * * ) * * *  * *  * *", @id = "txtMTelefon", @style = "height:30px !important;", @onkeypress = "return IsNumber(event)", @maxlength = "10" })
+                                    </div>
+                                    <div class="col-lg-1 pull-right">
+                                        <button id="btnTelefonBul" class="btn-xs btn btn-default" onclick="txtTelefonGetir(); return false;" ><span class="fa fa-search"></span></button>
+                                    </div>
+                                </div>
+
+                                <h6 class="text-uppercase"> Teslim Tarihi </h6>
+                                @Html.TextBox("OrderDate", DateTime.Now.ToShortDateString(), new { @class = "form-control", @tabindex = "3", @placeholder = "Tarih", @id = "txtMSTarihi", @style = "height:30px !important;" })
                             </div>
+                            <div class="col-lg-6">                               
+                                <p class="col-lg-10">
+                                    <h6 class="text-uppercase pull-left">Müşteri Ad/Soyad</h6>
+                                    @Html.TextBox("CustomerName", "", new { @class = "form-control", @tabindex = "2", @placeholder = "İsim soyisim", @id = "txtMAdi", @style = "height:30px !important;" })
+                                </p>          
+                                    <h6 class="text-uppercase"> Toplam Borç Bakiyesi </h6>
+                                    @Html.TextBox("Description", 0 , new { @class = "form-control", @tabindex = "4", @id = "txtMAciklama", @style = "height:30px !important;" })   
+                             </div>
                         </div>
                         <div class="row" style="margin-top:10px;">
                             <div class="col-lg-12" style="margin-top:10px;">
