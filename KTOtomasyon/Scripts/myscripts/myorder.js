@@ -138,7 +138,7 @@ $("#btnUrunEkle").click(function () {
     orderdetail.TotalPrice = MTPrice;
 
 
-    if (MUrun != 0) {
+    if (MUrun != 0 && MIslem != 0 && MIslemText != 0) {
         orderwithdetail.OrderDetails.push(orderdetail);
         createTable();
         $('#drpMUrunListe').val(0);

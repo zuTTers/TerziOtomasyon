@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Transactions;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +12,7 @@ using KTOtomasyon.Models;
 
 namespace KTOtomasyon.Controllers
 {
-  
+
 
     public class HomeController : Controller
     {
@@ -23,7 +24,7 @@ namespace KTOtomasyon.Controllers
         public ActionResult Index(int? p, string filter, string otype, string oname)
         {
             DisplayOrderDetail orders = new DisplayOrderDetail();
-            
+
 
             if (p == null)
                 p = 1;
@@ -39,7 +40,7 @@ namespace KTOtomasyon.Controllers
                     //Siparişleri databeseden alıyoruz
                     using (var db = new KTOtomasyonEntities())
                     {
-                       
+
 
                         //Filter
                         IQueryable<vOrders> query = null;
@@ -69,18 +70,7 @@ namespace KTOtomasyon.Controllers
                                 orders.OrdersList = query.OrderByDescending(x => x.Order_Id).Where(x => x.IsDelivered == true).ToList();
                             }
                         }
-                        //orders.CurrentPage = p.Value;
-                        //orders.TotalCount = query.Count();
 
-                        //if ((orders.TotalCount % defaultPageSize) == 0)
-                        //{
-                        //    orders.TotalPage = orders.TotalCount / defaultPageSize;
-                        //}
-                        //else
-                        //{
-                        //    orders.TotalPage = (orders.TotalCount / defaultPageSize) + 1;
-                        //}
-                        
                     }
                 }
                 catch (Exception e)
@@ -191,14 +181,52 @@ namespace KTOtomasyon.Controllers
         //Her ürünün tadilatlarının listesini çeker.
         public JsonResult GetOperations(int Product_Id)
         {
+            ReturnValue ret = new ReturnValue();
 
-            using (var db = new KTOtomasyonEntities())
+            if (Shared.CheckSession() == false)
             {
-                var operationdata = db.Operations.Where(x => x.Product_Id == Product_Id).Select(x => new { Name = x.Name, Price = x.Price, Operation_Id = x.Operation_Id }).ToList();
-
-                return Json(operationdata);
-
+                ret.requiredLogin = true;
+                ret.message = "Lütfen giriş yapınız.";
+                ret.success = false;
+                return Json(ret);
             }
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    using (var db = new KTOtomasyonEntities())
+                    {
+
+                        var operationdata = db.Operations.Where(x => x.Product_Id == Product_Id).Select(x => new { Name = x.Name, Price = x.Price, Operation_Id = x.Operation_Id }).ToList();
+
+                        if (operationdata == null)
+                        {
+                            ret.requiredLogin = false;
+                            ret.message = "Lütfen işlem giriniz.";
+                            ret.success = false;
+                            return Json(ret);
+                        }
+
+                        ret.retObject = operationdata;
+                        ret.message = "Başarıyla kaydedildi.";
+                        ret.success = true;
+                        scope.Complete();
+
+                        return Json(operationdata);
+                       
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    ret.success = false;
+                    ret.message = ex.Message;
+                    ex.AddToDBLog("HomeController.GetOperations");
+                    scope.Dispose();
+                }
+                return Json(ret);
+            }
+
 
         }
 
@@ -278,42 +306,38 @@ namespace KTOtomasyon.Controllers
                 ret.success = false;
                 return Json(ret);
             }
-
-            try
+            using (TransactionScope scope = new TransactionScope())
             {
-                using (var db = new KTOtomasyonEntities())
+                try
                 {
-                    var phonedata = db.Orders.Where(x => x.PhoneNumber == PNumber).FirstOrDefault();
+                    using (var db = new KTOtomasyonEntities())
+                    {
+                        var phonedata = db.Orders.Where(x => x.PhoneNumber == PNumber).FirstOrDefault();
 
-                    
+
                         orderWithDetail.Order_Id = phonedata.Order_Id;
-                        //orderWithDetail.CreatedUser = Convert.ToInt32(Session["UserId"]);
-                        //orderWithDetail.CreatedUserText = phonedata.Users.Name;
                         orderWithDetail.CustomerName = phonedata.CustomerName;
                         orderWithDetail.PhoneNumber = phonedata.PhoneNumber;
                         orderWithDetail.Description = phonedata.Description;
-                        //orderWithDetail.OrderDate = phonedata.OrderDate;
-                        //orderWithDetail.CreatedDate = phonedata.CreatedDate;
-                        //orderWithDetail.IsPaid = phonedata.IsPaid;
-                        //orderWithDetail.IsDelivered = phonedata.IsDelivered;
-                        //orderWithDetail.IsDeleted = phonedata.IsDeleted;
+                        orderWithDetail.Discount = phonedata.Discount;
+                        orderWithDetail.OrderDate = DateTime.Now;
 
                         ret.message = "Müşteri Bulundu.";
                         ret.success = true;
 
-                        ret.retObject = orderWithDetail;      
-                    
+                        ret.retObject = orderWithDetail;
+                        scope.Complete();
+                    }
+
                 }
-
+                catch (Exception ex)
+                {
+                    ret.success = false;
+                    ret.message = ex.Message;
+                    ex.AddToDBLog("HomeController.GetPhoneData");
+                    scope.Dispose();
+                }
             }
-            catch (Exception ex)
-            {
-                ret.success = false;
-                ret.message = ex.Message;
-                ex.AddToDBLog("HomeController.GetPhoneData");
-
-            }
-
             return Json(ret);
         }
 
@@ -511,9 +535,9 @@ namespace KTOtomasyon.Controllers
             }
             catch (Exception ex)
             {
-                ex.AddToDBLog("HomeController.UserUpdate","Sıkıntı Büyük");               
+                ex.AddToDBLog("HomeController.UserUpdate", "Sıkıntı Büyük");
             }
-            
+
             return RedirectToAction("UserDetail", new { id = user.User_Id });
 
         }
@@ -615,7 +639,7 @@ namespace KTOtomasyon.Controllers
                 catch (Exception e)
                 {
                     e.AddToDBLog("Newoperation");
-                }               
+                }
 
             }
             return View();
@@ -673,7 +697,7 @@ namespace KTOtomasyon.Controllers
                 db.SaveChanges();
             }
 
-            return RedirectToAction("NewOperation","Home");
+            return RedirectToAction("NewOperation", "Home");
         }
 
         //--Ürünler--
@@ -796,7 +820,7 @@ namespace KTOtomasyon.Controllers
         {
 
             List<FilesViewModel> dosyavm = new List<FilesViewModel>();
-            
+
             try
             {
                 DirectoryInfo Dir = new DirectoryInfo(DirPath);
@@ -846,7 +870,7 @@ namespace KTOtomasyon.Controllers
             {
                 try
                 {
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -855,11 +879,11 @@ namespace KTOtomasyon.Controllers
                 }
             }
 
-                return View();
+            return View();
         }
 
         public JsonResult GetDateReport(DateTime? FirstOrderDate, DateTime? LastOrderDate)
-        {           
+        {
             using (var db = new KTOtomasyonEntities())
             {
                 var toplam = db.ILKPROS(FirstOrderDate, LastOrderDate).First();
@@ -869,14 +893,14 @@ namespace KTOtomasyon.Controllers
 
         public JsonResult GetMountlyReport()
         {
-            using (var db =new KTOtomasyonEntities())
+            using (var db = new KTOtomasyonEntities())
             {
                 var ayliktoplam = db.AYLIKSIPARISRAPOR().ToList();
                 return Json(ayliktoplam);
             }
 
         }
-        
+
 
 
     }
