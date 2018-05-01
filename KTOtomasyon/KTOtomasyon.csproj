@@ -57,10 +57,12 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -203,45 +205,41 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\css\animate.min.css" />
-    <Content Include="assets\css\bootstrap.min.css" />
-    <Content Include="assets\css\demo.css" />
-    <Content Include="assets\css\light-bootstrap-dashboard.css" />
-    <Content Include="assets\css\pe-icon-7-stroke.css" />
-    <Content Include="assets\fonts\Pe-icon-7-stroke.svg" />
-    <Content Include="assets\img\default-avatar.png" />
-    <Content Include="assets\img\faces\face-0.jpg" />
-    <Content Include="assets\img\faces\face-1.jpg" />
-    <Content Include="assets\img\faces\face-2.jpg" />
-    <Content Include="assets\img\faces\face-3.jpg" />
-    <Content Include="assets\img\faces\face-4.jpg" />
-    <Content Include="assets\img\faces\face-5.jpg" />
-    <Content Include="assets\img\faces\face-6.jpg" />
-    <Content Include="assets\img\faces\face-7.jpg" />
-    <Content Include="assets\img\faces\tim_vector.jpe" />
-    <Content Include="assets\img\favicon.ico" />
-    <Content Include="assets\img\loading-bubbles.svg" />
-    <Content Include="assets\img\mask.png" />
-    <Content Include="assets\img\new_logo.png" />
-    <Content Include="assets\img\sidebar-1.jpg" />
-    <Content Include="assets\img\sidebar-2.jpg" />
-    <Content Include="assets\img\sidebar-3.jpg" />
-    <Content Include="assets\img\sidebar-4.jpg" />
-    <Content Include="assets\img\sidebar-5.jpg" />
-    <Content Include="assets\img\tim_80x80.png" />
-    <Content Include="assets\js\bootstrap-checkbox-radio-switch.js" />
-    <Content Include="assets\js\bootstrap-notify.js" />
-    <Content Include="assets\js\bootstrap-select.js" />
-    <Content Include="assets\js\bootstrap.min.js" />
-    <Content Include="assets\js\chartist.min.js" />
-    <Content Include="assets\js\demo.js" />
-    <Content Include="assets\js\jquery-1.10.2.js" />
-    <Content Include="assets\js\light-bootstrap-dashboard.js" />
+    <Content Include="Content\animate.min.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\demo.css" />
+    <Content Include="Content\light-bootstrap-dashboard.css" />
+    <Content Include="Content\pe-icon-7-stroke.css" />
+    <Content Include="Content\img\default-avatar.png" />
+    <Content Include="Content\img\faces\face-0.jpg" />
+    <Content Include="Content\img\faces\face-1.jpg" />
+    <Content Include="Content\img\faces\face-2.jpg" />
+    <Content Include="Content\img\faces\face-3.jpg" />
+    <Content Include="Content\img\faces\face-4.jpg" />
+    <Content Include="Content\img\faces\face-5.jpg" />
+    <Content Include="Content\img\faces\face-6.jpg" />
+    <Content Include="Content\img\faces\face-7.jpg" />
+    <Content Include="Content\img\faces\tim_vector.jpe" />
+    <Content Include="Content\img\favicon.ico" />
+    <Content Include="Content\img\loading-bubbles.svg" />
+    <Content Include="Content\img\mask.png" />
+    <Content Include="Content\img\new_logo.png" />
+    <Content Include="Content\img\sidebar-1.jpg" />
+    <Content Include="Content\img\sidebar-2.jpg" />
+    <Content Include="Content\img\sidebar-3.jpg" />
+    <Content Include="Content\img\sidebar-4.jpg" />
+    <Content Include="Content\img\sidebar-5.jpg" />
+    <Content Include="Content\img\tim_80x80.png" />
+    <Content Include="Scripts\bootstrap-checkbox-radio-switch.js" />
+    <Content Include="Scripts\bootstrap-notify.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\chartist.min.js" />
+    <Content Include="Scripts\demo.js" />
+    <Content Include="Scripts\light-bootstrap-dashboard.js" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\chosen\chosen-sprite%402x.png" />
     <Content Include="Content\chosen\chosen-sprite.png" />
     <Content Include="Content\chosen.css" />
@@ -261,7 +259,6 @@
     <Content Include="Content\simplePagination.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
-    <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="img\e\1.jpg" />
@@ -340,12 +337,9 @@
       <DependentUpon>KTData.edmx</DependentUpon>
       <LastGenOutput>KTData.cs</LastGenOutput>
     </Content>
-    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\myscripts\myapp.js" />
-    <Content Include="Scripts\base.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -356,9 +350,6 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\fontawesome-webfontd41d.eot" />
     <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="assets\fonts\Pe-icon-7-stroke.eot" />
-    <Content Include="assets\fonts\Pe-icon-7-stroke.ttf" />
-    <Content Include="assets\fonts\Pe-icon-7-stroke.woff" />
     <Content Include="assets\sass\lbd\mixins\_buttons.scss" />
     <Content Include="assets\sass\lbd\mixins\_cards.scss" />
     <Content Include="assets\sass\lbd\mixins\_chartist.scss" />
@@ -434,7 +425,6 @@
       <DependentUpon>KTData.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\chart.min.js" />
     <Content Include="Scripts\charts\area.js" />
     <Content Include="Scripts\charts\bar.js" />
@@ -442,9 +432,7 @@
     <Content Include="Scripts\charts\line.js" />
     <Content Include="Scripts\charts\pie.js" />
     <Content Include="Scripts\chosen.jquery.js" />
-    <Content Include="Scripts\excanvas.min.js" />
     <Content Include="Scripts\faq.js" />
-    <Content Include="Scripts\fontawesome-all.min.js" />
     <Content Include="Scripts\fontawesome.min.js" />
     <Content Include="Scripts\full-calendar\fullcalendar.css" />
     <Content Include="Scripts\full-calendar\fullcalendar.min.js" />
@@ -452,22 +440,16 @@
     <Content Include="Scripts\guidely\guidely.css" />
     <Content Include="Scripts\guidely\guidely.min.js" />
     <Content Include="Scripts\ImageSelect.jquery.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.7.2.min.js" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
-    <Content Include="Scripts\jquery-simple-pagination-plugin.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
-    <Content Include="Scripts\jquery.fullscreen.js" />
-    <Content Include="Scripts\jquery.fullscreen.min.js" />
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jquery.simplePagination.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -479,8 +461,6 @@
     <Content Include="Scripts\myscripts\myorder.js" />
     <Content Include="Scripts\myscripts\myreports.js" />
     <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.matchmedia.addListener.js" />
-    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\signin.js" />
     <Content Include="Web.config" />
@@ -518,17 +498,7 @@
     <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="assets\fonts\glyphicons-halflings-regular.eot" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
