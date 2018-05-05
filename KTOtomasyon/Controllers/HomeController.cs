@@ -418,6 +418,7 @@ namespace KTOtomasyon.Controllers
                         orderreceipt.OrderDate = orderdata.OrderDate;
                         orderreceipt.CreatedDate = orderdata.CreatedDate;
                         orderreceipt.TTotalPrice = Convert.ToInt32(orderdata.OrderDetail.Sum(x => x.TotalPrice).Value);
+                        orderreceipt.NTotalPrice = Convert.ToInt32(orderdata.OrderDetail.Sum(x => x.TotalPrice).Value) - ((Convert.ToInt32(orderdata.OrderDetail.Sum(x => x.TotalPrice).Value) * Convert.ToInt32(orderdata.Discount)/100));
                         orderreceipt.TQuantity = orderdata.OrderDetail.Sum(x => x.Quantity).Value;
                         orderreceipt.DetailList = new List<OrderDetails>();
                         orderreceipt.IsPaid = orderdata.IsPaid.Value;

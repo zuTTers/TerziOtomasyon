@@ -83,7 +83,7 @@
                 <br />
                 <samp>Teslim Tarihi: </samp>@Model.OrderDate.Value.ToShortDateString()
                 <br />
-                <samp>Toplam Borç Bakiyeniz:</samp>@Model.Debt ₺
+                <samp>Verildi:</samp>@Model.Debt ₺
                 <br />
                 @{ if (@Model.IsPaid == true)
                     {
@@ -108,9 +108,10 @@
                         <th>Adet</th>
                         <th>B.Tutar</th>
                         <th>T.Tutar</th>
+
                     </tr>
                 </thead>
-                <tbody style="font-size:9px;">
+                <tbody style="font-size:9px; border:groove; border:2px;">
                     @foreach (var item in Model.DetailList.ToList())
                     {
                         <tr>
@@ -119,16 +120,19 @@
                             <td>@item.Quantity</td>
                             <td>@item.Price ₺</td>
                             <td>@item.TotalPrice ₺</td>
+
                         </tr>
                     }
-                    <tr>
-                        <td><strong> T. Parça: </strong>  </td>
-                        <td></td>
-                        <td><strong>@Model.TQuantity</strong></td>
-                        <td><b>T. Fiyat:</b> </td>
-                        <td><strong>@Model.TTotalPrice ₺</strong></td>
-                    </tr>
                 </tbody>
+            </table>
+            <table class="table table-condensed">
+                <tr>
+                    <td></td>
+                    <td>Toplam Parça: <strong>@Model.TQuantity</strong></td>
+                    <td>Net Tutar: <strong>@Model.NTotalPrice ₺</strong></td>
+                    <td>Toplam Tutar: <strong>@Model.TTotalPrice ₺</strong></td>
+                    <td></td>
+                </tr>
             </table>
         </div>
         <br />

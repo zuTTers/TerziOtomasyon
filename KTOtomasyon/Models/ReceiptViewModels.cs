@@ -18,6 +18,7 @@ namespace KTOtomasyon.Models
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string ProductName { get; set; }
         public decimal TTotalPrice { get; set; }
+        public decimal NTotalPrice { get; set; }
         public int TQuantity { get; set; }
         public bool IsPaid { get; set; }
         public List<OrderDetails> DetailList { get; set; }
