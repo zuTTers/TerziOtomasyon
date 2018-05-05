@@ -152,6 +152,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -178,6 +179,7 @@
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AllList.cs" />
+    <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\FilesViewModel.cs" />
     <Compile Include="Models\OperationViewModels.cs" />
     <Compile Include="Models\ProductViewModels.cs" />
@@ -198,6 +200,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\OrderViewModels.cs" />
     <Compile Include="Users.cs">
+      <DependentUpon>KTData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vCustomers.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
     <Compile Include="vOrders.cs">
@@ -230,12 +235,22 @@
     <Content Include="Content\img\sidebar-4.jpg" />
     <Content Include="Content\img\sidebar-5.jpg" />
     <Content Include="Content\img\tim_80x80.png" />
-    <Content Include="Scripts\bootstrap-checkbox-radio-switch.js" />
-    <Content Include="Scripts\bootstrap-notify.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\chartist.min.js" />
-    <Content Include="Scripts\demo.js" />
-    <Content Include="Scripts\light-bootstrap-dashboard.js" />
+    <Content Include="KTData.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KTData.edmx</DependentUpon>
+      <LastGenOutput>KTData.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="KTData.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KTData.edmx</DependentUpon>
+      <LastGenOutput>KTData.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\js\bootstrap-checkbox-radio-switch.js" />
+    <Content Include="Scripts\js\bootstrap-notify.js" />
+    <Content Include="Scripts\js\bootstrap.min.js" />
+    <Content Include="Scripts\js\chartist.min.js" />
+    <Content Include="Scripts\js\demo.js" />
+    <Content Include="Scripts\js\light-bootstrap-dashboard.js" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -327,19 +342,9 @@
     <Content Include="img\signin\password.png" />
     <Content Include="img\signin\twitter_btn.png" />
     <Content Include="img\signin\user.png" />
-    <Content Include="KTData.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KTData.edmx</DependentUpon>
-      <LastGenOutput>KTData.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="KTData.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KTData.edmx</DependentUpon>
-      <LastGenOutput>KTData.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\myscripts\myapp.js" />
-    <Content Include="Scripts\bootstrap-select.js" />
-    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\js\bootstrap-select.js" />
+    <Content Include="Scripts\js\bootstrap.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -350,35 +355,35 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\fontawesome-webfontd41d.eot" />
     <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="assets\sass\lbd\mixins\_buttons.scss" />
-    <Content Include="assets\sass\lbd\mixins\_cards.scss" />
-    <Content Include="assets\sass\lbd\mixins\_chartist.scss" />
-    <Content Include="assets\sass\lbd\mixins\_icons.scss" />
-    <Content Include="assets\sass\lbd\mixins\_inputs.scss" />
-    <Content Include="assets\sass\lbd\mixins\_labels.scss" />
-    <Content Include="assets\sass\lbd\mixins\_morphing-buttons.scss" />
-    <Content Include="assets\sass\lbd\mixins\_navbars.scss" />
-    <Content Include="assets\sass\lbd\mixins\_social-buttons.scss" />
-    <Content Include="assets\sass\lbd\mixins\_tabs.scss" />
-    <Content Include="assets\sass\lbd\mixins\_transparency.scss" />
-    <Content Include="assets\sass\lbd\mixins\_vendor-prefixes.scss" />
-    <Content Include="assets\sass\lbd\_alerts.scss" />
-    <Content Include="assets\sass\lbd\_buttons.scss" />
-    <Content Include="assets\sass\lbd\_cards.scss" />
-    <Content Include="assets\sass\lbd\_chartist.scss" />
-    <Content Include="assets\sass\lbd\_checkbox-radio-switch.scss" />
-    <Content Include="assets\sass\lbd\_dropdown.scss" />
-    <Content Include="assets\sass\lbd\_footers.scss" />
-    <Content Include="assets\sass\lbd\_inputs.scss" />
-    <Content Include="assets\sass\lbd\_misc.scss" />
-    <Content Include="assets\sass\lbd\_mixins.scss" />
-    <Content Include="assets\sass\lbd\_navbars.scss" />
-    <Content Include="assets\sass\lbd\_responsive.scss" />
-    <Content Include="assets\sass\lbd\_sidebar-and-main-panel.scss" />
-    <Content Include="assets\sass\lbd\_tables.scss" />
-    <Content Include="assets\sass\lbd\_typography.scss" />
-    <Content Include="assets\sass\lbd\_variables.scss" />
-    <Content Include="assets\sass\light-bootstrap-dashboard.scss" />
+    <Content Include="Content\sass\lbd\mixins\_buttons.scss" />
+    <Content Include="Content\sass\lbd\mixins\_cards.scss" />
+    <Content Include="Content\sass\lbd\mixins\_chartist.scss" />
+    <Content Include="Content\sass\lbd\mixins\_icons.scss" />
+    <Content Include="Content\sass\lbd\mixins\_inputs.scss" />
+    <Content Include="Content\sass\lbd\mixins\_labels.scss" />
+    <Content Include="Content\sass\lbd\mixins\_morphing-buttons.scss" />
+    <Content Include="Content\sass\lbd\mixins\_navbars.scss" />
+    <Content Include="Content\sass\lbd\mixins\_social-buttons.scss" />
+    <Content Include="Content\sass\lbd\mixins\_tabs.scss" />
+    <Content Include="Content\sass\lbd\mixins\_transparency.scss" />
+    <Content Include="Content\sass\lbd\mixins\_vendor-prefixes.scss" />
+    <Content Include="Content\sass\lbd\_alerts.scss" />
+    <Content Include="Content\sass\lbd\_buttons.scss" />
+    <Content Include="Content\sass\lbd\_cards.scss" />
+    <Content Include="Content\sass\lbd\_chartist.scss" />
+    <Content Include="Content\sass\lbd\_checkbox-radio-switch.scss" />
+    <Content Include="Content\sass\lbd\_dropdown.scss" />
+    <Content Include="Content\sass\lbd\_footers.scss" />
+    <Content Include="Content\sass\lbd\_inputs.scss" />
+    <Content Include="Content\sass\lbd\_misc.scss" />
+    <Content Include="Content\sass\lbd\_mixins.scss" />
+    <Content Include="Content\sass\lbd\_navbars.scss" />
+    <Content Include="Content\sass\lbd\_responsive.scss" />
+    <Content Include="Content\sass\lbd\_sidebar-and-main-panel.scss" />
+    <Content Include="Content\sass\lbd\_tables.scss" />
+    <Content Include="Content\sass\lbd\_typography.scss" />
+    <Content Include="Content\sass\lbd\_variables.scss" />
+    <Content Include="Content\sass\light-bootstrap-dashboard.scss" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
@@ -425,44 +430,44 @@
       <DependentUpon>KTData.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <Content Include="Scripts\chart.min.js" />
+    <Content Include="Scripts\js\chart.min.js" />
     <Content Include="Scripts\charts\area.js" />
     <Content Include="Scripts\charts\bar.js" />
     <Content Include="Scripts\charts\donut.js" />
     <Content Include="Scripts\charts\line.js" />
     <Content Include="Scripts\charts\pie.js" />
-    <Content Include="Scripts\chosen.jquery.js" />
-    <Content Include="Scripts\faq.js" />
-    <Content Include="Scripts\fontawesome.min.js" />
+    <Content Include="Scripts\js\chosen.jquery.js" />
+    <Content Include="Scripts\js\faq.js" />
+    <Content Include="Scripts\js\fontawesome.min.js" />
     <Content Include="Scripts\full-calendar\fullcalendar.css" />
     <Content Include="Scripts\full-calendar\fullcalendar.min.js" />
     <Content Include="Scripts\guidely\guidely-number.png" />
     <Content Include="Scripts\guidely\guidely.css" />
     <Content Include="Scripts\guidely\guidely.min.js" />
-    <Content Include="Scripts\ImageSelect.jquery.js" />
-    <Content Include="Scripts\jquery-3.2.1.min.map" />
-    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <None Include="Scripts\jquery-3.2.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.2.1.js" />
-    <Content Include="Scripts\jquery-3.2.1.min.js" />
-    <Content Include="Scripts\jquery-3.2.1.slim.js" />
-    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
-    <Content Include="Scripts\jquery-ui.js" />
-    <Content Include="Scripts\jquery-ui.min.js" />
-    <Content Include="Scripts\jquery.js" />
-    <Content Include="Scripts\jquery.simplePagination.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\js\ImageSelect.jquery.js" />
+    <Content Include="Scripts\js\jquery-3.2.1.min.map" />
+    <Content Include="Scripts\js\jquery-3.2.1.slim.min.map" />
+    <None Include="Scripts\js\jquery.validate-vsdoc.js" />
+    <None Include="Scripts\js\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\js\jquery-3.2.1.js" />
+    <Content Include="Scripts\js\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\js\jquery-3.2.1.slim.js" />
+    <Content Include="Scripts\js\jquery-3.2.1.slim.min.js" />
+    <Content Include="Scripts\js\jquery-ui.js" />
+    <Content Include="Scripts\js\jquery-ui.min.js" />
+    <Content Include="Scripts\js\jquery.js" />
+    <Content Include="Scripts\js\jquery.simplePagination.js" />
+    <Content Include="Scripts\js\jquery.validate.js" />
+    <Content Include="Scripts\js\jquery.validate.min.js" />
+    <Content Include="Scripts\js\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\js\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js\modernizr-2.6.2.js" />
+    <Content Include="Scripts\js\modernizr-2.8.3.js" />
     <Content Include="Scripts\myscripts\myorder.js" />
     <Content Include="Scripts\myscripts\myreports.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\signin.js" />
+    <Content Include="Scripts\js\respond.js" />
+    <Content Include="Scripts\js\respond.min.js" />
+    <Content Include="Scripts\js\signin.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -492,6 +497,7 @@
     <Content Include="Views\Home\NewOperation.cshtml" />
     <Content Include="Views\Home\OperationEdit.cshtml" />
     <Content Include="Views\Home\Reports.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

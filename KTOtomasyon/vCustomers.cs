@@ -12,17 +12,9 @@ namespace KTOtomasyon
     using System;
     using System.Collections.Generic;
     
-    public partial class vOrders
+    public partial class vCustomers
     {
-        public int Order_Id { get; set; }
         public string CustomerName { get; set; }
         public string PhoneNumber { get; set; }
-        public string Debt { get; set; }
-        public string Addition { get; set; }
-        public Nullable<System.DateTime> OrderDate { get; set; }
-        public Nullable<bool> IsDelivered { get; set; }
-        public Nullable<decimal> TotalPrice { get; set; }
-        public Nullable<int> Discount { get; set; }
-        public Nullable<decimal> NetTotal { get; set; }
     }
 }

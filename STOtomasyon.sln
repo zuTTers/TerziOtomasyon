@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KTOtomasyon", "KTOtomasyon\KTOtomasyon.csproj", "{4B0768EB-BC33-490B-A361-FC101FF7EC3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STOtomasyon", "KTOtomasyon\STOtomasyon.csproj", "{4B0768EB-BC33-490B-A361-FC101FF7EC3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

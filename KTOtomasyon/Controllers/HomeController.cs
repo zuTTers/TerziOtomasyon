@@ -102,79 +102,80 @@ namespace KTOtomasyon.Controllers
                 ret.success = false;
                 return Json(ret);
             }
-
-            try
+            using (TransactionScope scope = new TransactionScope())
             {
-                ret.success = false;
-
-                //Sipariş id'sine göre kayıtları databaseden çeker
-                using (var db = new KTOtomasyonEntities())
+                try
                 {
-                    if (orderWithDetail.OrderDetails == null || orderWithDetail.OrderDetails.Count == 0)
+                    ret.success = false;
+
+                    //Sipariş id'sine göre kayıtları databaseden çeker
+                    using (var db = new KTOtomasyonEntities())
                     {
-                        ret.requiredLogin = false;
-                        ret.message = "Lütfen işlem giriniz.";
-                        ret.success = false;
-                        return Json(ret);
+                        if (orderWithDetail.OrderDetails == null || orderWithDetail.OrderDetails.Count == 0)
+                        {
+                            ret.requiredLogin = false;
+                            ret.message = "Lütfen işlem giriniz.";
+                            ret.success = false;
+                            return Json(ret);
+                        }
+
+                        if (orderWithDetail.Order_Id != 0)
+                        {
+                            orderadd = db.Orders.Where(x => x.Order_Id == orderWithDetail.Order_Id).FirstOrDefault();
+                        }
+
+                        orderadd.CustomerName = orderWithDetail.CustomerName;
+                        orderadd.PhoneNumber = orderWithDetail.PhoneNumber;
+                        orderadd.Debt = orderWithDetail.Debt;
+                        orderadd.Addition = orderWithDetail.Addition;
+                        orderadd.Discount = orderWithDetail.Discount;
+                        orderadd.OrderDate = orderWithDetail.OrderDate;
+                        orderadd.CreatedDate = DateTime.Now;
+                        orderadd.CreatedUser = Convert.ToInt32(Session["UserId"]);
+                        orderadd.IsPaid = orderWithDetail.IsPaid;
+                        orderadd.IsDelivered = orderWithDetail.IsDelivered;
+                        orderadd.IsDeleted = orderWithDetail.IsDeleted;
+
+                        if (orderWithDetail.Order_Id == 0)
+                        {
+                            db.Orders.Add(orderadd);
+                        }
+                        db.SaveChanges();
+
+                        int id = orderadd.Order_Id;
+                        foreach (var item in orderadd.OrderDetail.ToList())
+                        {
+                            db.OrderDetail.Remove(item);
+                        }
+                        db.SaveChanges();
+
+                        foreach (var item in orderWithDetail.OrderDetails)
+                        {
+                            OrderDetail odetail = new OrderDetail();
+
+                            odetail.Order_Id = id;
+                            odetail.Operation_Id = item.Operation_Id;
+                            odetail.Quantity = item.Quantity;
+                            odetail.Price = item.Price;
+                            odetail.TotalPrice = item.TotalPrice;
+
+                            db.OrderDetail.Add(odetail);
+                        }
+                        db.SaveChanges();
+                        scope.Complete();
+                        ret.retObject = orderWithDetail;
                     }
-
-                    if (orderWithDetail.Order_Id != 0)
-                    {
-                        orderadd = db.Orders.Where(x => x.Order_Id == orderWithDetail.Order_Id).FirstOrDefault();
-                    }
-
-                    orderadd.CustomerName = orderWithDetail.CustomerName;
-                    orderadd.PhoneNumber = orderWithDetail.PhoneNumber;
-                    orderadd.Description = orderWithDetail.Description;
-                    orderadd.OrderDate = orderWithDetail.OrderDate;
-                    orderadd.CreatedDate = DateTime.Now;
-                    orderadd.CreatedUser = Convert.ToInt32(Session["UserId"]);
-                    orderadd.IsPaid = orderWithDetail.IsPaid;
-                    orderadd.IsDelivered = orderWithDetail.IsDelivered;
-                    orderadd.IsDeleted = orderWithDetail.IsDeleted;
-
-                    if (orderWithDetail.Order_Id == 0)
-                    {
-                        db.Orders.Add(orderadd);
-                    }
-                    db.SaveChanges();
-
-                    int id = orderadd.Order_Id;
-                    foreach (var item in orderadd.OrderDetail.ToList())
-                    {
-                        db.OrderDetail.Remove(item);
-                    }
-                    db.SaveChanges();
-
-                    foreach (var item in orderWithDetail.OrderDetails)
-                    {
-                        OrderDetail odetail = new OrderDetail();
-
-                        odetail.Order_Id = id;
-                        odetail.Operation_Id = item.Operation_Id;
-                        odetail.Quantity = item.Quantity;
-                        odetail.Price = item.Price;
-                        odetail.TotalPrice = item.TotalPrice;
-
-
-                        db.OrderDetail.Add(odetail);
-
-
-                    }
-
-                    db.SaveChanges();
-
-                    ret.retObject = orderWithDetail;
+                    ret.message = "Başarıyla kaydedildi.";
+                    ret.success = true;
                 }
-                ret.message = "Başarıyla kaydedildi.";
-                ret.success = true;
+                catch (Exception ex)
+                {
+                    ex.AddToDBLog("HomeController.OrderSave");
+                    ret.success = false;
+                    ret.message = ex.Message;
+                    scope.Dispose();
+                }
             }
-            catch (Exception ex)
-            {
-                ret.success = false;
-                ret.message = ex.Message;
-            }
-
             return Json(ret);
         }
 
@@ -213,12 +214,13 @@ namespace KTOtomasyon.Controllers
                         scope.Complete();
 
                         return Json(operationdata);
-                       
+
                     }
 
                 }
                 catch (Exception ex)
                 {
+
                     ret.success = false;
                     ret.message = ex.Message;
                     ex.AddToDBLog("HomeController.GetOperations");
@@ -243,52 +245,57 @@ namespace KTOtomasyon.Controllers
                 ret.success = false;
                 return Json(ret);
             }
-
-            try
+            using (TransactionScope scope = new TransactionScope())
             {
-                using (var db = new KTOtomasyonEntities())
+                try
                 {
-                    var orderdata = db.Orders.Where(x => x.Order_Id == Order_Id).FirstOrDefault();
-
-                    orderWithDetail.Order_Id = orderdata.Order_Id;
-                    orderWithDetail.CreatedUser = orderdata.CreatedUser;
-                    orderWithDetail.CreatedUserText = orderdata.Users.Name;
-                    orderWithDetail.CustomerName = orderdata.CustomerName;
-                    orderWithDetail.PhoneNumber = orderdata.PhoneNumber;
-                    orderWithDetail.Description = orderdata.Description;
-                    orderWithDetail.OrderDate = orderdata.OrderDate;
-                    orderWithDetail.CreatedDate = orderdata.CreatedDate;
-                    orderWithDetail.IsPaid = orderdata.IsPaid;
-                    orderWithDetail.IsDelivered = orderdata.IsDelivered;
-                    orderWithDetail.IsDeleted = orderdata.IsDeleted;
-
-                    orderWithDetail.OrderDetails = new List<OrderDetails>();
-
-                    foreach (var item in orderdata.OrderDetail)
+                    using (var db = new KTOtomasyonEntities())
                     {
-                        orderWithDetail.OrderDetails.Add(new OrderDetails
+                        var orderdata = db.Orders.Where(x => x.Order_Id == Order_Id).FirstOrDefault();
+
+                        orderWithDetail.Order_Id = orderdata.Order_Id;
+                        orderWithDetail.CreatedUser = orderdata.CreatedUser;
+                        orderWithDetail.CreatedUserText = orderdata.Users.Name;
+                        orderWithDetail.CustomerName = orderdata.CustomerName;
+                        orderWithDetail.PhoneNumber = orderdata.PhoneNumber;
+                        orderWithDetail.Debt = orderdata.Debt;
+                        orderWithDetail.Discount = orderdata.Discount;
+                        orderWithDetail.Addition = orderdata.Addition;
+                        orderWithDetail.OrderDate = orderdata.OrderDate;
+                        orderWithDetail.CreatedDate = orderdata.CreatedDate;
+                        orderWithDetail.IsPaid = orderdata.IsPaid;
+                        orderWithDetail.IsDelivered = orderdata.IsDelivered;
+                        orderWithDetail.IsDeleted = orderdata.IsDeleted;
+
+                        orderWithDetail.OrderDetails = new List<OrderDetails>();
+
+                        foreach (var item in orderdata.OrderDetail)
                         {
-                            Order_Id = item.Order_Id,
-                            Operation_Id = item.Operation_Id,
-                            Quantity = item.Quantity,
-                            Price = item.Price,
-                            TotalPrice = item.TotalPrice,
-                            OrderDetail_Id = item.OrderDetail_Id,
-                            OperationText = item.Operations.Name
+                            orderWithDetail.OrderDetails.Add(new OrderDetails
+                            {
+                                Order_Id = item.Order_Id,
+                                Operation_Id = item.Operation_Id,
+                                Quantity = item.Quantity,
+                                Price = item.Price,
+                                TotalPrice = item.TotalPrice,
+                                OrderDetail_Id = item.OrderDetail_Id,
+                                OperationText = item.Operations.Name
 
-                        });
+                            });
+                        }
+                        scope.Complete();
+                        return Json(orderWithDetail);
+
                     }
-
-                    return Json(orderWithDetail);
-
+                }
+                catch (Exception ex)
+                {
+                    ex.AddToDBLog("HomeController.GetOrderData");
+                    ret.success = false;
+                    ret.message = ex.Message;
+                    scope.Dispose();
                 }
             }
-            catch (Exception ex)
-            {
-                ret.success = false;
-                ret.message = ex.Message;
-            }
-
 
             return Json(ret);
         }
@@ -318,7 +325,7 @@ namespace KTOtomasyon.Controllers
                         orderWithDetail.Order_Id = phonedata.Order_Id;
                         orderWithDetail.CustomerName = phonedata.CustomerName;
                         orderWithDetail.PhoneNumber = phonedata.PhoneNumber;
-                        orderWithDetail.Description = phonedata.Description;
+                        orderWithDetail.Debt = phonedata.Debt;
                         orderWithDetail.Discount = phonedata.Discount;
                         orderWithDetail.OrderDate = DateTime.Now;
 
@@ -332,14 +339,54 @@ namespace KTOtomasyon.Controllers
                 }
                 catch (Exception ex)
                 {
+                    scope.Dispose();
                     ret.success = false;
                     ret.message = ex.Message;
                     ex.AddToDBLog("HomeController.GetPhoneData");
-                    scope.Dispose();
                 }
             }
             return Json(ret);
         }
+      
+        public ActionResult OrderDelete(int Order_Id)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    using (var db = new KTOtomasyonEntities())
+                    {
+                        Orders orderdelete = null;
+                        var orderadd = db.Orders.Where(x => x.Order_Id == Order_Id).FirstOrDefault();
+
+                        orderdelete = db.Orders.Where(x => x.Order_Id == Order_Id).FirstOrDefault();
+                        orderdelete.CreatedUser = orderadd.CreatedUser;
+                        orderdelete.CustomerName = orderadd.CustomerName;
+                        orderdelete.PhoneNumber = orderadd.PhoneNumber;
+                        orderdelete.Debt = orderadd.Debt;
+                        orderdelete.Discount = orderadd.Discount;
+                        orderdelete.Addition = orderadd.Addition;
+                        orderdelete.OrderDate = orderadd.OrderDate;
+                        orderdelete.CreatedDate = orderadd.CreatedDate;
+                        orderdelete.IsPaid = orderadd.IsPaid;
+                        orderdelete.IsDelivered = orderadd.IsDelivered;
+                        orderdelete.IsDeleted = true;
+
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    scope.Dispose();
+                    ex.AddToDBLog("HomeController.OrderDelete",ex.Message);
+                }
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+    
 
         //Makbuz görüntülenme ekranıdır.
         public ActionResult Receipt(int Order_Id)
@@ -365,7 +412,9 @@ namespace KTOtomasyon.Controllers
                         orderreceipt.CreatedUserText = orderdata.Users.Name;
                         orderreceipt.CustomerName = orderdata.CustomerName;
                         orderreceipt.PhoneNumber = orderdata.PhoneNumber;
-                        orderreceipt.Description = orderdata.Description;
+                        orderreceipt.Debt = orderdata.Debt;
+                        orderreceipt.Addition = orderdata.Addition;
+                        //orderreceipt.Discount = orderdata.Discount;
                         orderreceipt.OrderDate = orderdata.OrderDate;
                         orderreceipt.CreatedDate = orderdata.CreatedDate;
                         orderreceipt.TTotalPrice = Convert.ToInt32(orderdata.OrderDetail.Sum(x => x.TotalPrice).Value);
@@ -390,9 +439,9 @@ namespace KTOtomasyon.Controllers
 
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    e.AddToDBLog("HomeController.Receipt");
+                    ex.AddToDBLog("HomeController.Receipt", ex.Message);
                     RedirectToAction("ErrorPage", "Home");
                 }
             }
@@ -447,9 +496,9 @@ namespace KTOtomasyon.Controllers
 
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    e.AddToDBLog("HomeController.Users");
+                    ex.AddToDBLog("HomeController.Users", ex.Message);
                     RedirectToAction("ErrorPage", "Home");
                 }
 
@@ -660,7 +709,7 @@ namespace KTOtomasyon.Controllers
                 db.SaveChanges();
             }
 
-            return RedirectToAction("NewOperation", "Home");
+            return RedirectToAction("Operations", "Home");
         }
 
         public ActionResult OperationEdit(int id)

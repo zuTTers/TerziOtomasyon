@@ -1,7 +1,6 @@
 ﻿//Genel Objelerimiz
 var orderwithdetail = { OrderDetails: [] };
 var OperationData;
-var OrderData;
 
 
 //Dropdownlistlere onChange attr'si eklendi.
@@ -54,7 +53,7 @@ function txtTelefonGetir() {
             Bildirim(data.message);
             $("#txtMAdi").val(data.retObject.CustomerName);
             $("#txtMTelefon").val(data.retObject.PhoneNumber);
-            $("#txtMAciklama").val(data.retObject.Description);
+            $("#txtMDebt").val(data.retObject.Debt);
         }
         else {
             if (data.requiredLogin) {
@@ -94,29 +93,101 @@ function IslemSil(index) {
     }          
 }
 
+
+$("#btnSiparisKaydet").click(function () {
+
+    var MAdi = $("#txtMAdi").val();
+    var MTelefon = $("#txtMTelefon").val();
+    var MSTarihi = $("#txtMSTarihi").val();
+    var MDebt = $("#txtMDebt").val();
+    var MDiscount = $("#txtMDiscount").val();
+    var MAddition = $("#txtMAddition").val();
+    var MOrderId = $("#txtMOrderId").val();
+    var MTDurum;
+    var MOdendi;
+    if ($("#txtMDelivery")[0].checked == true) {
+        MTDurum = true;
+    }
+    else {
+        MTDurum = false;
+    }
+    if ($("#txtMPaid")[0].checked == true) {
+        MOdendi = true;
+    }
+    else {
+        MOdendi = false;
+    }
+    
+
+    orderwithdetail.Order_Id = MOrderId;
+    orderwithdetail.CustomerName = MAdi;
+    orderwithdetail.PhoneNumber = MTelefon;
+    orderwithdetail.Debt = MDebt;
+    orderwithdetail.OrderDate = MSTarihi;
+    orderwithdetail.CreatedUser = 1;
+    orderwithdetail.CreatedDate = Date.now;
+    orderwithdetail.IsPaid = MOdendi;
+    orderwithdetail.IsDelivered = MTDurum;
+    orderwithdetail.IsDeleted = false;
+    orderwithdetail.Discount = MDiscount;
+    orderwithdetail.Addition = MAddition;
+    orderwithdetail.Debt = MDebt;
+
+
+    if (MAdi !== "" && MTelefon !== "") {
+        $("#btnSiparisKaydet").attr("disabled", "disabled");
+        $.post("Home/OrderSave", { orderWithDetail: orderwithdetail },
+            function (data, status) {
+                if (data.success == true) {
+                    Bildirim(data.message);
+                    setTimeout(function () {
+                        location.href = "/Home/Index/?filter=" + $("#txtMTelefon").val();
+                    }, 2000);
+                }
+                else {
+                    $("#btnSiparisKaydet").removeAttr("disabled");
+                    if (data.requiredLogin) {
+                        Bildirim(data.message);
+                        setTimeout(function () { location.href = "/Login/Index"; }, 2000);
+                    }
+                    else {
+                        Bildirim(data.message);
+                    }
+                }
+
+            });
+    }
+    else {
+        HataBildirim();
+    }
+});
+
 function GetOrder(id) {
     $.post("Home/GetOrderData", {
         Order_Id: id
     },
 
         function (data, status) {
-            
+
             orderwithdetail = data;
             createTable();
 
             $("#txtMOrderId").val(orderwithdetail.Order_Id);
             $("#txtMAdi").val(orderwithdetail.CustomerName);
             $("#txtMTelefon").val(orderwithdetail.PhoneNumber);
-            $("#txtMAciklama").val(orderwithdetail.Description);
+            $("#txtMDebt").val(orderwithdetail.Debt);
             $("#txtMSTarihi").val(inputFormatDate(jsDate(orderwithdetail.OrderDate)));
             $("#txtMCTarihi").val(inputFormatDate(jsDate(orderwithdetail.CreatedDate)));
             $("#txtMDelivery").attr('checked', orderwithdetail.IsDelivered);
             $("#txtMPaid").attr('checked', orderwithdetail.IsPaid);
             $("#txtMDiscount").val(orderwithdetail.Discount);
-                   
+            $("#txtMAddition").val(orderwithdetail.Addition);
+            $("#txtMDebt").val(orderwithdetail.Debt);
+
         });
 
 }
+
 
 $("#btnUrunEkle").click(function () {
     var orderdetail = {};
@@ -152,74 +223,4 @@ $("#btnUrunEkle").click(function () {
     }
 
 });
-
-$("#btnSiparisKaydet").click(function () {
-
-    var MAdi = $("#txtMAdi").val();
-    var MTelefon = $("#txtMTelefon").val();
-    var MSTarihi = $("#txtMSTarihi").val();
-    var MAciklama = $("#txtMAciklama").val();
-    var MOrderId = $("#txtMOrderId").val();
-    var MTDurum;
-    var MOdendi;
-    if ($("#txtMDelivery")[0].checked == true) {
-        MTDurum = true;
-    }
-    else {
-        MTDurum = false;
-    }
-
-    if ($("#txtMPaid")[0].checked == true) {
-        MOdendi = true;
-    }
-    else {
-        MOdendi = false;
-    }
-    var MDiscount = $("#txtMDiscount").val();
-
-
-    orderwithdetail.Order_Id = MOrderId;
-    orderwithdetail.CustomerName = MAdi;
-    orderwithdetail.PhoneNumber = MTelefon;
-    orderwithdetail.Description = MAciklama;
-    orderwithdetail.OrderDate = MSTarihi;
-    orderwithdetail.CreatedUser = 1;
-    orderwithdetail.CreatedDate = Date.now;
-    orderwithdetail.IsPaid = MOdendi;
-    orderwithdetail.IsDelivered = MTDurum;
-    orderwithdetail.IsDeleted = false;
-    orderwithdetail.MDiscount = MDiscount;
-
-
-    if (MAdi !== "" && MTelefon !== "" && MSTarihi !== "") {
-        $("#btnSiparisKaydet").attr("disabled", "disabled");
-        $.post("Home/OrderSave", { orderwithdetail: orderwithdetail },
-            function (data, status) {
-                if (data.success == true) {
-
-                    Bildirim(data.message);
-
-                    setTimeout(function () {
-                        location.href = "/Home/Index/?filter=" + $("#txtMTelefon").val();
-
-                    }, 2000);
-                }
-                else {
-                    $("#btnSiparisKaydet").removeAttr("disabled");
-                    if (data.requiredLogin) {
-                        Bildirim(data.message);
-                        setTimeout(function () { location.href = "/Login/Index"; }, 2000);
-                    }
-                    else {
-                        Bildirim(data.message);
-                    }
-                }
-
-            });
-    }
-    else {
-        HataBildirim();
-    }
-});
-
 

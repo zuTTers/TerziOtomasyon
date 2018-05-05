@@ -1,4 +1,16 @@
-﻿/*Bildirim yapılacak text bu fonksiyona gelir.*/
+﻿/*Modal ekranını açar 1*/
+$(document).keydown(function (e) {
+    if (e.keyCode == 112) {
+        e.preventDefault();
+        $('#myModal').modal('show');
+    }
+    else if (e.keyCode == 113) {        
+        e.preventDefault();
+        $('#myModal').modal('hide');       
+    }
+});
+
+/*Bildirim yapılacak text bu fonksiyona gelir.*/
 function Bildirim(text) {
     $.notify({
         icon: 'fa fa-info',

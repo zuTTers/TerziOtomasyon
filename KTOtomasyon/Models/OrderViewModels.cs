@@ -10,7 +10,9 @@ namespace KTOtomasyon.Models
         public int Order_Id { get; set; }
         public string CustomerName { get; set; }
         public string PhoneNumber { get; set; }
-        public string Description { get; set; }
+        public string Debt { get; set; }
+        public string Addition { get; set; }
+        public Nullable<int> Discount { get; set; }
         public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<int> CreatedUser { get; set; }
         public string CreatedUserText { get; set; }
@@ -19,7 +21,7 @@ namespace KTOtomasyon.Models
         public Nullable<bool> IsDelivered { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
         public IList<OrderDetails> OrderDetails { get; set; }
-        public Nullable<int> Discount { get; set;}
+
 
     }
 
@@ -35,7 +37,7 @@ namespace KTOtomasyon.Models
         public Nullable<decimal> TTotalPrice { get; set; }
         public int TQuantity { get; set; }
         public string ProductName { get; set; }
-        public Nullable<int> Discount { get; set; }
+
     }
 
     public class DisplayOrderDetail

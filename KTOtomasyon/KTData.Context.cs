@@ -34,6 +34,7 @@ namespace KTOtomasyon
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<vOrders> vOrders { get; set; }
+        public virtual DbSet<vCustomers> vCustomers { get; set; }
     
         public virtual ObjectResult<Nullable<decimal>> AYLIKSIPARISRAPOR()
         {

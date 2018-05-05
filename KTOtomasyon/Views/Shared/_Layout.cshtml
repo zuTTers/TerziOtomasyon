@@ -30,7 +30,7 @@
 </head>
 <body>
     <div class="wrapper">
-        <div class="sidebar" data-color="orange">
+        <div class="sidebar" data-color="orange" data-image="~/Content/img/sidebar-5.jpg">
             <div class="sidebar-wrapper">
                 <div class="logo">
                     <a href="@Url.Action("Index", "Home")" class="simple-text">
@@ -45,12 +45,12 @@
                             <p>Genel</p>
                         </a>
                     </li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Products" ? "active" : "")">
-                        <a href="@Url.Action("Products", "Home")">
-                            <i class="fa fa-tasks"></i>
-                            <p>Ürünler</p>
-                        </a>
-                    </li>
+                    @*<li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Products" ? "active" : "")">
+            <a href="@Url.Action("Products", "Home")">
+                <i class="fa fa-tasks"></i>
+                <p>Ürünler</p>
+            </a>
+        </li>*@
 
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Operations" ? "active" : "")">
                         <a href="@Url.Action("Operations", "Home")">
@@ -61,7 +61,13 @@
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Users" ? "active" : "")">
                         <a href="@Url.Action("Users", "Home")">
                             <i class="fa fa-users"></i>
-                            <p>Personeller</p>
+                            <p>Kullanıcılar</p>
+                        </a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Customer" ? "active" : "")">
+                        <a href="@Url.Action("Index", "Customer")">
+                            <i class="fa fa-phone"></i>
+                            <p>Müşteriler</p>
                         </a>
                     </li>
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Reports" ? "active" : "")">
@@ -159,12 +165,12 @@
                     <div class="modal-body ">
                         <div class="row">
                             <div class="col-lg-6">
-                                @Html.Hidden("CreatedDate", DateTime.Now, new { @class = "form-control", @placeholder = "Tarih", @id = "txtMCTarihi", @type = "hidden", @style = "height:30px !important;" })
+                                @Html.Hidden("CreatedDate", DateTime.Now, new { @class = "form-control", @placeholder = "Tarih", @id = "txtMCTarihi", @type = "hidden" })
                                 @Html.Hidden("Order_Id", "0", new { @class = "form-control", @id = "txtMOrderId" })
                                 <h6 class="text-uppercase">Telefon No</h6>
                                 <div class="row">
                                     <div class="col-lg-11 pull-left">
-                                        @Html.TextBox("PhoneNumber", "", new { @class = "form-control", @tabindex = "1", @placeholder = "( 5 * * ) * * *  * *  * *", @id = "txtMTelefon", @style = "height:30px !important;", @onkeypress = "return IsNumber(event)", @maxlength = "10" })
+                                        @Html.TextBox("PhoneNumber", "", new { @class = "form-control", @tabindex = "1", @placeholder = "555 444 33 22", @id = "txtMTelefon", @onkeypress = "return IsNumber(event)", @maxlength = "10" })
                                     </div>
                                     <div class="col-lg-1 pull-right">
                                         <button id="btnTelefonBul" class="btn-xs btn btn-default" onclick="txtTelefonGetir(); return false;"><span class="fa fa-search"></span></button>
@@ -172,15 +178,15 @@
                                 </div>
 
                                 <h6 class="text-uppercase"> Teslim Tarihi </h6>
-                                @Html.TextBox("OrderDate", DateTime.Now.ToShortDateString(), new { @class = "form-control", @tabindex = "3", @placeholder = "Tarih", @id = "txtMSTarihi", @style = "height:30px !important;" })
+                                @Html.TextBox("OrderDate", DateTime.Now.ToShortDateString(), new { @class = "form-control", @tabindex = "3", @placeholder = "Tarih", @id = "txtMSTarihi", @readonly="readonly" })
                             </div>
                             <div class="col-lg-6">
                                 <p class="col-lg-10">
                                     <h6 class="text-uppercase pull-left">Müşteri Ad/Soyad</h6>
-                                    @Html.TextBox("CustomerName", "", new { @class = "form-control", @tabindex = "2", @placeholder = "İsim soyisim", @id = "txtMAdi", @style = "height:30px !important;" })
+                                    @Html.TextBox("CustomerName", "", new { @class = "form-control", @tabindex = "2", @placeholder = "İsim soyisim", @id = "txtMAdi" })
                                 </p>
-                                <h6 class="text-uppercase"> Toplam Borç Bakiyesi </h6>
-                                @Html.TextBox("Description", 0, new { @class = "form-control", @tabindex = "4", @id = "txtMAciklama", @style = "height:30px !important;" })
+                                <h6 class="text-uppercase"> Alınan Tutar </h6>
+                                @Html.TextBox("Debt", "", new { @class = "form-control", @tabindex = "4", @id = "txtMDebt" })
                             </div>
                         </div>
                         <div class="row" style="margin-top:10px;">
@@ -273,14 +279,14 @@
                     </div>
                     <div class="modal-footer">
                         <div class="col-lg-2">
-                            <b class="text-muted">Teslim : </b>
+                            <b class="text-muted">Teslim: </b>
                             <label class="custom-control custom-checkbox">
                                 @Html.TextBox("IsDelivered", "", new { @class = "custom-control-input", @id = "txtMDelivery", @type = "checkbox" })
                                 <span class="custom-control-indicator"></span>
                             </label>
                         </div>
                         <div class="col-lg-2">
-                            <b class="text-muted">Ödeme : </b>
+                            <b class="text-muted">Ödeme: </b>
                             <label class="custom-control custom-checkbox">
                                 @Html.TextBox("IsPaid", "", new { @class = "custom-control-input", @id = "txtMPaid", @type = "checkbox" })
                                 <span class="custom-control-indicator"></span>
@@ -291,13 +297,20 @@
                                 <b class="text-muted">İndirim:</b>
                             </p>
                             <p class="col-lg-6  pull-right">
-                                @Html.TextBox("Discount", "", new { @class = "form-control pull-left", @id = "txtMDiscount", @type = "text", @placeholder = "0" })
+                                @Html.TextBox("Discount", 0 , new { @class = "form-control pull-right", @id = "txtMDiscount", @tabindex = "5", @type = "text", @placeholder = "0", @onkeypress = "return IsNumber(event)" })
                             </p>
-                            
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
+                            <p class="col-lg-6  pull-left">
+                                <b class="text-muted">Açıklama:</b>
+                            </p>
+                            <p class="col-lg-6  pull-right">
+                                @Html.TextBox("Addition", "", new { @class = "form-control pull-left", @id = "txtMAddition", @tabindex = "6", @type = "text", @placeholder = "Açıklama"})
+                            </p>
+                        </div>
+                        <div class="col-lg-2">
                             <input id="btnSiparisKaydet" name="btnSiparisKaydet" type="button" class="btn btn-warning" value="Kaydet" />
-                        </div>                       
+                        </div>
                     </div>
                 </div>
             </div>
@@ -305,24 +318,24 @@
     </div>
 
     <!--   Core JS Files   -->
-    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
-    <script src="~/Scripts/jquery-ui.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/chosen.jquery.js"></script>
-    <script src="~/Scripts/ImageSelect.jquery.js"></script>
-    <script src="~/Scripts/bootstrap-select.js"></script>
-    <script src="~/Scripts/jquery.simplePagination.js"></script>
-    <script src="~/Scripts/fontawesome.min.js"></script>
+    <script src="~/Scripts/js/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/js/jquery-ui.min.js"></script>
+    <script src="~/Scripts/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/js/chosen.jquery.js"></script>
+    <script src="~/Scripts/js/ImageSelect.jquery.js"></script>
+    <script src="~/Scripts/js/bootstrap-select.js"></script>
+    <script src="~/Scripts/js/jquery.simplePagination.js"></script>
+    <script src="~/Scripts/js/fontawesome.min.js"></script>
     <!--  Checkbox, Radio & Switch Plugins -->
-    <script src="~/Scripts/bootstrap-checkbox-radio-switch.js"></script>
+    <script src="~/Scripts/js/bootstrap-checkbox-radio-switch.js"></script>
     <!--  Charts Plugin -->
-    <script src="~/Scripts/chartist.min.js"></script>
+    <script src="~/Scripts/js/chartist.min.js"></script>
     <!--  Notifications Plugin    -->
-    <script src="~/Scripts/bootstrap-notify.js"></script>
+    <script src="~/Scripts/js/bootstrap-notify.js"></script>
     <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-    <script src="~/Scripts/light-bootstrap-dashboard.js"></script>
+    <script src="~/Scripts/js/light-bootstrap-dashboard.js"></script>
     <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-    <script src="~/Scripts/demo.js"></script>
+    <script src="~/Scripts/js/demo.js"></script>
     <!-- Benim javascript dosyam -->
     <script src="~/Scripts/myscripts/myapp.js"></script>
     <script src="~/Scripts/myscripts/myorder.js"></script>
