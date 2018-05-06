@@ -64,7 +64,7 @@
                             <p>Kullanıcılar</p>
                         </a>
                     </li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Customer" ? "active" : "")">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Customer" ? "active" : "")">
                         <a href="@Url.Action("Index", "Customer")">
                             <i class="fa fa-phone"></i>
                             <p>Müşteriler</p>
@@ -78,7 +78,7 @@
                     </li>
                     <li class="active-pro">
                         <p class="copyright text-left">
-                            <a href="@Url.Action("AboutMe","Home")" class="label">
+                            <a href="#" class="label">
                                 zuTTers &copy;
                                 @DateTime.Now.Year
                             </a>
@@ -112,12 +112,17 @@
                                         <ul class="dropdown-menu">
                                             <li>
                                                 <a href="@Url.Action("Support", "Login")">
-                                                    Destek
+                                                    İletişim
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="@Url.Action("UserProfile", "Login", new { id = Session["UserId"]})">
                                                     Profil Bilgileri
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("AboutMe", "Home")">
+                                                    Yedek Al
                                                 </a>
                                             </li>
                                             <li>
@@ -244,11 +249,11 @@
                                             <option data-img-src="../img/e/13.jpg" value="38">Şişme Mont</option>
                                             <option data-img-src="../img/e/14.jpg" value="39">Şişme Yelek</option>
                                             <option data-img-src="../img/e/15.jpg" value="40">Şort</option>
-                                            <option data-img-src="../img/e/16.jpg" value="41">Tişort</option>
+                                            <option data-img-src="../img/e/16.jpg" value="41">T-Shirt</option>
                                             <option data-img-src="../img/e/17.jpg" value="42">Üst Eşofman</option>
                                         </optgroup>
                                         <optgroup label="Diğer">
-                                            <option data-img-src="../img/producticons/0'.png" value="43">Diğer</option>
+                                            <option data-img-src="../img/productions/0'.png" value="43">Diğer</option>
                                         </optgroup>
                                     </select>
                                 </div>

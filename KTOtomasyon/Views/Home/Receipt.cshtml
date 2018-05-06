@@ -31,7 +31,7 @@
     <link href="~/Content/Site.css" rel="stylesheet" />
     <link href="~/Content/simplePagination.css" rel="stylesheet" />
 </head>
-<body>
+<body style="margin:0 auto; float:left;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="font-size:11px;">
+        <div class="row" style="font-size:15px;">
             <div class="col-lg-12 text-uppercase text-left">
                 <table>
                     <tr>
@@ -59,11 +59,8 @@
                         <td>&nbsp; :<samp> @Model.CreatedUserText</samp></td>
                     </tr>
                 </table>
-
-
                 <br />
-                <br />
-                <samp class="text-uppercase">Topçular Mah. Osman Gazi Cad. No:21 - 2 Eyüp / İstanbul</samp>
+                <samp class="text-uppercase">Topçular Mah. Osman Gazi Cad. No:21 - 2 Eyüp / İstanbul</samp><br />
                 <samp><b>AXİS İSTANBUL AVM</b></samp>
                 <br />
                 <samp><b>0 212 801 32 11</b></samp>
@@ -72,18 +69,18 @@
             </div>
         </div>
         <br />
-        <div class="row text-left">
+        <div class="row text-left" style="float:left;">
             <div>
-                <p class="text-uppercase text-center" style="font-size:11px;">Müşteri Bilgileri</p>
+                <p class="text-uppercase text-center pull-right" style="font-size:14px;">Müşteri Bilgileri</p>
             </div>
-            <div style="font-size:11px;">
+            <div style="font-size:13px;">
                 <samp>Müşteri Adı: </samp><strong>@Model.CustomerName</strong>
                 <br />
                 <samp>Telefon: </samp><abbr>0</abbr>@Model.PhoneNumber
                 <br />
                 <samp>Teslim Tarihi: </samp>@Model.OrderDate.Value.ToShortDateString()
                 <br />
-                <samp>Verildi:</samp>@Model.Debt ₺
+                <samp>Verilen:</samp>@Model.Debt 
                 <br />
                 @{ if (@Model.IsPaid == true)
                     {
@@ -94,14 +91,14 @@
                         ViewBag.Durum = "Ödenmedi";
                     }
                 }
-                <em style="margin-left:70%;"><b> @ViewBag.Durum </b></em>
+                <samp>Durum:</samp><b>@ViewBag.Durum</b>
             </div>
 
         </div>
         <br />
-        <div class="row">
-            <table border="1" class="table table-bordered" style="border:5px !important;">
-                <thead style="font-size:11px !important; font-weight:600 !important;">
+        <div class="row" style="float:left; font-size:15px;">
+            <table border="1" class="table table-bordered" style="border:4px !important; padding-right:5px; margin-right:10px; font-size:15px;">
+                <thead style="font-size:10px !important; font-weight:500 !important; border:5px !important;">
                     <tr>
                         <th>Ürün</th>
                         <th>İşlem</th>
@@ -111,49 +108,50 @@
 
                     </tr>
                 </thead>
-                <tbody style="font-size:9px; border:groove; border:2px;">
+                <tbody style="font-size:13px; border:groove;">
                     @foreach (var item in Model.DetailList.ToList())
                     {
-                        <tr>
+                        <tr style="font-size:9px; border:groove;">
                             <td>@item.ProductName</td>
                             <td>@item.OperationText</td>
                             <td>@item.Quantity</td>
                             <td>@item.Price ₺</td>
-                            <td>@item.TotalPrice ₺</td>
+                            <td style="padding-right:5px;">@item.TotalPrice ₺</td>
 
                         </tr>
                     }
                 </tbody>
             </table>
-            <table class="table table-condensed">
+            <table class="table table-condensed" style="float:left;">
                 <tr>
                     <td></td>
-                    <td>Toplam Parça: <strong>@Model.TQuantity</strong></td>
-                    <td>Net Tutar: <strong>@Model.NTotalPrice ₺</strong></td>
-                    <td>Toplam Tutar: <strong>@Model.TTotalPrice ₺</strong></td>
+                    <td>Toplam Parça:<strong>@Model.TQuantity</strong></td>
+                    <td>Toplam Tutar:<strong>@Model.TTotalPrice₺</strong></td>
+                    <td>İndirimli Tutar:<strong>@Model.NTotalPrice₺</strong></td>
                     <td></td>
                 </tr>
+                <tr><td>Açıklama:<strong>@Model.Addition</strong></td></tr>
             </table>
         </div>
         <br />
-        <div class="row">
+        <div class="row" style="float:left;">
             <div class="col-lg-12" style="font-size:10px !important;">
-                <em style="font-size:10px !important;"><i>SAMPLE Terzi'yi Tercih Ettiğiniz İçin Teşekkür Ederiz.</i></em>
-                <em style="font-size:10px !important;" class="text-uppercase">Ürün verenler aşağıdaki şartları kabul etmiştir.</em>
-                <em style="font-size:10px !important;">30 gün içerisinde alınmayan ürünlerden ve üretimden kaynaklı ürün bozulmalarından firmamız sorumlu değildir.</em>
+                <em style="font-size:15px !important;"><i>SAMPLE Terzi'yi Tercih Ettiğiniz İçin Teşekkür Ederiz.</i></em>
+                <em style="font-size:15px !important;" class="text-uppercase">Ürün verenler aşağıdaki şartları kabul etmiştir.</em>
+                <em style="font-size:15px !important;">30 gün içerisinde alınmayan ürünlerden ve üretimden kaynaklı ürün bozulmalarından firmamız sorumlu değildir.</em>
             </div>
         </div>
     </div>
     @*<a name="btnprinter" href="javascript:window.print();">Print</a>*@
     @*<script language='VBScript' for="btnprinter" event="onClick">
-        Sub Print()
-        OLECMDID_PRINT = 6
-        OLECMDEXECOPT_DONTPROMPTUSER = 2
-        OLECMDEXECOPT_PROMPTUSER = 1
-        call WB.ExecWB(OLECMDID_PRINT, OLECMDEXECOPT_DONTPROMPTUSER, 1)
-        End Sub
-        document.write "<object ID='WB' WIDTH=0 HEIGHT=0 CLASSID='CLSID:8856F961-340A-11D0-A96B-00C04FD705A2'></object>"
-    </script>*@
+            Sub Print()
+            OLECMDID_PRINT = 6
+            OLECMDEXECOPT_DONTPROMPTUSER = 2
+            OLECMDEXECOPT_PROMPTUSER = 1
+            call WB.ExecWB(OLECMDID_PRINT, OLECMDEXECOPT_DONTPROMPTUSER, 1)
+            End Sub
+            document.write "<object ID='WB' WIDTH=0 HEIGHT=0 CLASSID='CLSID:8856F961-340A-11D0-A96B-00C04FD705A2'></object>"
+        </script>*@
     <script type="text/javascript">
         setTimeout(function () { window.print(); }, 500);
         window.onfocus = function () { setTimeout(function () { window.close(); }, 500); }

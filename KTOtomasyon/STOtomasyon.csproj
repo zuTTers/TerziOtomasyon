@@ -235,6 +235,7 @@
     <Content Include="Content\img\sidebar-4.jpg" />
     <Content Include="Content\img\sidebar-5.jpg" />
     <Content Include="Content\img\tim_80x80.png" />
+    <Content Include="Content\test.css" />
     <Content Include="KTData.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>KTData.edmx</DependentUpon>
@@ -319,24 +320,24 @@
     <Content Include="img\k\12.jpg" />
     <Content Include="img\k\7.png" />
     <Content Include="img\k\16.jpg" />
-    <Content Include="img\producticons\0%27.png" />
+    <Content Include="img\productions\0%27.png" />
     <Content Include="img\logooldu.png" />
-    <Content Include="img\producticons\10%27.png" />
-    <Content Include="img\producticons\13%27.png" />
-    <Content Include="img\producticons\3%27.png" />
-    <Content Include="img\producticons\2%27.png" />
-    <Content Include="img\producticons\15%27.png" />
-    <Content Include="img\producticons\4%27.png" />
-    <Content Include="img\producticons\5%27.png" />
-    <Content Include="img\producticons\6%27.png" />
-    <Content Include="img\producticons\7%27.png" />
-    <Content Include="img\producticons\8%27.png" />
-    <Content Include="img\producticons\11%27.png" />
-    <Content Include="img\producticons\1%27.png" />
-    <Content Include="img\producticons\14%27.png" />
-    <Content Include="img\producticons\9%27.png" />
-    <Content Include="img\producticons\bb.png" />
-    <Content Include="img\producticons\12%27.png" />
+    <Content Include="img\productions\10%27.png" />
+    <Content Include="img\productions\13%27.png" />
+    <Content Include="img\productions\3%27.png" />
+    <Content Include="img\productions\2%27.png" />
+    <Content Include="img\productions\15%27.png" />
+    <Content Include="img\productions\4%27.png" />
+    <Content Include="img\productions\5%27.png" />
+    <Content Include="img\productions\6%27.png" />
+    <Content Include="img\productions\7%27.png" />
+    <Content Include="img\productions\8%27.png" />
+    <Content Include="img\productions\11%27.png" />
+    <Content Include="img\productions\1%27.png" />
+    <Content Include="img\productions\14%27.png" />
+    <Content Include="img\productions\9%27.png" />
+    <Content Include="img\productions\bb.png" />
+    <Content Include="img\productions\12%27.png" />
     <Content Include="img\signin\check.png" />
     <Content Include="img\signin\fb_btn.png" />
     <Content Include="img\signin\password.png" />
@@ -498,10 +499,10 @@
     <Content Include="Views\Home\OperationEdit.cshtml" />
     <Content Include="Views\Home\Reports.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

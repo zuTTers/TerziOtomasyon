@@ -140,9 +140,9 @@ $("#btnSiparisKaydet").click(function () {
             function (data, status) {
                 if (data.success == true) {
                     Bildirim(data.message);
-                    setTimeout(function () {
-                        location.href = "/Home/Index/?filter=" + $("#txtMTelefon").val();
-                    }, 2000);
+                    //setTimeout(function () {
+                    //    location.href = "/Home/Index/?filter=" + $("#txtMTelefon").val();
+                    //}, 2000);
                 }
                 else {
                     $("#btnSiparisKaydet").removeAttr("disabled");
