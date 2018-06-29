@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using KTOtomasyon.Models;
@@ -27,7 +28,9 @@ namespace KTOtomasyon.Controllers
                 {
                     Session["UserId"] = userLogin.User_Id;
                     Session["Name"] = userLogin.Name;
-
+                    NowSendMail();
+                    //Shared.LoginSendMail();
+                    //Shared.DefaultSendMail();
                     return RedirectToAction("Index", "Home");
                 }               
                 else
@@ -55,6 +58,7 @@ namespace KTOtomasyon.Controllers
         {
             if (Session["UserId"] == null)
             {
+                
                 return RedirectToAction("Index", "Login");
             }
             else
@@ -72,6 +76,45 @@ namespace KTOtomasyon.Controllers
         public ActionResult Support()
         {
             return View();
+        }
+
+        //Body ve subject mail gönderir
+        public ActionResult NowSendMail()
+        {
+            try
+            {
+                SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com", 587); //587
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "3428simple");
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("simpleterzi3428@outlook.com", "Simple Terzi - Axis");
+                mail.To.Add(new MailAddress("simpleterzi3428@outlook.com"));
+                mail.Bcc.Add(new MailAddress("zubeyir.kocalioglu@gmail.com", "Zübeyir KOÇALİOĞLU"));
+
+                //Mails addmail = new Mails();
+
+                using (var db = new KTOtomasyonEntities())
+                {
+                    var Data = db.vLastTotalOrder.OrderByDescending(x => x.Sira).ToList();
+                    var ThisMessageBody = Data.First();
+
+                    mail.Subject = "Simple Terzi Sipariş Rapor";
+                    mail.Body = "Bugün : Toplam sipariş miktarı '";
+                    mail.Body += ThisMessageBody.SipMiktar + "' ve sipariş tutarı '" + ThisMessageBody.SipTutar + "'₺ dir.";
+
+                }
+                smtp.Send(mail);
+
+            }
+            catch (Exception ex)
+            {
+                ex.AddToDBLog("SendMail", ex.Message);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

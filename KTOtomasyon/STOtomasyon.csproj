@@ -152,9 +152,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="AYLIKSIPARISRAPOR_Result.cs">
+      <DependentUpon>KTData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Helper\Shared.cs" />
     <Compile Include="Global.asax.cs">
@@ -176,6 +180,9 @@
       <DependentUpon>KTData.edmx</DependentUpon>
     </Compile>
     <Compile Include="Logs.cs">
+      <DependentUpon>KTData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mails.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AllList.cs" />
@@ -205,7 +212,16 @@
     <Compile Include="vCustomers.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
+    <Compile Include="vLastTotalOrder.cs">
+      <DependentUpon>KTData.tt</DependentUpon>
+    </Compile>
     <Compile Include="vOrders.cs">
+      <DependentUpon>KTData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vTodayTotalOrder.cs">
+      <DependentUpon>KTData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vTotalOrder.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -235,7 +251,6 @@
     <Content Include="Content\img\sidebar-4.jpg" />
     <Content Include="Content\img\sidebar-5.jpg" />
     <Content Include="Content\img\tim_80x80.png" />
-    <Content Include="Content\test.css" />
     <Content Include="KTData.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>KTData.edmx</DependentUpon>
@@ -430,7 +445,6 @@
     <Content Include="KTData.edmx.diagram">
       <DependentUpon>KTData.edmx</DependentUpon>
     </Content>
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\js\chart.min.js" />
     <Content Include="Scripts\charts\area.js" />
     <Content Include="Scripts\charts\bar.js" />
@@ -448,6 +462,8 @@
     <Content Include="Scripts\js\ImageSelect.jquery.js" />
     <Content Include="Scripts\js\jquery-3.2.1.min.map" />
     <Content Include="Scripts\js\jquery-3.2.1.slim.min.map" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\ZuttersProfile.pubxml" />
     <None Include="Scripts\js\jquery.validate-vsdoc.js" />
     <None Include="Scripts\js\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\js\jquery-3.2.1.js" />
@@ -500,6 +516,11 @@
     <Content Include="Views\Home\Reports.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Mail\Create.cshtml" />
+    <Content Include="Views\Mail\Delete.cshtml" />
+    <Content Include="Views\Mail\Details.cshtml" />
+    <Content Include="Views\Mail\Edit.cshtml" />
+    <Content Include="Views\Mail\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

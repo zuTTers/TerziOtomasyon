@@ -21,8 +21,8 @@ namespace KTOtomasyon
         public string Addition { get; set; }
         public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<bool> IsDelivered { get; set; }
-        public Nullable<decimal> TotalPrice { get; set; }
         public Nullable<int> Discount { get; set; }
         public Nullable<decimal> NetTotal { get; set; }
+        public Nullable<decimal> TotalPrice { get; set; }
     }
 }

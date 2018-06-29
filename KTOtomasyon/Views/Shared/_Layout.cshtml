@@ -202,10 +202,20 @@
                         </div>
                         <div class="divider"></div>
                         <div class="row">
+                            <div class="col-lg-offset-5">
+                                <input type="radio" id="rdbDefault" name="rdbDefault" value="0" class="radio-inline" onclick="show1()" /> Varsayılan Sipariş
+                                <input type="radio" id="rdbTadilat" name="rdbDefault" value="1" class="radio-inline" onclick="show2()" /> Tadilatlı Sipariş
+                                <input id="btnSiparisKaydet2" name="btnSiparisKaydet2" type="button" class="btn btn-warning" value="Kaydet" />
+                                <br />
+                                <input type="text" name="txtPara" id="txtPara" class="form-control" placeholder="Tutar giriniz.." style="width:200px;" maxlength="5" onkeypress="return IsNumber(event)" />
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row" id="divTadilat">
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="col-lg-3">
                                     <select class="my-select" name="pfilter" title="Ürün Listesi" id="drpMUrunListe">
-                                        <option data-img-src="../img/producticons/0'.png" value="0" disabled selected>Ürün Seç..</option>
+                                        <option data-img-src="../img/productions/0'.png" value="0" disabled selected>Ürün Seç..</option>
                                         <optgroup label="Kadın">
                                             <option data-img-src="../img/k/1.jpg" value="1">Kap</option>
                                             <option data-img-src="../img/k/2.jpg" value="2">Elbise</option>

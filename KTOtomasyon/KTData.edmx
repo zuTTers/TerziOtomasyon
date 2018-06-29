@@ -16,6 +16,23 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedUser" Type="int" />
         </EntityType>
+        <EntityType Name="Mails">
+          <Key>
+            <PropertyRef Name="Mail_Id" />
+          </Key>
+          <Property Name="Mail_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MailSubject" Type="nvarchar(max)" />
+          <Property Name="MailBody" Type="nvarchar(max)" />
+          <Property Name="MailTo" Type="nvarchar" MaxLength="300" />
+          <Property Name="MailCC" Type="nvarchar" MaxLength="300" />
+          <Property Name="MailBCC" Type="nvarchar" MaxLength="300" />
+          <Property Name="IsBodyHtml" Type="bit" />
+          <Property Name="IsSend" Type="bit" />
+          <Property Name="SendDate" Type="datetime" />
+          <Property Name="ErrorMessage" Type="nvarchar" MaxLength="300" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedUser" Type="int" />
+        </EntityType>
         <EntityType Name="Operations">
           <Key>
             <PropertyRef Name="Operation_Id" />
@@ -88,6 +105,16 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vCustomers' does not have a primar
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'KTOtomasyon.dbo.vLastTotalOrder' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vLastTotalOrder">
+          <Key>
+            <PropertyRef Name="Sira" />
+          </Key>
+          <Property Name="Sira" Type="bigint" Nullable="false" />
+          <Property Name="SipMiktar" Type="int" />
+          <Property Name="SipTutar" Type="decimal" Precision="38" Scale="6" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vOrders">
           <Key>
@@ -106,6 +133,41 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           <Property Name="NetTotal" Type="decimal" Precision="38" Scale="6" />
           <Property Name="TotalPrice" Type="decimal" Precision="38" Scale="6" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KTOtomasyon.dbo.vTodayTotalOrder' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vTodayTotalOrder">
+          <Key>
+            <PropertyRef Name="Sira" />
+          </Key>
+          <Property Name="Sira" Type="bigint" Nullable="false" />
+          <Property Name="SipMiktar" Type="int" />
+          <Property Name="SipTutar" Type="decimal" Precision="38" Scale="6" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KTOtomasyon.dbo.vTotalOrder' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vTotalOrder">
+          <Key>
+            <PropertyRef Name="Sira" />
+          </Key>
+          <Property Name="Sira" Type="bigint" Nullable="false" />
+          <Property Name="Yil" Type="int" />
+          <Property Name="Ay" Type="int" />
+          <Property Name="Hafta" Type="int" />
+          <Property Name="SipMiktar" Type="int" />
+          <Property Name="SipTutar" Type="decimal" Precision="38" Scale="6" />
+        </EntityType>
+        <Association Name="FK_Mails_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Mails" Type="Self.Mails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_Id" />
+            </Principal>
+            <Dependent Role="Mails">
+              <PropertyRef Name="CreatedUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Operations_Products">
           <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
           <End Role="Operations" Type="Self.Operations" Multiplicity="*" />
@@ -161,6 +223,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
         </Function>
         <EntityContainer Name="KTOtomasyonModelStoreContainer">
           <EntitySet Name="Logs" EntityType="Self.Logs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mails" EntityType="Self.Mails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Operations" EntityType="Self.Operations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
@@ -171,6 +234,13 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
     [vCustomers].[CustomerName] AS [CustomerName], 
     [vCustomers].[PhoneNumber] AS [PhoneNumber]
     FROM [dbo].[vCustomers] AS [vCustomers]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vLastTotalOrder" EntityType="Self.vLastTotalOrder" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vLastTotalOrder].[Sira] AS [Sira], 
+    [vLastTotalOrder].[SipMiktar] AS [SipMiktar], 
+    [vLastTotalOrder].[SipTutar] AS [SipTutar]
+    FROM [dbo].[vLastTotalOrder] AS [vLastTotalOrder]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vOrders" EntityType="Self.vOrders" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -186,6 +256,27 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
     [vOrders].[TotalPrice] AS [TotalPrice]
     FROM [dbo].[vOrders] AS [vOrders]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vTodayTotalOrder" EntityType="Self.vTodayTotalOrder" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vTodayTotalOrder].[Sira] AS [Sira], 
+    [vTodayTotalOrder].[SipMiktar] AS [SipMiktar], 
+    [vTodayTotalOrder].[SipTutar] AS [SipTutar]
+    FROM [dbo].[vTodayTotalOrder] AS [vTodayTotalOrder]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vTotalOrder" EntityType="Self.vTotalOrder" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vTotalOrder].[Sira] AS [Sira], 
+    [vTotalOrder].[Yil] AS [Yil], 
+    [vTotalOrder].[Ay] AS [Ay], 
+    [vTotalOrder].[Hafta] AS [Hafta], 
+    [vTotalOrder].[SipMiktar] AS [SipMiktar], 
+    [vTotalOrder].[SipTutar] AS [SipTutar]
+    FROM [dbo].[vTotalOrder] AS [vTotalOrder]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Mails_Users" Association="Self.FK_Mails_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Mails" EntitySet="Mails" />
+          </AssociationSet>
           <AssociationSet Name="FK_Operations_Products" Association="Self.FK_Operations_Products">
             <End Role="Products" EntitySet="Products" />
             <End Role="Operations" EntitySet="Operations" />
@@ -286,6 +377,32 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_CreatedUser" FromRole="Users" ToRole="Orders" />
+          <NavigationProperty Name="Mails" Relationship="KTOtomasyonModel.FK_Mails_Users" FromRole="Users" ToRole="Mails" />
+        </EntityType>
+        <EntityType Name="vCustomers">
+          <Key>
+            <PropertyRef Name="CustomerName" />
+            <PropertyRef Name="PhoneNumber" />
+          </Key>
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vOrders">
+          <Key>
+            <PropertyRef Name="Order_Id" />
+            <PropertyRef Name="CustomerName" />
+            <PropertyRef Name="PhoneNumber" />
+          </Key>
+          <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Debt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Addition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDelivered" Type="Boolean" />
+          <Property Name="Discount" Type="Int32" />
+          <Property Name="NetTotal" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="38" Scale="6" />
         </EntityType>
         <Association Name="FK_Operations_Products">
           <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
@@ -342,6 +459,8 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
           <EntitySet Name="Orders" EntityType="Self.Orders" />
           <EntitySet Name="Products" EntityType="Self.Products" />
           <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="vCustomers" EntityType="Self.vCustomers" />
+          <EntitySet Name="vOrders" EntityType="Self.vOrders" />
           <AssociationSet Name="FK_Operations_Products" Association="Self.FK_Operations_Products">
             <End Role="Products" EntitySet="Products" />
             <End Role="Operations" EntitySet="Operations" />
@@ -358,38 +477,80 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
             <End Role="Users" EntitySet="Users" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <FunctionImport Name="AYLIKSIPARISRAPOR" ReturnType="Collection(Decimal)" />
+          <FunctionImport Name="AYLIKSIPARISRAPOR" ReturnType="Collection(KTOtomasyonModel.AYLIKSIPARISRAPOR_Result)" />
           <FunctionImport Name="ILKPROS" ReturnType="Collection(Decimal)">
             <Parameter Name="firstodate" Mode="In" Type="DateTime" />
             <Parameter Name="lastodate" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <EntitySet Name="vOrders" EntityType="KTOtomasyonModel.vOrders" />
-          <EntitySet Name="vCustomers" EntityType="KTOtomasyonModel.vCustomers" />
+          <EntitySet Name="vTotalOrder" EntityType="KTOtomasyonModel.vTotalOrder" />
+          <EntitySet Name="Mails" EntityType="KTOtomasyonModel.Mails" />
+          <EntitySet Name="vTodayTotalOrder" EntityType="KTOtomasyonModel.vTodayTotalOrder" />
+          <AssociationSet Name="FK_Mails_Users" Association="KTOtomasyonModel.FK_Mails_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Mails" EntitySet="Mails" />
+          </AssociationSet>
+          <EntitySet Name="vLastTotalOrder" EntityType="KTOtomasyonModel.vLastTotalOrder" />
         </EntityContainer>
-        <EntityType Name="vOrders">
+        <ComplexType Name="AYLIKSIPARISRAPOR_Result">
+          <Property Type="Int32" Name="Ay" Nullable="true" />
+          <Property Type="Decimal" Name="ToplamSatis" Nullable="true" Precision="38" Scale="6" />
+        </ComplexType>
+        <EntityType Name="vTotalOrder">
           <Key>
-            <PropertyRef Name="Order_Id" />
-            <PropertyRef Name="CustomerName" />
-            <PropertyRef Name="PhoneNumber" />
+            <PropertyRef Name="Sira" />
           </Key>
-          <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Debt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Addition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OrderDate" Type="DateTime" Precision="3" />
-          <Property Name="IsDelivered" Type="Boolean" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="38" Scale="6" />
-          <Property Name="Discount" Type="Int32" />
-          <Property Name="NetTotal" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="Sira" Type="Int64" Nullable="false" />
+          <Property Name="Yil" Type="Int32" />
+          <Property Name="Ay" Type="Int32" />
+          <Property Name="Hafta" Type="Int32" />
+          <Property Name="SipMiktar" Type="Int32" />
+          <Property Name="SipTutar" Type="Decimal" Precision="38" Scale="6" />
         </EntityType>
-        <EntityType Name="vCustomers">
+        <EntityType Name="Mails">
           <Key>
-            <PropertyRef Name="CustomerName" />
-            <PropertyRef Name="PhoneNumber" />
+            <PropertyRef Name="Mail_Id" />
           </Key>
-          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mail_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MailSubject" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MailBody" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MailTo" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="MailCC" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="MailBCC" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="IsBodyHtml" Type="Boolean" />
+          <Property Name="IsSend" Type="Boolean" />
+          <Property Name="SendDate" Type="DateTime" Precision="3" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedUser" Type="Int32" />
+          <NavigationProperty Name="Users" Relationship="KTOtomasyonModel.FK_Mails_Users" FromRole="Mails" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="vTodayTotalOrder">
+          <Key>
+            <PropertyRef Name="Sira" />
+          </Key>
+          <Property Name="Sira" Type="Int64" Nullable="false" />
+          <Property Name="SipMiktar" Type="Int32" />
+          <Property Name="SipTutar" Type="Decimal" Precision="38" Scale="6" />
+        </EntityType>
+        <Association Name="FK_Mails_Users">
+          <End Type="KTOtomasyonModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="KTOtomasyonModel.Mails" Role="Mails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_Id" />
+            </Principal>
+            <Dependent Role="Mails">
+              <PropertyRef Name="CreatedUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vLastTotalOrder">
+          <Key>
+            <PropertyRef Name="Sira" />
+          </Key>
+          <Property Name="Sira" Type="Int64" Nullable="false" />
+          <Property Name="SipMiktar" Type="Int32" />
+          <Property Name="SipTutar" Type="Decimal" Precision="38" Scale="6" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -475,29 +636,84 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="AYLIKSIPARISRAPOR" FunctionName="KTOtomasyonModel.Store.AYLIKSIPARISRAPOR" />
-          <FunctionImportMapping FunctionImportName="ILKPROS" FunctionName="KTOtomasyonModel.Store.ILKPROS" />
-          <EntitySetMapping Name="vOrders">
-            <EntityTypeMapping TypeName="KTOtomasyonModel.vOrders">
-              <MappingFragment StoreEntitySet="vOrders">
-                <ScalarProperty Name="NetTotal" ColumnName="NetTotal" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="IsDelivered" ColumnName="IsDelivered" />
-                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-                <ScalarProperty Name="Addition" ColumnName="Addition" />
-                <ScalarProperty Name="Debt" ColumnName="Debt" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="vCustomers">
             <EntityTypeMapping TypeName="KTOtomasyonModel.vCustomers">
               <MappingFragment StoreEntitySet="vCustomers">
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vOrders">
+            <EntityTypeMapping TypeName="KTOtomasyonModel.vOrders">
+              <MappingFragment StoreEntitySet="vOrders">
+                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Debt" ColumnName="Debt" />
+                <ScalarProperty Name="Addition" ColumnName="Addition" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="IsDelivered" ColumnName="IsDelivered" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="NetTotal" ColumnName="NetTotal" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AYLIKSIPARISRAPOR" FunctionName="KTOtomasyonModel.Store.AYLIKSIPARISRAPOR">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KTOtomasyonModel.AYLIKSIPARISRAPOR_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="ToplamSatis" ColumnName="ToplamSatis" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ILKPROS" FunctionName="KTOtomasyonModel.Store.ILKPROS" />
+          <EntitySetMapping Name="vTotalOrder">
+            <EntityTypeMapping TypeName="KTOtomasyonModel.vTotalOrder">
+              <MappingFragment StoreEntitySet="vTotalOrder">
+                <ScalarProperty Name="SipTutar" ColumnName="SipTutar" />
+                <ScalarProperty Name="SipMiktar" ColumnName="SipMiktar" />
+                <ScalarProperty Name="Hafta" ColumnName="Hafta" />
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="Yil" ColumnName="Yil" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mails">
+            <EntityTypeMapping TypeName="KTOtomasyonModel.Mails">
+              <MappingFragment StoreEntitySet="Mails">
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="SendDate" ColumnName="SendDate" />
+                <ScalarProperty Name="IsSend" ColumnName="IsSend" />
+                <ScalarProperty Name="IsBodyHtml" ColumnName="IsBodyHtml" />
+                <ScalarProperty Name="MailBCC" ColumnName="MailBCC" />
+                <ScalarProperty Name="MailCC" ColumnName="MailCC" />
+                <ScalarProperty Name="MailTo" ColumnName="MailTo" />
+                <ScalarProperty Name="MailBody" ColumnName="MailBody" />
+                <ScalarProperty Name="MailSubject" ColumnName="MailSubject" />
+                <ScalarProperty Name="Mail_Id" ColumnName="Mail_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vTodayTotalOrder">
+            <EntityTypeMapping TypeName="KTOtomasyonModel.vTodayTotalOrder">
+              <MappingFragment StoreEntitySet="vTodayTotalOrder">
+                <ScalarProperty Name="SipTutar" ColumnName="SipTutar" />
+                <ScalarProperty Name="SipMiktar" ColumnName="SipMiktar" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vLastTotalOrder">
+            <EntityTypeMapping TypeName="KTOtomasyonModel.vLastTotalOrder">
+              <MappingFragment StoreEntitySet="vLastTotalOrder">
+                <ScalarProperty Name="SipTutar" ColumnName="SipTutar" />
+                <ScalarProperty Name="SipMiktar" ColumnName="SipMiktar" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -516,7 +732,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vOrders' does not have a primary k
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

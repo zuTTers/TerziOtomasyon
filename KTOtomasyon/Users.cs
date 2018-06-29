@@ -18,6 +18,7 @@ namespace KTOtomasyon
         public Users()
         {
             this.Orders = new HashSet<Orders>();
+            this.Mails = new HashSet<Mails>();
         }
     
         public int User_Id { get; set; }
@@ -32,5 +33,7 @@ namespace KTOtomasyon
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Mails> Mails { get; set; }
     }
 }

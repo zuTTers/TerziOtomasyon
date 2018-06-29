@@ -179,6 +179,95 @@ namespace KTOtomasyon.Controllers
             return Json(ret);
         }
 
+        public JsonResult OrderSave2(OrderWithDetail orderWithDetail)
+        {
+            Orders orderadd = new Orders();
+            ReturnValue ret = new ReturnValue();
+
+            if (Shared.CheckSession() == false)
+            {
+                ret.requiredLogin = true;
+                ret.message = "Lütfen giriş yapınız.";
+                ret.success = false;
+                return Json(ret);
+            }
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    ret.success = false;
+
+                    //Sipariş id'sine göre kayıtları databaseden çeker
+                    using (var db = new KTOtomasyonEntities())
+                    {
+                        if (orderWithDetail.OrderDetails == null || orderWithDetail.OrderDetails.Count == 0)
+                        {
+                            ret.requiredLogin = false;
+                            ret.message = "Lütfen işlem giriniz.";
+                            ret.success = false;
+                            return Json(ret);
+                        }
+
+                        if (orderWithDetail.Order_Id != 0)
+                        {
+                            orderadd = db.Orders.Where(x => x.Order_Id == orderWithDetail.Order_Id).FirstOrDefault();
+                        }
+
+                        orderadd.CustomerName = orderWithDetail.CustomerName;
+                        orderadd.PhoneNumber = orderWithDetail.PhoneNumber;
+                        orderadd.Debt = orderWithDetail.Debt;
+                        orderadd.Addition = orderWithDetail.Addition;
+                        orderadd.Discount = orderWithDetail.Discount;
+                        orderadd.OrderDate = orderWithDetail.OrderDate;
+                        orderadd.CreatedDate = DateTime.Now;
+                        orderadd.CreatedUser = Convert.ToInt32(Session["UserId"]);
+                        orderadd.IsPaid = orderWithDetail.IsPaid;
+                        orderadd.IsDelivered = orderWithDetail.IsDelivered;
+                        orderadd.IsDeleted = orderWithDetail.IsDeleted;
+
+                        if (orderWithDetail.Order_Id == 0)
+                        {
+                            db.Orders.Add(orderadd);
+                        }
+                        db.SaveChanges();
+
+                        int id = orderadd.Order_Id;
+                        foreach (var item in orderadd.OrderDetail.ToList())
+                        {
+                            db.OrderDetail.Remove(item);
+                        }
+                        db.SaveChanges();
+
+
+                        OrderDetail odetail = new OrderDetail();
+
+                        odetail.Order_Id = id;
+                        odetail.Operation_Id = orderWithDetail.OrderDetails[0].Operation_Id;
+                        odetail.Quantity = orderWithDetail.OrderDetails[0].Quantity;
+                        odetail.Price = orderWithDetail.OrderDetails[0].Price;
+                        odetail.TotalPrice = orderWithDetail.OrderDetails[0].TotalPrice;
+
+                        db.OrderDetail.Add(odetail);
+                        
+                        db.SaveChanges();
+                        scope.Complete();
+                        ret.retObject = orderWithDetail;
+                    }
+                    ret.message = "Başarıyla kaydedildi.";
+                    ret.success = true;
+                }
+                catch (Exception ex)
+                {
+                    ex.AddToDBLog("HomeController.OrderSave2");
+                    ret.success = false;
+                    ret.message = ex.Message;
+                    scope.Dispose();
+                }
+            }
+            return Json(ret);
+        }
+
+
         //Her ürünün tadilatlarının listesini çeker.
         public JsonResult GetOperations(int Product_Id)
         {
@@ -321,19 +410,26 @@ namespace KTOtomasyon.Controllers
                     {
                         var phonedata = db.Orders.Where(x => x.PhoneNumber == PNumber).FirstOrDefault();
 
+                        if (phonedata != null)
+                        {
+                            orderWithDetail.Order_Id = phonedata.Order_Id;
+                            orderWithDetail.CustomerName = phonedata.CustomerName;
+                            orderWithDetail.PhoneNumber = phonedata.PhoneNumber;
+                            orderWithDetail.Debt = phonedata.Debt;
+                            orderWithDetail.Discount = phonedata.Discount;
+                            orderWithDetail.OrderDate = DateTime.Now;
 
-                        orderWithDetail.Order_Id = phonedata.Order_Id;
-                        orderWithDetail.CustomerName = phonedata.CustomerName;
-                        orderWithDetail.PhoneNumber = phonedata.PhoneNumber;
-                        orderWithDetail.Debt = phonedata.Debt;
-                        orderWithDetail.Discount = phonedata.Discount;
-                        orderWithDetail.OrderDate = DateTime.Now;
+                            ret.message = "Müşteri Bulundu.";
+                            ret.success = true;
 
-                        ret.message = "Müşteri Bulundu.";
-                        ret.success = true;
-
-                        ret.retObject = orderWithDetail;
-                        scope.Complete();
+                            ret.retObject = orderWithDetail;
+                            scope.Complete();
+                        }
+                        else
+                        {
+                            ret.message = "Müşteri Bulunamadı.";
+                            ret.success = false;
+                        }
                     }
 
                 }
@@ -886,29 +982,7 @@ namespace KTOtomasyon.Controllers
                 e.AddToDBLog("HomeController.GetFilesFromDirectory");
             }
             return dosyavm;
-        }
-
-        public ActionResult SendMail()
-        {
-            SmtpClient client = new SmtpClient();
-
-            //If you need to authenticate
-            client.Credentials = new NetworkCredential("zubeyir.kocalioglu@gmail.com", "******");
-            client.Host = "smtp.gmail.com";
-            client.Port = 465;
-
-            client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("zubeyir.kocalioglu@gmail.com");
-            mailMessage.To.Add("zubeyir.kocalioglu@gmail.com");
-            mailMessage.Subject = "Hello There";
-            mailMessage.Body = "Hello my friend!";
-
-            client.Send(mailMessage);
-            return RedirectToAction("Index", "Home");
-        }
+        }       
 
         public ActionResult Reports()
         {
@@ -920,7 +994,8 @@ namespace KTOtomasyon.Controllers
             {
                 try
                 {
-
+                    //Shared.DefaultSendMail();
+                    //DefaultSendMail();
                 }
                 catch (Exception ex)
                 {
@@ -951,6 +1026,70 @@ namespace KTOtomasyon.Controllers
 
         }
 
+        public JsonResult DefaultSendMail()
+        {
+            ReturnValue retVal = new ReturnValue();
+
+            try
+            {
+                retVal.success = false;
+
+                SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com", 587); //587
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "3428simple");
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("simpleterzi3428@outlook.com", "Simple Terzi - Axis");
+                mail.To.Add(new MailAddress("simpleterzi3428@outlook.com"));
+                //mail.CC.Add(new MailAddress("zubeyir_kocalioglu@outlook.com"));
+                mail.Bcc.Add(new MailAddress("zubeyir.kocalioglu@gmail.com", "Zübeyir KOÇALİOĞLU"));
+
+                Mails addmail = new Mails();
+
+                using (var db = new KTOtomasyonEntities())
+                {
+
+                    var Data = db.vTodayTotalOrder.OrderByDescending(x => x.Sira).ToList();
+                    var ThisMessageBody = Data.First();
+
+
+                    mail.Subject = "Simple Terzi Sipariş Rapor";
+                    mail.Body = "Bugün : Toplam sipariş miktarı '";
+                    mail.Body += ThisMessageBody.SipMiktar + "' ve sipariş tutarı '" + ThisMessageBody.SipTutar + "'₺ dir.";
+
+                    addmail.CreatedDate = DateTime.Now;
+                    addmail.MailTo = "simpleterzi3428@outlook.com";
+                    addmail.MailBCC = "zubeyir.kocalioglu@gmail.com";
+                    addmail.MailBody = "Bugün : Toplam sipariş miktarı '";
+                    addmail.MailBody += ThisMessageBody.SipMiktar + "' ve sipariş tutarı '" + ThisMessageBody.SipTutar + "'₺ dir.";
+                    addmail.MailSubject = "Simple Terzi Sipariş Rapor";
+                    addmail.SendDate = DateTime.Now;
+                    addmail.IsSend = true;
+
+                    db.Mails.Add(addmail);
+                    db.SaveChanges();
+                }
+
+
+
+                smtp.Send(mail);
+
+                retVal.success = true;
+                retVal.message = "mail gönderildi";
+
+            }
+            catch (Exception ex)
+            {
+                ex.AddToDBLog("SendMail", ex.Message);
+                retVal.message = "mail gönderilemedi";
+                retVal.error = ex.Message;
+                retVal.success = true;
+            }
+
+            return Json(retVal);
+        }
 
 
     }

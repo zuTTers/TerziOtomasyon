@@ -71,7 +71,7 @@
         <br />
         <div class="row text-left" style="float:left;">
             <div>
-                <p class="text-uppercase text-center pull-right" style="font-size:14px;">Müşteri Bilgileri</p>
+                <p class="text-uppercase text-center" style="font-size:14px;">Müşteri Bilgileri</p>
             </div>
             <div style="font-size:13px;">
                 <samp>Müşteri Adı: </samp><strong>@Model.CustomerName</strong>
@@ -110,16 +110,16 @@
                 </thead>
                 <tbody style="font-size:13px; border:groove;">
                     @foreach (var item in Model.DetailList.ToList())
-                    {
-                        <tr style="font-size:9px; border:groove;">
-                            <td>@item.ProductName</td>
-                            <td>@item.OperationText</td>
-                            <td>@item.Quantity</td>
-                            <td>@item.Price ₺</td>
-                            <td style="padding-right:5px;">@item.TotalPrice ₺</td>
+            {
+                <tr style="font-size:9px; border:groove;">
+                    <td>@item.ProductName</td>
+                    <td>@item.OperationText</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price ₺</td>
+                    <td style="padding-right:5px;">@item.TotalPrice ₺</td>
 
-                        </tr>
-                    }
+                </tr>
+    }
                 </tbody>
             </table>
             <table class="table table-condensed" style="float:left;">
@@ -130,8 +130,8 @@
                     <td>İndirimli Tutar:<strong>@Model.NTotalPrice₺</strong></td>
                     <td></td>
                 </tr>
-                <tr><td>Açıklama:<strong>@Model.Addition</strong></td></tr>
             </table>
+            <p>Açıklama:<strong>@Model.Addition</strong></p>
         </div>
         <br />
         <div class="row" style="float:left;">

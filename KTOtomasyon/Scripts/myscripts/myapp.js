@@ -189,3 +189,28 @@ $(window).bind("popstate", checkFragment);
 // (which is right now).
 checkFragment();
 
+
+//MailGönder
+//function GoMail() {
+//    $.post("Mail/NowSendMail",
+//        function (data, status) {
+//            if (data.success == true) {
+//                Bildirim(data.message);
+//            }
+//        });
+
+//}
+
+$("#divTadilat").hide();
+$('#rdbDefault').prop('checked', true);
+
+function show1() {
+    $("#divTadilat").hide();
+    $("#txtPara").show();
+    $("#btnSiparisKaydet2").show();
+}
+function show2() {
+    $("#divTadilat").show();
+    $("#txtPara").hide();
+    $("#btnSiparisKaydet2").hide();
+}
