@@ -202,15 +202,18 @@ checkFragment();
 //}
 
 $("#divTadilat").hide();
+$("#btnSiparisKaydet").hide();
 $('#rdbDefault').prop('checked', true);
 
 function show1() {
     $("#divTadilat").hide();
     $("#txtPara").show();
     $("#btnSiparisKaydet2").show();
+    $("#btnSiparisKaydet").hide();
 }
 function show2() {
     $("#divTadilat").show();
     $("#txtPara").hide();
     $("#btnSiparisKaydet2").hide();
+    $("#btnSiparisKaydet").show();
 }

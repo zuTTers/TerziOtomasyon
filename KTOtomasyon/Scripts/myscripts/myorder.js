@@ -154,7 +154,7 @@ $("#btnSiparisKaydet2").click(function () {
 
 
     //Sipariş ekleme
-    if (MAdi !== "" && MTelefon !== "") {
+    if (MAdi !== "" && MTelefon !== "" && $("#txtPara").val() != "") {
         $("#btnSiparisKaydet2").attr("disabled", "disabled");
         $.post("Home/OrderSave2", { orderWithDetail: orderwithdetail },
             function (data, status) {
