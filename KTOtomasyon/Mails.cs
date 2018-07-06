@@ -26,6 +26,7 @@ namespace KTOtomasyon
         public string ErrorMessage { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> CreatedUser { get; set; }
+        public string MailFrom { get; set; }
     
         public virtual Users Users { get; set; }
     }

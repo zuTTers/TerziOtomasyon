@@ -52,5 +52,14 @@ namespace KTOtomasyon.Models
         public int CurrentPage { get; set; }
     }
 
-    
+    public class MailDetail
+    {
+        public long Sira { get; set; }
+        public int? SipMiktar { get; set; }
+        public decimal? SipTutar { get; set; }
+    }
+
+
+
+
 }

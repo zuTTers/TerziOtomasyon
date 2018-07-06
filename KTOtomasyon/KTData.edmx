@@ -24,6 +24,7 @@
           <Property Name="MailSubject" Type="nvarchar(max)" />
           <Property Name="MailBody" Type="nvarchar(max)" />
           <Property Name="MailTo" Type="nvarchar" MaxLength="300" />
+          <Property Name="MailFrom" Type="nvarchar" MaxLength="300" />
           <Property Name="MailCC" Type="nvarchar" MaxLength="300" />
           <Property Name="MailBCC" Type="nvarchar" MaxLength="300" />
           <Property Name="IsBodyHtml" Type="bit" />
@@ -523,6 +524,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vTotalOrder' does not have a prima
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedUser" Type="Int32" />
           <NavigationProperty Name="Users" Relationship="KTOtomasyonModel.FK_Mails_Users" FromRole="Mails" ToRole="Users" />
+          <Property Name="MailFrom" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vTodayTotalOrder">
           <Key>
@@ -684,6 +686,7 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vTotalOrder' does not have a prima
           <EntitySetMapping Name="Mails">
             <EntityTypeMapping TypeName="KTOtomasyonModel.Mails">
               <MappingFragment StoreEntitySet="Mails">
+                <ScalarProperty Name="MailFrom" ColumnName="MailFrom" />
                 <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />

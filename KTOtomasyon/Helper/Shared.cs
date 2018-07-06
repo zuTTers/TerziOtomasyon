@@ -98,42 +98,54 @@ namespace KTOtomasyon.Controllers
             }
         }
 
+        //Veritabanına mail ekler.
+        public static void AddToDBMail(string subject, string body, string fromadd, string toadd)
+        {
+            Mails mailim = new Mails();
+
+            using (var db = new KTOtomasyonEntities())
+            {
+                mailim.CreatedDate = DateTime.Now;
+                mailim.CreatedUser = Convert.ToInt32(HttpContext.Current.Session["UserId"]);
+                mailim.MailTo = toadd.ToString();
+                mailim.MailFrom = fromadd.ToString();
+                mailim.MailBody = body.ToString();
+                mailim.MailSubject = subject.ToString();
+                mailim.SendDate = DateTime.Now;
+                mailim.IsSend = true;
+                mailim.IsBodyHtml = false;
+
+                db.Mails.Add(mailim);
+                db.SaveChanges();
+            }
+        }
+
         //Sisteme giriş emaili gönderir
         public static void LoginSendMail()
         {
-            ReturnValue retVal = new ReturnValue();
+            SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com", 587); //587
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.EnableSsl = true;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "3428simple");
 
             try
             {
-                retVal.success = false;
-
-                SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com", 587); //587
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtp.EnableSsl = true;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "3428simple");
-                //smtp.Timeout = 100000;
-
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress("simpleterzi3428@outlook.com", "Simple Terzi - Axis");
                 mail.To.Add(new MailAddress("simpleterzi3428@outlook.com"));
                 mail.Subject = "Simple Terzi Giriş";
                 mail.Body = "Simple Terzi giriş yapıldı.";
-                //mail.CC.Add(new MailAddress("zubeyir_kocalioglu@outlook.com"));
                 mail.Bcc.Add(new MailAddress("zubeyir.kocalioglu@gmail.com", "Zübeyir KOÇALİOĞLU"));
 
-                smtp.Send(mail);
+                AddToDBMail(mail.Body, mail.Subject, mail.From.ToString(), mail.To.ToString());
 
-                retVal.success = true;
-                retVal.message = "mail gönderildi";
+                smtp.Send(mail);
 
             }
             catch (Exception ex)
             {
                 ex.AddToDBLog("SendMail", ex.Message);
-                retVal.message = "mail gönderilemedi";
-                retVal.error = ex.Message;
-                retVal.success = true;
             }
 
         }
@@ -183,19 +195,6 @@ namespace KTOtomasyon.Controllers
                         SiparisTutar = "Yok";
                     }
 
-
-
-                    //addmail.CreatedDate = DateTime.Now;
-                    //addmail.MailTo = "simpleterzi3428@outlook.com";
-                    //addmail.MailBCC = "zubeyir.kocalioglu@gmail.com";
-                    //addmail.MailBody = "Bugün : @tarih. Toplam sipariş miktarı '";
-                    //addmail.MailBody += MailData.SipMiktar + "' ve sipariş tutarı '" + MailData.SipTutar + "'₺ dir.";
-                    //addmail.MailSubject = "Simple Terzi Sipariş Rapor";
-                    //addmail.SendDate = DateTime.Now;
-                    //addmail.IsSend = true;
-
-                    //db.Mails.Add(addmail);
-                    //db.SaveChanges();
                 }
 
                 mail.Subject = "Simple Terzi Sipariş Rapor";
