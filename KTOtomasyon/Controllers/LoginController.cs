@@ -86,7 +86,7 @@ namespace KTOtomasyon.Controllers
         {
             SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com", 587);
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "3428simple");
+            smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "pass");
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtp.EnableSsl = true;
 
@@ -162,7 +162,7 @@ namespace KTOtomasyon.Controllers
         {
             SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com", 587);
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "3428simple");
+            smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "pass");
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtp.EnableSsl = true;
 
