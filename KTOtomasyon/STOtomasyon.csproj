@@ -524,6 +524,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="SQL\0-Tables\" />
+    <Folder Include="SQL\1-Views\" />
+    <Folder Include="SQL\2-Functions\" />
+    <Folder Include="SQL\3-Procedures\" />
+    <Folder Include="SQL\4-Tools\" />
+    <Folder Include="SQL\5-Jobs\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
