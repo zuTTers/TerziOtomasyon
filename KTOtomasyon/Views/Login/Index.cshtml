@@ -10,7 +10,7 @@
             <div class="form-login">
 
                 <form action="@Url.Action("Index", "Login")" method="post" style="padding:5%;">
-                    <h4 class="text-center text-uppercase" style="font-family:Century; font-weight:900; font-size:larger; font-kerning:normal;">SAMPLE BİLGİ SİSTEMİ</h4>
+                    <h4 class="text-center text-uppercase" style="font-family:Century; font-weight:900; font-size:larger; font-kerning:normal;">SAMPLE TERZİ BİLGİ SİSTEMİ</h4>
                     <p>@Html.LabelFor(x => x.Mail,"Kullanıcı Adı")</p>
                     <p>@Html.TextBoxFor(x => x.Mail, new { @class = "form-control input-sm", @placeholder = "kullaniciadi", @required = "required", @name = "username", @id = "username" })</p>
                     <p>@Html.ValidationMessageFor(x => x.Mail)</p>

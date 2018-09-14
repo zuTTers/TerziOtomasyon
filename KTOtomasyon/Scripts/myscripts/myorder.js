@@ -161,7 +161,7 @@ $("#btnSiparisKaydet2").click(function () {
                 if (data.success == true) {
                     Bildirim(data.message);
                     setTimeout(function () {
-                        location.href = "/Home/Index";
+                        location.reload(true);
                     }, 2000);
                 }
                 else {
@@ -227,7 +227,7 @@ $("#btnSiparisKaydet").click(function () {
                 if (data.success == true) {
                     Bildirim(data.message);
                     setTimeout(function () {
-                        location.href = "/Home/Index";
+                        location.reload(true);
                     }, 2000);
                 }
                 else {
