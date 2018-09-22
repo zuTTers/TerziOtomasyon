@@ -204,11 +204,15 @@ namespace KTOtomasyon.Controllers
         {
             SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com", 587);
             smtp.UseDefaultCredentials = false;
+<<<<<<< HEAD
             smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "3428simple");
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtp.EnableSsl = true;
 
             smtp.Timeout = 600000;
+=======
+            smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "pass");
+>>>>>>> 5ea8d48507519e50e805371596677955f73bc353
 
 
             string body = "";
@@ -342,6 +346,14 @@ namespace KTOtomasyon.Controllers
 
 
 
+<<<<<<< HEAD
+=======
+                SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com", 587); //587
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "pass");
+>>>>>>> 5ea8d48507519e50e805371596677955f73bc353
 
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress("simpleterzi3428@outlook.com", "Simple Terzi - Axis");
