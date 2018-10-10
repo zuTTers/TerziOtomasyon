@@ -485,6 +485,25 @@
     <Content Include="Scripts\js\respond.js" />
     <Content Include="Scripts\js\respond.min.js" />
     <Content Include="Scripts\js\signin.js" />
+    <Content Include="SQL\0-Tables\008-Users.sql" />
+    <Content Include="SQL\0-Tables\007-Products.sql" />
+    <Content Include="SQL\0-Tables\006-Orders.sql" />
+    <Content Include="SQL\0-Tables\005-OrderDetail.sql" />
+    <Content Include="SQL\0-Tables\004-Operations.sql" />
+    <Content Include="SQL\0-Tables\003-Mails.sql" />
+    <Content Include="SQL\0-Tables\002-Logs.sql" />
+    <Content Include="SQL\0-Tables\001-Calendar.sql" />
+    <Content Include="SQL\1-Views\006-vTodayTotalOrder.sql" />
+    <Content Include="SQL\1-Views\007-vTotalOrder.sql" />
+    <Content Include="SQL\1-Views\005-vOrderWYear.sql" />
+    <Content Include="SQL\1-Views\004-vOrders.sql" />
+    <Content Include="SQL\1-Views\003-vOrderQYear.sql" />
+    <Content Include="SQL\1-Views\002-vLastTotalOrder.sql" />
+    <Content Include="SQL\1-Views\001-vCustomers.sql" />
+    <Content Include="SQL\3-Procedures\002-CalenderCreator.sql" />
+    <Content Include="SQL\3-Procedures\004-OrderCalender.sql" />
+    <Content Include="SQL\3-Procedures\003-ILKPROS.sql" />
+    <Content Include="SQL\3-Procedures\001-AYLIKSIPARISRAPOR.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -524,10 +543,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="SQL\0-Tables\" />
-    <Folder Include="SQL\1-Views\" />
     <Folder Include="SQL\2-Functions\" />
-    <Folder Include="SQL\3-Procedures\" />
     <Folder Include="SQL\4-Tools\" />
     <Folder Include="SQL\5-Jobs\" />
   </ItemGroup>

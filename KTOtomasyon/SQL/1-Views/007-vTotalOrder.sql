@@ -25,6 +25,7 @@ SELECT  ISNULL(ROW_NUMBER() OVER(ORDER BY SUM(ORDET.TotalPrice)),0) Sira,
 		SUM(ORDET.TotalPrice) SipTutar		  
 FROM Orders ORS
 INNER JOIN OrderDetail ORDET ON ORS.Order_Id = ORDET.Order_Id 
+WHERE IsDeleted = 0
 GROUP BY DATEPART(mm,ORS.CreatedDate),DATEPART(YYYY,ORS.CreatedDate),DATEPART(WW,ORS.CreatedDate)
 
 GO
