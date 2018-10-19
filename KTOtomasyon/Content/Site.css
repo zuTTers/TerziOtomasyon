@@ -1,6 +1,33 @@
 ﻿
+/*Image Gallery*/
+.image-grid {
+    font-size: 0;
+    flex-flow: row wrap;
+    display: flex;
+    padding: .1vh;
+}
+    .image-grid li {
+        flex: auto;
+        width: 100px;
+        margin: .01vh;
+    }
+        .image-grid li:hover {
+            opacity: 0.4;
+            background-color: lightpink;
+        }
+
+    .image-grid img {
+        width: 100px;
+        height: 80px;
+    }
+    .image-grid input {
+        width: 100px;
+        height: 80px;
+    }
 
 
+
+/*table*/
 .the-table {
     table-layout: fixed;
     word-wrap: break-word;

@@ -15,11 +15,11 @@ namespace KTOtomasyon.Controllers
 
     public class ReturnValue
     {
-        public string error; //Hata mesajı içeriği
-        public string message; //Server taraflı işlem sonu dönen mesaj içeriği
-        public bool requiredLogin; //Session kontrolü
-        public object retObject; //İşlem sonu dönen data objesi
-        public bool success; //İşlem başarı kontrolü
+        public string error;        //Hata mesajı içeriği
+        public string message;      //Server taraflı işlem sonu dönen mesaj içeriği
+        public bool requiredLogin;  //Session kontrolü
+        public object retObject;    //İşlem sonu dönen data objesi
+        public bool success;        //İşlem başarı kontrolü
 
         public ReturnValue() { }
     }
@@ -133,38 +133,12 @@ namespace KTOtomasyon.Controllers
             smtp.EnableSsl = true;
 
             smtp.Timeout = 600000;
-
+           
             SqlConnection ConnStr = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLKTOtomasyon"].ConnectionString);
-            String SQL1 = "SELECT TOP 10 Log_Id, MethodName, Message, CreatedDate FROM Logs WHERE Log_Id IS NOT NULL Order by Log_Id desc";
-            SqlDataAdapter TitlesAdpt1 = new SqlDataAdapter(SQL1, ConnStr);
-            DataSet Titles1 = new DataSet();
-
             string body = "";
 
             try
             {
-                //1.Tablo
-                TitlesAdpt1.Fill(Titles1);
-                //Header1
-                body = "<h3 align='center'>Simple Terzi - Son 10 Hata Raporu</h3>";
-                //Content1
-                body += "<table width='70%' bgcolor='#f6f8f1' border='0' cellpadding='0' cellspacing='0' class='table table-striped text-center' align='center'>";
-                body += "<tr bgcolor='#c7d8a7'>";
-                body += "<td><strong>Log ID<strong></td>";
-                body += "<td><strong>Metod Adı<strong></td>";
-                body += "<td><strong>Hata Mesajı<strong></td>";
-                body += "<td><strong>Oluşma Tarihi<strong></td>";
-                body += "</tr>";
-                foreach (DataRow Title in Titles1.Tables[0].Rows)
-                {
-                    body += "<tr>";
-                    body += "<td>" + Title[0] + "</td>";
-                    body += "<td>" + Title[1] + "</td>";
-                    body += "<td>" + Title[2] + "</td>";
-                    body += "<td>" + String.Format("{0:d/M/yyyy HH:mm:ss}", Title[3]) + "</td>";
-                    body += "</tr>";
-                }
-                body += "</table>";
 
                 body += "<br>";
 
@@ -176,7 +150,7 @@ namespace KTOtomasyon.Controllers
                 //2.Tablo
                 TitlesAdpt2.Fill(Titles2);
                 //Header
-                body += "<h3 align='center'>Simple Terzi - Haftanın Sipariş Raporu</h3>";
+                body = "<h3 align='center'>Simple Terzi - Haftanın Sipariş Raporu</h3>";
                 //Content
                 body += "<table width='70%' bgcolor='#f6f8f1' border='0' cellpadding='0' cellspacing='0' class='table table-striped text-center' align='center'>";
                 body += "<tr bgcolor='#c7d8a7'>";
@@ -291,7 +265,7 @@ namespace KTOtomasyon.Controllers
                 //Footer
                 body += "</hr>";
                 body += "<h5 align='center'>";
-                body += "zuTTers, İstanbul 2018 ";
+                body += "zuTTers, İstanbul 2018 &copy; ";
                 body += "<a href='mailto:zubeyir.kocalioglu@gmail.com'><font color='red'> E-Posta </font></a> | Zübeyir Koçalioğlu tarafından gönderildi.";
                 body += "</h5>";
 
@@ -360,6 +334,34 @@ namespace KTOtomasyon.Controllers
                     body += "</tr>";
                 }
                 body += "</table>";
+
+                String SQL1 = "SELECT TOP 10 Log_Id, MethodName, Message, CreatedDate FROM Logs WHERE Log_Id IS NOT NULL Order by Log_Id desc";
+                SqlDataAdapter TitlesAdpt1 = new SqlDataAdapter(SQL1, ConnStr);
+                DataSet Titles1 = new DataSet();
+
+                //1.Tablo
+                TitlesAdpt1.Fill(Titles1);
+                //Header1
+                body += "<h3 align='center'>Simple Terzi - Son 10 Hata Raporu</h3>";
+                //Content1
+                body += "<table width='70%' bgcolor='#f6f8f1' border='0' cellpadding='0' cellspacing='0' class='table table-striped text-center' align='center'>";
+                body += "<tr bgcolor='#c7d8a7'>";
+                body += "<td><strong>Log ID<strong></td>";
+                body += "<td><strong>Metod Adı<strong></td>";
+                body += "<td><strong>Hata Mesajı<strong></td>";
+                body += "<td><strong>Oluşma Tarihi<strong></td>";
+                body += "</tr>";
+                foreach (DataRow Title in Titles1.Tables[0].Rows)
+                {
+                    body += "<tr>";
+                    body += "<td>" + Title[0] + "</td>";
+                    body += "<td>" + Title[1] + "</td>";
+                    body += "<td>" + Title[2] + "</td>";
+                    body += "<td>" + String.Format("{0:d/M/yyyy HH:mm:ss}", Title[3]) + "</td>";
+                    body += "</tr>";
+                }
+                body += "</table>";
+
 
                 //Footer
                 body += "</hr>";

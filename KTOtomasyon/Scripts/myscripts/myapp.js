@@ -4,9 +4,9 @@ $(document).keydown(function (e) {
         e.preventDefault();
         $('#myModal').modal('show');
     }
-    else if (e.keyCode == 113) {        
+    else if (e.keyCode == 113) {
         e.preventDefault();
-        $('#myModal').modal('hide');       
+        $('#myModal').modal('hide');
     }
 });
 
@@ -36,6 +36,8 @@ function HataBildirim() {
 //Image Chosen Dropdown
 $(".my-select").chosen({ width: "32px;", height: "32px;" });
 $(".my-select2").chosen();
+
+
 
 //Modal Ekranı
 $('#myModal').on('show.bs.modal', function (e) {
@@ -205,15 +207,21 @@ $("#divTadilat").hide();
 $("#btnSiparisKaydet").hide();
 $('#rdbDefault').prop('checked', true);
 
-function show1() {
-    $("#divTadilat").hide();
+function TekliGoster() {
+
     $("#txtPara").show();
+    $("#drpMIslemListeID2").show();
+    $("#drpMIslemListeID1").show();
     $("#btnSiparisKaydet2").show();
     $("#btnSiparisKaydet").hide();
+    $("#divTadilat").hide();
 }
-function show2() {
-    $("#divTadilat").show();
+function CokluGoster() {
+
     $("#txtPara").hide();
+    $("#drpMIslemListeID1").hide();
+    $("#drpMIslemListeID2").hide();
     $("#btnSiparisKaydet2").hide();
     $("#btnSiparisKaydet").show();
+    $("#divTadilat").show();
 }

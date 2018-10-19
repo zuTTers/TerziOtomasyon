@@ -2,10 +2,12 @@
 var orderwithdetail = { OrderDetails: [] };
 var OperationData;
 
+TekliGoster();
 
 //Dropdownlistlere onChange attr'si eklendi.
 $("#drpMUrunListe").chosen().change(drpUrunIslem);
 $("#drpMIslemListe").chosen().change(drpIslemGetir);
+$("#drpMIslemListe2").chosen().change(drpIslemGetir2);
 
 
 function drpUrunIslem() {
@@ -32,6 +34,31 @@ function drpUrunIslem() {
         });
 }
 
+function drpUrunIslem2(itemCode) {
+    $.post("Home/GetOperations", {
+        Product_Id: itemCode
+    },
+        function (data, status) {
+            OperationData = data;
+
+            if (data.length > 0) {
+                $("#txtPara").val(data[0].Price);
+            }
+
+            $('#drpMIslemListe2').empty(); //remove all child nodes
+            $.each(data, function (idx, obj) {
+                $("#drpMIslemListe2").append('<option value="' + obj.Operation_Id + '">' + obj.Name + '</option>');
+                if ($("#drpMIslemListe2").val() == obj.Operation_Id) {
+                    $("#txtPara").val(obj.Price);
+                }
+            });
+
+            $('#drpMIslemListe2').trigger("chosen:updated");
+
+
+        });
+}
+
 function drpIslemGetir() {
     $.each(OperationData, function (idx, obj) {
         if ($("#drpMIslemListe").val() == obj.Operation_Id) {
@@ -39,7 +66,15 @@ function drpIslemGetir() {
         }
     });
     $('#txtMPrice').trigger("chosen:updated");
+}
 
+function drpIslemGetir2() {
+    $.each(OperationData, function (idx, obj) {
+        if ($("#drpMIslemListe2").val() == obj.Operation_Id) {
+            $("#txtPara").val(obj.Price);
+        }
+    });
+    $('#txtPara').trigger("chosen:updated");
 }
 
 function txtTelefonGetir() {
@@ -136,9 +171,9 @@ $("#btnSiparisKaydet2").click(function () {
     var orderdetail = {};
 
     var MOrderDetailId = $("#txtMOrderDetailId").val();
-    var MUrun = 43;
-    var MIslem = 1141;
-    var MIslemText = "Test";
+    var MUrun = $("#txtUrun").val();
+    var MIslem = $("#drpMIslemListe2").val();
+    var MIslemText = $("#drpMIslemListe2").text();
     var MAdet = 1;
     var MPrice = $("#txtPara").val();
     var MTPrice = MAdet * MPrice;
@@ -256,7 +291,7 @@ function GetOrder(id) {
     },
 
         function (data, status) {
-            show2();
+            CokluGoster();
 
             orderwithdetail = data;
             createTable();
@@ -314,3 +349,8 @@ $("#btnUrunEkle").click(function () {
 
 });
 
+function IslemSec(itemID) {
+    TekliGoster();
+    drpUrunIslem2(itemID);
+
+}
