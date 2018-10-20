@@ -34,7 +34,7 @@ namespace KTOtomasyon.Controllers
                 {
                     Session["UserId"] = userLogin.User_Id;
                     Session["Name"] = userLogin.Name;
-                    Shared.SendLogMail();
+                    //Shared.SendLogMail();
                     return RedirectToAction("Index", "Home");
                 }
                 else

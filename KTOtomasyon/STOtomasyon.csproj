@@ -268,7 +268,6 @@
     <Content Include="Scripts\js\demo.js" />
     <Content Include="Scripts\js\light-bootstrap-dashboard.js" />
     <Content Include="Content\bootstrap-responsive.min.css" />
-    <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\chosen\chosen-sprite%402x.png" />
@@ -277,15 +276,12 @@
     <Content Include="Content\CSS\font-awesome.css" />
     <Content Include="Content\CSS\font-awesome.min.css" />
     <Content Include="Content\Flat.css" />
-    <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Fonts\fontawesome-webfont.svg" />
     <Content Include="Content\ImageSelect.css" />
-    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\jquery-ui.structure.css" />
     <Content Include="Content\jquery-ui.structure.min.css" />
-    <Content Include="Content\jquery-ui.theme.css" />
     <Content Include="Content\jquery-ui.theme.min.css" />
     <Content Include="Content\simplePagination.css" />
     <Content Include="favicon.ico" />
@@ -400,7 +396,6 @@
     <Content Include="Content\sass\lbd\_typography.scss" />
     <Content Include="Content\sass\lbd\_variables.scss" />
     <Content Include="Content\sass\light-bootstrap-dashboard.scss" />
-    <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
