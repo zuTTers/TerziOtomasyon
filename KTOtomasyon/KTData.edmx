@@ -217,8 +217,8 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vTotalOrder' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="AYLIKSIPARISRAPOR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="ILKPROS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="AylikSiparisTutar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ToplaTutar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="firstodate" Type="datetime" Mode="In" />
           <Parameter Name="lastodate" Type="datetime" Mode="In" />
         </Function>
@@ -478,11 +478,6 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vTotalOrder' does not have a prima
             <End Role="Users" EntitySet="Users" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <FunctionImport Name="AYLIKSIPARISRAPOR" ReturnType="Collection(KTOtomasyonModel.AYLIKSIPARISRAPOR_Result)" />
-          <FunctionImport Name="ILKPROS" ReturnType="Collection(Decimal)">
-            <Parameter Name="firstodate" Mode="In" Type="DateTime" />
-            <Parameter Name="lastodate" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <EntitySet Name="vTotalOrder" EntityType="KTOtomasyonModel.vTotalOrder" />
           <EntitySet Name="Mails" EntityType="KTOtomasyonModel.Mails" />
           <EntitySet Name="vTodayTotalOrder" EntityType="KTOtomasyonModel.vTodayTotalOrder" />
@@ -491,11 +486,12 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vTotalOrder' does not have a prima
             <End Role="Mails" EntitySet="Mails" />
           </AssociationSet>
           <EntitySet Name="vLastTotalOrder" EntityType="KTOtomasyonModel.vLastTotalOrder" />
+          <FunctionImport Name="AylikSiparisTutar" ReturnType="Collection(KTOtomasyonModel.AylikSiparisTutar_Result)" />
+          <FunctionImport Name="ToplaTutar" ReturnType="Collection(Decimal)">
+            <Parameter Name="firstodate" Mode="In" Type="DateTime" />
+            <Parameter Name="lastodate" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="AYLIKSIPARISRAPOR_Result">
-          <Property Type="Int32" Name="Ay" Nullable="true" />
-          <Property Type="Decimal" Name="ToplamSatis" Nullable="true" Precision="38" Scale="6" />
-        </ComplexType>
         <EntityType Name="vTotalOrder">
           <Key>
             <PropertyRef Name="Sira" />
@@ -554,6 +550,20 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vTotalOrder' does not have a prima
           <Property Name="SipMiktar" Type="Int32" />
           <Property Name="SipTutar" Type="Decimal" Precision="38" Scale="6" />
         </EntityType>
+        <ComplexType Name="AylikSiparisTutar_Result">
+          <Property Type="Decimal" Name="Ocak" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Subat" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Mart" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Nisan" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Mayis" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Haziran" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Temmuz" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Agustos" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Eylul" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Ekim" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Kasim" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Aralik" Nullable="false" Precision="38" Scale="6" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -662,15 +672,6 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vTotalOrder' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="AYLIKSIPARISRAPOR" FunctionName="KTOtomasyonModel.Store.AYLIKSIPARISRAPOR">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="KTOtomasyonModel.AYLIKSIPARISRAPOR_Result">
-                <ScalarProperty Name="Ay" ColumnName="Ay" />
-                <ScalarProperty Name="ToplamSatis" ColumnName="ToplamSatis" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ILKPROS" FunctionName="KTOtomasyonModel.Store.ILKPROS" />
           <EntitySetMapping Name="vTotalOrder">
             <EntityTypeMapping TypeName="KTOtomasyonModel.vTotalOrder">
               <MappingFragment StoreEntitySet="vTotalOrder">
@@ -720,6 +721,25 @@ warning 6002: The table/view 'KTOtomasyon.dbo.vTotalOrder' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AylikSiparisTutar" FunctionName="KTOtomasyonModel.Store.AylikSiparisTutar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KTOtomasyonModel.AylikSiparisTutar_Result">
+                <ScalarProperty Name="Ocak" ColumnName="Ocak" />
+                <ScalarProperty Name="Subat" ColumnName="Subat" />
+                <ScalarProperty Name="Mart" ColumnName="Mart" />
+                <ScalarProperty Name="Nisan" ColumnName="Nisan" />
+                <ScalarProperty Name="Mayis" ColumnName="Mayis" />
+                <ScalarProperty Name="Haziran" ColumnName="Haziran" />
+                <ScalarProperty Name="Temmuz" ColumnName="Temmuz" />
+                <ScalarProperty Name="Agustos" ColumnName="Agustos" />
+                <ScalarProperty Name="Eylul" ColumnName="Eylul" />
+                <ScalarProperty Name="Ekim" ColumnName="Ekim" />
+                <ScalarProperty Name="Kasim" ColumnName="Kasim" />
+                <ScalarProperty Name="Aralik" ColumnName="Aralik" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ToplaTutar" FunctionName="KTOtomasyonModel.Store.ToplaTutar" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

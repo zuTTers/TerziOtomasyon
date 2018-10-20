@@ -1011,19 +1011,19 @@ namespace KTOtomasyon.Controllers
         {
             using (var db = new KTOtomasyonEntities())
             {
-                var toplam = db.ILKPROS(FirstOrderDate, LastOrderDate).First();
+                var toplam = db.ToplaTutar(FirstOrderDate, LastOrderDate).First();
                 return Json(toplam);
             }
         }
 
         public JsonResult GetMountlyReport()
         {
+
             using (var db = new KTOtomasyonEntities())
             {
-                var ayliktoplam = db.AYLIKSIPARISRAPOR().ToList();
-                return Json(ayliktoplam);
+                var result = db.AylikSiparisTutar().ToList();
+                return Json(result);
             }
-
         }
 
         public JsonResult DefaultSendMail()

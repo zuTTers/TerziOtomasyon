@@ -152,7 +152,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="AYLIKSIPARISRAPOR_Result.cs">
+    <Compile Include="AylikSiparisTutar_Result.cs">
       <DependentUpon>KTData.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\CustomerController.cs" />

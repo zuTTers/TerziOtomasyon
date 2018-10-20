@@ -40,12 +40,12 @@ namespace KTOtomasyon
         public virtual DbSet<vTodayTotalOrder> vTodayTotalOrder { get; set; }
         public virtual DbSet<vLastTotalOrder> vLastTotalOrder { get; set; }
     
-        public virtual ObjectResult<AYLIKSIPARISRAPOR_Result> AYLIKSIPARISRAPOR()
+        public virtual ObjectResult<AylikSiparisTutar_Result> AylikSiparisTutar()
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AYLIKSIPARISRAPOR_Result>("AYLIKSIPARISRAPOR");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AylikSiparisTutar_Result>("AylikSiparisTutar");
         }
     
-        public virtual ObjectResult<Nullable<decimal>> ILKPROS(Nullable<System.DateTime> firstodate, Nullable<System.DateTime> lastodate)
+        public virtual ObjectResult<Nullable<decimal>> ToplaTutar(Nullable<System.DateTime> firstodate, Nullable<System.DateTime> lastodate)
         {
             var firstodateParameter = firstodate.HasValue ?
                 new ObjectParameter("firstodate", firstodate) :
@@ -55,7 +55,7 @@ namespace KTOtomasyon
                 new ObjectParameter("lastodate", lastodate) :
                 new ObjectParameter("lastodate", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("ILKPROS", firstodateParameter, lastodateParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("ToplaTutar", firstodateParameter, lastodateParameter);
         }
     }
 }
