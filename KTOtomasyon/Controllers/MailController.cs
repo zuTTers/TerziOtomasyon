@@ -134,7 +134,7 @@ namespace KTOtomasyon.Controllers
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.EnableSsl = true;
                 smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "3428simple");
+                smtp.Credentials = new System.Net.NetworkCredential("simpleterzi3428@outlook.com", "********");
 
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress("simpleterzi3428@outlook.com", "Simple Terzi - Axis");
